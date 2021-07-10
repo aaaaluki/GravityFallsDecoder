@@ -1,5 +1,6 @@
 package main;
 
+import ciphers.Atbash;
 import ciphers.Caesar;
 import ciphers.Cipher;
 import utils.Config;
@@ -34,7 +35,7 @@ public class Main {
         io.todo("Everything!");
 
         // Testing ciphers
-        Cipher cipher = new Caesar(conf.getAlphabet());
+        Cipher cipher = new Atbash(conf.getAlphabet());
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
 
         int key = 3;
