@@ -6,23 +6,20 @@ package ciphers;
  */
 public class Atbash extends Cipher {
 
-    String name = "ATBASH";
+    static final String NAME = "ATBASH";
+    String cipher;
 
     public Atbash(String alphabet) {
         super(alphabet);
-    }
-
-    @Override
-    public String getName() {
-        return name;
+        super.NAME = NAME;
+        StringBuilder rev = new StringBuilder(alphabet);
+        cipher = rev.reverse().toString();
     }
 
     @Override
     public String encrypt(String text, int key) {
         // This caesar cipher uses right rotation
         StringBuilder sb = new StringBuilder();
-        StringBuilder rev = new StringBuilder(alphabet);
-        String cipher = rev.reverse().toString();
 
         text = normalize(text);
 
@@ -42,5 +39,4 @@ public class Atbash extends Cipher {
     public String decrypt(String text, int key) {
         return encrypt(text, key);
     }
-
 }

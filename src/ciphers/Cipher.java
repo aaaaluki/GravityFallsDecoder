@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ciphers;
 
 import java.text.Normalizer;
@@ -13,13 +8,16 @@ import java.text.Normalizer;
  */
 public abstract class Cipher {
 
-    String alphabet;
-
+    protected static String NAME;
+    protected String alphabet;
+    
     public Cipher(String alphabet) {
         this.alphabet = alphabet;
     }
 
-    public abstract String getName();
+    public String getName() {
+        return NAME;
+    }
 
     public abstract String encrypt(String text, int key);
 
