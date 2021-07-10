@@ -1,5 +1,7 @@
 package main;
 
+import ciphers.Caesar;
+import ciphers.Cipher;
 import utils.Config;
 import utils.ExitCodes;
 import utils.IO;
@@ -31,6 +33,19 @@ public class Main {
         // TODO ...
         io.todo("Everything!");
 
+        // Testing ciphers
+        Cipher cipher = new Caesar(conf.getAlphabet());
+        String sample = "ALICE'S ADVENTURES IN WONDERLAND";
+
+        int key = 3;
+        String encrypted = cipher.encrypt(sample, key);
+        String decrypted = cipher.decrypt(encrypted, key);
+
+        io.print(String.format("Cipher: %s", cipher.getName()));
+        io.print(String.format("Original:  %s", sample));
+        io.print(String.format("Encrypted: %s", encrypted));
+        io.print(String.format("Decrypted: %s", decrypted));
+        
         System.exit(0);
     }
 }
