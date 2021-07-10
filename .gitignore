@@ -1,0 +1,8 @@
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+build/
+dist/
+
+cipher/*_decoded.txt
+config/*.bak
