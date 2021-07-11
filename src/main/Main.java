@@ -15,7 +15,7 @@ import utils.IO;
 public class Main {
 
     public static void main(String[] args) {
-        boolean debug = true;
+        boolean debug = false;
         boolean verbose = true;
         boolean warn = true;
         String language = "ENG";
@@ -70,7 +70,7 @@ public class Main {
         io.print(String.format("Original:  %s", sample));
         io.print(String.format("Encrypted: %s", encrypted));
         io.print(String.format("Decrypted: %s", decrypted));
-        io.print(String.format("Match: %B\n", sample.equals(decrypted)));
+        io.print(String.format("Match: %B", sample.equals(decrypted)));
         
         System.exit(0);
     }

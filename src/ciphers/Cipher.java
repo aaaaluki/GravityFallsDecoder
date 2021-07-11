@@ -1,6 +1,7 @@
 package ciphers;
 
 import java.text.Normalizer;
+import utils.Color;
 
 /**
  *
@@ -16,7 +17,7 @@ public abstract class Cipher {
     }
 
     public String getName() {
-        return NAME;
+        return Color.PURPLE_BOLD + String.format("[%s]", NAME) + Color.RESET;
     }
 
     public abstract String encrypt(String text, int key);
