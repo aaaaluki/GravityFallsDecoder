@@ -15,62 +15,45 @@ import utils.IO;
 public class Main {
 
     public static void main(String[] args) {
-        boolean debug = false;
-        boolean verbose = true;
-        boolean warn = true;
-        String language = "ENG";
-        String headerFile = "header.txt";
-
-        IO io = new IO(debug, verbose, warn);
-        io.printHeader(headerFile);
+        // help                                --help, -h
+        boolean debug = true;               // --debug, -d
+        boolean verbose = false;            // --verbose, v
+        String language = "ENG";            // --language, -l
+        String headerFile = "header.txt";   // --header-file
+        
+        IO.init();
+        IO.setDebug(debug);
+        IO.setVerbose(verbose);
+        
+        IO.printHeader(headerFile);
 
         // Load Configuration
-        Config conf = new Config(io, language);
+        Config conf = new Config(language);
         int returnCode = conf.loadConfig();
-        io.debug(String.format("Load Configuration exit(%d)", returnCode));
+        IO.debug(String.format("Load Configuration exit(%d)", returnCode));
         if (returnCode != ExitCodes.OK) {
             System.exit(1);
         }
 
         // TODO ...
-        io.todo("Everything!");
+        IO.todo("Everything!");
 
         // Testing ciphers
         // Caesar
-        Cipher cipher = new Caesar(conf.getAlphabet());
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
-
         int key = 13;
-        String encrypted = cipher.encrypt(sample, key);
-        String decrypted = cipher.decrypt(encrypted, key);
 
-        io.print(String.format("Cipher: %s", cipher.getName()));
-        io.print(String.format("Original:  %s", sample));
-        io.print(String.format("Encrypted: %s", encrypted));
-        io.print(String.format("Decrypted: %s", decrypted));
-        io.print(String.format("Match: %B\n", sample.equals(decrypted)));
+        Cipher cipher = new Caesar(conf.getAlphabet());
+        cipher.test(sample, key);
+        
         
         // Atbash
         cipher = new Atbash(conf.getAlphabet());
-        encrypted = cipher.encrypt(sample, key);
-        decrypted = cipher.decrypt(encrypted, key);
-
-        io.print(String.format("Cipher: %s", cipher.getName()));
-        io.print(String.format("Original:  %s", sample));
-        io.print(String.format("Encrypted: %s", encrypted));
-        io.print(String.format("Decrypted: %s", decrypted));
-        io.print(String.format("Match: %B\n", sample.equals(decrypted)));
+        cipher.test(sample, key);
         
         // A1Z26
         cipher = new A1Z26(conf.getAlphabet());
-        encrypted = cipher.encrypt(sample, key);
-        decrypted = cipher.decrypt(encrypted, key);
-
-        io.print(String.format("Cipher: %s", cipher.getName()));
-        io.print(String.format("Original:  %s", sample));
-        io.print(String.format("Encrypted: %s", encrypted));
-        io.print(String.format("Decrypted: %s", decrypted));
-        io.print(String.format("Match: %B", sample.equals(decrypted)));
+        cipher.test(sample, key);
         
         System.exit(0);
     }

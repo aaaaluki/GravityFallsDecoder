@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 public class Config {
     public static String configFolder = "config";
     
-    IO io;
     String language;
     String alphabet;
     Map<String, Double> frequencies_mono;
@@ -22,8 +21,7 @@ public class Config {
      * @param io class in charge of input and output
      * @param language this will select which config file to load.
      */
-    public Config(IO io, String language) {
-        this.io = io;
+    public Config(String language) {
         this.language = language;
         alphabet = null;
         frequencies_mono = null;
@@ -64,21 +62,21 @@ public class Config {
      */
     public int loadConfig() {
         File configFile = new File(String.format("%s/%s.config", configFolder, language));
-        int id = io.openReadFile(configFile);
+        int id = IO.openReadFile(configFile);
 
-        io.debug("Config File: " + configFile.getAbsolutePath());
+        IO.debug("Config File: " + configFile.getAbsolutePath());
 
         if (id == -1) {
             // No need to close file here because it cannot be opened
             return ExitCodes.FILE_NOT_FOUND;
         }
 
-        String line = io.readLineFile(id);
+        String line = IO.readLineFile(id);
         int lineCount = 1;
         while (line != null) {
             if (line.startsWith("#")) {
                 // ignore comments
-                line = io.readLineFile(id);
+                line = IO.readLineFile(id);
                 lineCount++;
                 continue;
             }
@@ -86,16 +84,16 @@ public class Config {
             String[] args = line.split(": ");
 
             if (args.length != 2) {
-                io.warn(String.format("(%s:%d) Does not have a <Key: Value> pair!", configFile.getName(), lineCount));
-                io.closeReadFile(id);
+                IO.warn(String.format("(%s:%d) Does not have a <Key: Value> pair!", configFile.getName(), lineCount));
+                IO.closeReadFile(id);
                 return ExitCodes.ERROR_READING_FILE;
             }
 
             switch (args[0]) {
                 case "language":
                     if (!language.equals(args[1])) {
-                        io.warn(String.format("Filename does not match languague in file %s", configFile.getName()));
-                        io.closeReadFile(id);
+                        IO.warn(String.format("Filename does not match languague in file %s", configFile.getName()));
+                        IO.closeReadFile(id);
                         return ExitCodes.ERROR_READING_FILE;
                     }
                     break;
@@ -111,16 +109,16 @@ public class Config {
                     for (String kvPair : args[1].split(";")) {
                         String[] kv = kvPair.split("=");
                         if (kv.length != 2) {
-                            io.warn(String.format("(%s:%d) <Key=Value> pair %d can not be split!", configFile.getName(), lineCount, argCount));
-                            io.closeReadFile(id);
+                            IO.warn(String.format("(%s:%d) <Key=Value> pair %d can not be split!", configFile.getName(), lineCount, argCount));
+                            IO.closeReadFile(id);
                             return ExitCodes.ERROR_READING_FILE;
                         }
 
                         if (checkDouble(kv[1])) {
                             frequencies_mono.put(kv[0], Double.valueOf(kv[1]));
                         } else {
-                            io.warn(String.format("(%s:%d) <Key=Value> pair %s=%s Value is not a number!", configFile.getName(), lineCount, kv[0], kv[1]));
-                            io.closeReadFile(id);
+                            IO.warn(String.format("(%s:%d) <Key=Value> pair %s=%s Value is not a number!", configFile.getName(), lineCount, kv[0], kv[1]));
+                            IO.closeReadFile(id);
                             return ExitCodes.ERROR_READING_FILE;
                         }
 
@@ -129,29 +127,29 @@ public class Config {
                     break;
 
                 default:
-                    io.warn(String.format("(%s:%d) Key %s is not a valid one!", configFile.getName(), lineCount, args[0]));
-                    io.closeReadFile(id);
+                    IO.warn(String.format("(%s:%d) Key %s is not a valid one!", configFile.getName(), lineCount, args[0]));
+                    IO.closeReadFile(id);
                     return ExitCodes.ERROR_READING_FILE;
             }
 
-            line = io.readLineFile(id);
+            line = IO.readLineFile(id);
             lineCount++;
         }
 
         // Check args
         if (alphabet == null || frequencies_mono == null) {
             if (alphabet == null) {
-                io.warn(String.format("alphabet not defined on the config file: %s", configFile.getName()));
+                IO.warn(String.format("alphabet not defined on the config file: %s", configFile.getName()));
             }
             if (frequencies_mono == null) {
-                io.warn(String.format("frequencies_mono not defined on the config file: %s", configFile.getName()));
+                IO.warn(String.format("frequencies_mono not defined on the config file: %s", configFile.getName()));
             }
-            io.closeReadFile(id);
+            IO.closeReadFile(id);
 
             return ExitCodes.ERROR_READING_FILE;
         }
 
-        io.closeReadFile(id);
+        IO.closeReadFile(id);
 
         return ExitCodes.OK;
     }
