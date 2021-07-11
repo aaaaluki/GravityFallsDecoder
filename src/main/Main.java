@@ -1,5 +1,6 @@
 package main;
 
+import ciphers.A1Z26;
 import ciphers.Atbash;
 import ciphers.Caesar;
 import ciphers.Cipher;
@@ -35,6 +36,7 @@ public class Main {
         io.todo("Everything!");
 
         // Testing ciphers
+        // Caesar
         Cipher cipher = new Caesar(conf.getAlphabet());
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
 
@@ -46,7 +48,9 @@ public class Main {
         io.print(String.format("Original:  %s", sample));
         io.print(String.format("Encrypted: %s", encrypted));
         io.print(String.format("Decrypted: %s", decrypted));
+        io.print(String.format("Match: %B\n", sample.equals(decrypted)));
         
+        // Atbash
         cipher = new Atbash(conf.getAlphabet());
         encrypted = cipher.encrypt(sample, key);
         decrypted = cipher.decrypt(encrypted, key);
@@ -55,6 +59,18 @@ public class Main {
         io.print(String.format("Original:  %s", sample));
         io.print(String.format("Encrypted: %s", encrypted));
         io.print(String.format("Decrypted: %s", decrypted));
+        io.print(String.format("Match: %B\n", sample.equals(decrypted)));
+        
+        // A1Z26
+        cipher = new A1Z26(conf.getAlphabet());
+        encrypted = cipher.encrypt(sample, key);
+        decrypted = cipher.decrypt(encrypted, key);
+
+        io.print(String.format("Cipher: %s", cipher.getName()));
+        io.print(String.format("Original:  %s", sample));
+        io.print(String.format("Encrypted: %s", encrypted));
+        io.print(String.format("Decrypted: %s", decrypted));
+        io.print(String.format("Match: %B\n", sample.equals(decrypted)));
         
         System.exit(0);
     }
