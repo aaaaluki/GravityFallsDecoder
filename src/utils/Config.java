@@ -6,19 +6,24 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- *
+ * This class has all the configuration parameters.
+ * To load the parameters the loadConfig() method is used.
+ * 
  * @author luki
  */
 public class Config {
+    /**
+     * Folder were the configuration files are stored
+     */
     public static String configFolder = "config";
     
-    String language;
-    String alphabet;
-    Map<String, Double> frequencies_mono;
+    private String language;
+    private String alphabet;
+    private Map<String, Double> frequencies_mono;
 
     /**
-     *
-     * @param io class in charge of input and output
+     *Constructor for config
+     * 
      * @param language this will select which config file to load.
      */
     public Config(String language) {
@@ -30,7 +35,7 @@ public class Config {
     /**
      * Language getter
      *
-     * @return alphabet
+     * @return language
      */
     public String getLanguage() {
         return language;
@@ -39,18 +44,18 @@ public class Config {
     /**
      * Alphabet getter
      *
-     * @return
+     * @return alphabet
      */
     public String getAlphabet() {
         return alphabet;
     }
 
     /**
-     * Frequencies getter
+     * Monogram frequencies getter
      *
-     * @return
+     * @return frequencies
      */
-    public Map<String, Double> getFrequencies() {
+    public Map<String, Double> getMonoFrequencies() {
         return frequencies_mono;
     }
 
@@ -58,7 +63,7 @@ public class Config {
      * Loads the alphabet and frequencies form the lang.config file. If the
      * configuration file is not valid returns.
      *
-     * @return
+     * @return Returns an {@link utils.ExitCodes}, returns OK if no problems where found
      */
     public int loadConfig() {
         File configFile = new File(String.format("%s/%s.config", configFolder, language));
@@ -157,8 +162,8 @@ public class Config {
     /**
      * Returns true if str can be converted to Double, false otherwise.
      *
-     * @param str
-     * @return
+     * @param str string to be checked
+     * @return true if can be converted to Double, false otherwise
      */
     private boolean checkDouble(String str) {
         // Code from: http://docs.oracle.com/javase/8/docs/api/java/lang/Double.html#valueOf-java.lang.String-

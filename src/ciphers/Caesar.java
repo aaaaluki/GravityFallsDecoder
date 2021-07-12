@@ -4,14 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Caesar cipher
+ * https://en.wikipedia.org/wiki/Caesar_cipher
  *
  * @author luki
  */
 public class Caesar extends Cipher {
 
-    static final String NAME = "CAESAR";
-    Map<Integer, String> cipher;
+    private static final String NAME = "CAESAR";
+    private Map<Integer, String> cipher;
 
+    /**
+     * Constructor for the Caesar cipher
+     * 
+     * All the possible ciphers are calculated here.
+     * 
+     * @param alphabet alphabet from the language that is going to be used
+     */
     public Caesar(String alphabet) {
         super(alphabet);
         super.NAME = NAME;

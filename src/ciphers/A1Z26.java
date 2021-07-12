@@ -4,14 +4,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * A1Z26 cipher, also known as numerical substitution.
+ * https://www.dcode.fr/letter-number-cipher
+ * 
  * @author luki
  */
 public class A1Z26 extends Cipher {
 
-    static final String NAME = "CAESAR";
-    static final String CHAR_SEPARATOR = "-";
-
+    private static final String NAME = "A1Z26";
+    private static final String CHAR_SEPARATOR = "-";
+    
+    /**
+     * Constructor for the A1Z26 cipher
+     * 
+     * @param alphabet alphabet from the language that is going to be used
+     */
     public A1Z26(String alphabet) {
         super(alphabet);
         super.NAME = NAME;

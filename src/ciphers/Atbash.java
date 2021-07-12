@@ -1,14 +1,23 @@
 package ciphers;
 
 /**
- *
+ * Atbash cipher
+ * https://en.wikipedia.org/wiki/Atbash
+ * 
  * @author luki
  */
 public class Atbash extends Cipher {
 
-    static final String NAME = "ATBASH";
-    String cipher;
+    private static final String NAME = "ATBASH";
+    private String cipher;
 
+    /**
+     * Constructor for the Atbash cipher
+     * 
+     * The cipher is calculated here
+     * 
+     * @param alphabet alphabet from the language that is going to be used
+     */
     public Atbash(String alphabet) {
         super(alphabet);
         super.NAME = NAME;
