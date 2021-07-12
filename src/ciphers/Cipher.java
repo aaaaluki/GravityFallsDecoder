@@ -25,11 +25,11 @@ public abstract class Cipher {
         String encrypted = encrypt(sample, key);
         String decrypted = decrypt(encrypted, key);
 
-        IO.print(String.format("Cipher: %s", getName()));
-        IO.print(String.format("Original:  %s", sample));
-        IO.print(String.format("Encrypted: %s", encrypted));
-        IO.print(String.format("Decrypted: %s", decrypted));
-        IO.print(String.format("Match: %B", sample.equals(decrypted)));
+        IO.print(String.format("Cipher: %s\n", getName()));
+        IO.print(String.format("Original:  %s\n", sample));
+        IO.print(String.format("Encrypted: %s\n", encrypted));
+        IO.print(String.format("Decrypted: %s\n", decrypted));
+        IO.print(String.format("Match: %B\n\n", sample.equals(decrypted)));
     }
 
     public abstract String encrypt(String text, int key);

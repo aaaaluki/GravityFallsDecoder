@@ -54,6 +54,18 @@ public class IO {
         System.out.println(Color.CYAN_BOLD_BRIGHT + "[TODO] " + Color.RESET + obj.toString());
     }
 
+    public static void print(Object obj) {
+        System.out.print(obj);
+    }
+
+    public static void print(Object obj, String fg_color) {
+        print(fg_color + obj + Color.RESET);
+    }
+
+    public static void print(Object obj, String fg_color, String bg_color) {
+        print(fg_color + bg_color + obj + Color.RESET);
+    }
+
     public static void printVerbose(Object obj) {
         if (verbose_) {
             print(obj);
@@ -70,18 +82,6 @@ public class IO {
         if (verbose_) {
             print(obj, fg_color, bg_color);
         }
-    }
-
-    public static void print(Object obj) {
-        System.out.println(obj);
-    }
-
-    public static void print(Object obj, String fg_color) {
-        print(fg_color + obj + Color.RESET);
-    }
-
-    public static void print(Object obj, String fg_color, String bg_color) {
-        print(fg_color + bg_color + obj + Color.RESET);
     }
 
     // INPUT file handling  ##############################################################
