@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -12,22 +13,22 @@ import java.util.Scanner;
 
 /**
  * Class in charge of all the Input and Output operation
- * 
+ *
  * @author luki
  */
 public class IO {
 
     private static boolean verbose_,
                            debug_;
-    
+
     private static int id;
     private static Map<Integer, Scanner> fileReaders;
     private static Map<Integer, PrintWriter> printWriters;
     private static Map<Integer, String> filenames;
 
     /**
-     * Because this class is fully static, it does not have a constructor,
-     * so this method is used instead
+     * Because this class is fully static, it does not have a constructor, so
+     * this method is used instead
      */
     public static void init() {
         id = 0;
@@ -35,9 +36,10 @@ public class IO {
         printWriters = new HashMap<>();
         filenames = new HashMap<>();
     }
-    
+
     /**
      * Set the verbose parameter
+     *
      * @param verbose verbose
      */
     public static void setVerbose(boolean verbose) {
@@ -46,6 +48,7 @@ public class IO {
 
     /**
      * Sets the debug parameter
+     *
      * @param debug debug
      */
     public static void setDebug(boolean debug) {
@@ -54,7 +57,7 @@ public class IO {
 
     /**
      * This is printed if debug mode is enabled
-     * 
+     *
      * @param obj object to print
      */
     public static void debug(Object obj) {
@@ -66,7 +69,7 @@ public class IO {
 
     /**
      * This is used for printing errors
-     * 
+     *
      * @param obj object to print
      */
     public static void warn(Object obj) {
@@ -74,7 +77,9 @@ public class IO {
     }
 
     /**
-     * If some code is not yet implemented you can use this method to print something
+     * If some code is not yet implemented you can use this method to print
+     * something
+     *
      * @param obj object to print
      */
     public static void todo(Object obj) {
@@ -83,8 +88,8 @@ public class IO {
 
     /**
      * prints obj on System.out
-     * 
-     * @param obj object to print 
+     *
+     * @param obj object to print
      */
     public static void print(Object obj) {
         System.out.print(obj);
@@ -92,8 +97,8 @@ public class IO {
 
     /**
      * prints obj on System.out and colors the output
-     * 
-     * @param obj object to print 
+     *
+     * @param obj object to print
      * @param fg_color foreground color from {@link utils.Color}
      */
     public static void print(Object obj, String fg_color) {
@@ -102,8 +107,8 @@ public class IO {
 
     /**
      * prints obj on System.out and colors the output
-     * 
-     * @param obj object to print 
+     *
+     * @param obj object to print
      * @param fg_color foreground color from {@link utils.Color}
      * @param bg_color background color from {@link utils.Color}
      */
@@ -113,8 +118,8 @@ public class IO {
 
     /**
      * prints obj on System.out if verbose is enabled
-     * 
-     * @param obj object to print 
+     *
+     * @param obj object to print
      */
     public static void printVerbose(Object obj) {
         if (verbose_) {
@@ -124,8 +129,8 @@ public class IO {
 
     /**
      * prints obj on System.out and colors the output if verbose is enabled
-     * 
-     * @param obj object to print 
+     *
+     * @param obj object to print
      * @param fg_color foreground color from {@link utils.Color}
      */
     public static void printVerbose(Object obj, String fg_color) {
@@ -136,8 +141,8 @@ public class IO {
 
     /**
      * prints obj on System.out and colors the output if verbose is enabled
-     * 
-     * @param obj object to print 
+     *
+     * @param obj object to print
      * @param fg_color foreground color from {@link utils.Color}
      * @param bg_color background color from {@link utils.Color}
      */
@@ -247,7 +252,7 @@ public class IO {
 
         return tmp;
     }
-    
+
     /**
      * Tries to open the file for writing and returns an id for the file, if it
      * can't be done returns -1.
@@ -256,7 +261,7 @@ public class IO {
      * @return id of the file
      */
     public static int openWriteFile(File file) {
-        return  openWriteFile(file.getAbsolutePath());
+        return openWriteFile(file.getAbsolutePath());
     }
 
     /**
@@ -285,6 +290,7 @@ public class IO {
     // Other file handling mehtods
     /**
      * Prints line to the console and to a text file with the given id
+     *
      * @param id id of the file
      * @param line line to be printed
      */
@@ -295,7 +301,7 @@ public class IO {
 
     /**
      * Prints the header file
-     * 
+     *
      * @param headerFile filename of the header file
      * @return {@link utils.ExitCodes}
      */
@@ -316,5 +322,15 @@ public class IO {
         closeReadFile(id);
 
         return ExitCodes.OK;
+    }
+
+    // Printing helper methods
+    /**
+     * Helper method for printing arrays
+     * 
+     * @param arr 
+     */
+    public static void printArray(Object[] arr) {
+        System.out.println(Arrays.asList(arr));
     }
 }
