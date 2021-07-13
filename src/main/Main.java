@@ -7,6 +7,11 @@ import ciphers.Cipher;
 import utils.Config;
 import utils.ExitCodes;
 import utils.IO;
+import utils.argparse.Argument.Type;
+import utils.argparse.ArgumentException;
+import utils.argparse.ArgumentParser;
+import utils.argparse.ArgumentParserImpl;
+import utils.argparse.Namespace;
 
 /**
  *
@@ -16,19 +21,36 @@ public class Main {
 
     public static void main(String[] args) {
         // help                                --help, -h
-        boolean debug = true;               // --debug, -d
-        boolean verbose = false;            // --verbose, v
-        String language = "ENG";            // --language, -l
-        String headerFile = "header.txt";   // --header-file
-        
+        boolean debugDefault = false;       // --debug, -d
+        boolean verboseDefault = false;     // --verbose, v
+        String languageDefault = "ENG";     // --language, -l
+        String headerFile = "header.txt";
+
         IO.init();
-        IO.setDebug(debug);
-        IO.setVerbose(verbose);
+
+        // This argument parser is HEAVILY inspired in: (Java) https://argparse4j.github.io/
+        //                                              (Python) https://docs.python.org/3/library/argparse.html
+        ArgumentParser ap = new ArgumentParserImpl("Gravity Falls");
+        ap.addArgument("--debug", "-d").nargs(0).setHelp("Sets debug mode").setDefault(debugDefault).setType(Type.BOOLEAN);
+        ap.addArgument("--verbose", "-v").nargs(0).setHelp("Sets verbose mode").setDefault(verboseDefault).setType(Type.BOOLEAN);
+        ap.addArgument("--language", "-l").nargs(1).setHelp("Sets the language").setDefault(languageDefault).setType(Type.STRING);
+        
+        Namespace ns = null;
+        try {
+            ns = ap.parseArgs(args);
+        } catch (ArgumentException e) {
+            IO.warn(e.getMessage());
+            ap.printHelp();
+            System.exit(1);
+        }
+        
+        IO.setDebug(ns.getBoolean("debug"));
+        IO.setVerbose(ns.getBoolean("verbose"));
         
         IO.printHeader(headerFile);
 
         // Load Configuration
-        Config conf = new Config(language);
+        Config conf = new Config(ns.getString("language"));
         int returnCode = conf.loadConfig();
         IO.debug(String.format("Load Configuration exit(%d)", returnCode));
         if (returnCode != ExitCodes.OK) {
@@ -45,7 +67,6 @@ public class Main {
 
         Cipher cipher = new Caesar(conf.getAlphabet());
         cipher.test(sample, key);
-        
         
         // Atbash
         cipher = new Atbash(conf.getAlphabet());
