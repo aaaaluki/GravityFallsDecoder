@@ -3,14 +3,15 @@ package utils;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Helper class for String related stuff
+ * 
  * @author luki
  */
 public class TextHelper {
-    
+
     /**
      * Returns true if str can be converted to Integer, false otherwise
-     * 
+     *
      * @param str string to be checked
      * @return true if can be converted to Integer, false otherwise
      */
@@ -18,7 +19,7 @@ public class TextHelper {
         // Code from: https://stackoverflow.com/a/15801999/13313449
         return str.matches("[+-]?(0|[1-9]\\d*)");
     }
-    
+
     /**
      * Returns true if str can be converted to Double, false otherwise.
      *
@@ -67,5 +68,29 @@ public class TextHelper {
 
         return Pattern.matches(fpRegex, str);
     }
-    
+
+    /**
+     * Returns a string of length n padded with spaces on the right side
+     *
+     * @param str string to pad
+     * @param n length of the output string
+     * @return padded string
+     */
+    public static String padRight(String str, int n) {
+        // Code from: https://stackoverflow.com/a/391978/13313449
+        return String.format("%-" + n + "s", str);
+    }
+
+    /**
+     * Returns a string of length n padded with spaces on the left side
+     *
+     * @param str string to pad
+     * @param n length of the output string
+     * @return padded string
+     */
+    public static String padLeft(String str, int n) {
+        // Code from: https://stackoverflow.com/a/391978/13313449
+        
+        return String.format("%" + n + "s", str);
+    }
 }
