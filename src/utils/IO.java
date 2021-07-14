@@ -323,14 +323,4 @@ public class IO {
 
         return ExitCodes.OK;
     }
-
-    // Printing helper methods
-    /**
-     * Helper method for printing arrays
-     * 
-     * @param arr 
-     */
-    public static void printArray(Object[] arr) {
-        System.out.println(Arrays.asList(arr));
-    }
 }
