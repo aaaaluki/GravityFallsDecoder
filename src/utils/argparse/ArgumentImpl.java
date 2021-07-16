@@ -178,6 +178,20 @@ public final class ArgumentImpl implements Argument {
     }
 
     @Override
+    public String getShortFlag() {
+        String min = null;
+        int minLen = Integer.MAX_VALUE;
+        for (String flg : flags_) {
+            if (flg.length() < minLen) {
+                minLen = flg.length();
+                min = flg;
+            }
+        }
+        
+        return min;
+    }
+    
+    @Override
     public boolean getConsumed() {
         return consumed_;
     }

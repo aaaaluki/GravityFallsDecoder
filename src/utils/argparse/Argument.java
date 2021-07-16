@@ -151,6 +151,13 @@ public interface Argument {
     String getMainFlag();
 
     /**
+     * Getter for the shortest flag
+     * 
+     * @return shortest flag
+     */
+    public String getShortFlag();
+
+    /**
      * Getter for consumed value
      *
      * @return consumed value
