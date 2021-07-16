@@ -15,6 +15,8 @@ import java.util.Map;
  * @author luki
  */
 public interface ArgumentParser {
+    
+    public final static String HELP_EXCEPTION = "HELP";
 
     /**
      * Creates a new Argument and adds it to this parser and returns it.

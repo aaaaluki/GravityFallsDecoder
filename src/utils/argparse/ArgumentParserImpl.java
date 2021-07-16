@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import utils.IO;
+import utils.TextHelper;
 
 /**
  * Implementation of the {@link ArgumentParser} interface
- * 
+ *
  * @author luki
  */
 public class ArgumentParserImpl implements ArgumentParser {
@@ -29,9 +30,12 @@ public class ArgumentParserImpl implements ArgumentParser {
         programName_ = programName;
         arguments_ = new ArrayList<>();
         argIndices_ = new HashMap<>();
-        usage_ = "usage";
-        description_ = "description";
-        epilog_ = "epilog";
+        usage_ = "";
+        description_ = "";
+        epilog_ = "";
+
+        // Add help argument
+        this.addArgument("--help", "-h").nargs(0).setHelp("Shows help and exits");
     }
 
     @Override
@@ -58,6 +62,11 @@ public class ArgumentParserImpl implements ArgumentParser {
         // Then check given arguments
         Integer[] indices = findArgIndices(args);
 
+        // If help was parsed exit
+        if (argIndices_.values().contains(arguments_.get(0))) {
+            throw new ArgumentException(HELP_EXCEPTION);
+        }
+
         // Loop array of indices
         for (int i = 0; i < indices.length; i++) {
             int idx = indices[i];
@@ -68,7 +77,7 @@ public class ArgumentParserImpl implements ArgumentParser {
                 len = args.length - idx;
             } else {
                 len = indices[i + 1] - idx;
-            }            
+            }
             // remove flag count from len
             len--;
 
@@ -135,15 +144,31 @@ public class ArgumentParserImpl implements ArgumentParser {
     // Usage and helpers    ####################################################
     @Override
     public void printHelp() {
+        // Print usage
         printUsage();
-        printDescription();
+        IO.print("\n");
 
-        for (Argument arg : arguments_) {
-            // We should check for the difference in width in all the argument names
-            IO.print(String.format("%s:\t %s\n", arg.getDest(), arg.getHelp()));
+        // Print description
+        printDescription();
+        IO.print("\n");
+
+        // Print flags
+        String[] flags = new String[arguments_.size()];
+        int max = 0;
+        for (int i = 0; i < arguments_.size(); i++) {
+            flags[i] = arguments_.get(i).getFlags().toString().replace("[", "").replace("]", "");
+            if (flags[i].length() > max) {
+                max = flags[i].length();
+            }
+        }
+
+        IO.print("Optional arguments:\n");
+        for (int i = 0; i < arguments_.size(); i++) {
+            IO.print(String.format("    %s\t%s\n", TextHelper.padRight(flags[i], max), arguments_.get(i).getHelp()));
         }
         IO.print("\n");
 
+        // Print epilog
         printEpilog();
     }
 
@@ -155,7 +180,20 @@ public class ArgumentParserImpl implements ArgumentParser {
 
     @Override
     public void printUsage() {
-        IO.print(programName_ + ": " + usage_ + "\n");
+        if (usage_.equals("")) {
+            StringBuilder sb = new StringBuilder(programName_ + " ");
+            for (Argument arg : arguments_) {
+                switch (arg.getMinNargs()) {
+                    case 0 -> sb.append(String.format("[%s] ", arg.getShortFlag()));
+                    case 1 -> sb.append(String.format("[%s %s] ", arg.getShortFlag(), ArgumentTextHelper.removePrefix(arg.getMainFlag())));
+                    default -> sb.append(String.format("[%s %s...] ", arg.getShortFlag(), ArgumentTextHelper.removePrefix(arg.getMainFlag())));
+                }
+            }
+
+            usage_ = sb.toString();
+        }
+
+        IO.print(String.format("usage: %s\n", usage_));
     }
 
     @Override

@@ -25,28 +25,35 @@ public class Main {
         boolean verboseDefault = false;     // --verbose, v
         String languageDefault = "ENG";     // --language, -l
         String headerFile = "header.txt";
+        
+        String description = "Placeholder for description";
+        String epilog = "Placeholder for epilog";
 
         IO.init();
 
         // This argument parser is HEAVILY inspired in: (Java) https://argparse4j.github.io/
         //                                              (Python) https://docs.python.org/3/library/argparse.html
-        ArgumentParser ap = new ArgumentParserImpl("Gravity Falls");
+        ArgumentParser ap = new ArgumentParserImpl("Gravity Falls").description(description).epilog(epilog);
         ap.addArgument("--debug", "-d").nargs(0).setHelp("Sets debug mode").setDefault(debugDefault).setType(Type.BOOLEAN);
         ap.addArgument("--verbose", "-v").nargs(0).setHelp("Sets verbose mode").setDefault(verboseDefault).setType(Type.BOOLEAN);
         ap.addArgument("--language", "-l").nargs(1).setHelp("Sets the language").setDefault(languageDefault).setType(Type.STRING);
-        
+
         Namespace ns = null;
         try {
             ns = ap.parseArgs(args);
         } catch (ArgumentException e) {
-            IO.warn(e.getMessage());
+            // If it's not help, show exception message
+            if (!e.getMessage().equals(ArgumentParser.HELP_EXCEPTION)) {
+                IO.warn(e.getMessage());
+            }
+            
             ap.printHelp();
             System.exit(1);
         }
-        
+
         IO.setDebug(ns.getBoolean("debug"));
         IO.setVerbose(ns.getBoolean("verbose"));
-        
+
         IO.printHeader(headerFile);
 
         // Load Configuration
@@ -67,15 +74,15 @@ public class Main {
 
         Cipher cipher = new Caesar(conf.getAlphabet());
         cipher.test(sample, key);
-        
+
         // Atbash
         cipher = new Atbash(conf.getAlphabet());
         cipher.test(sample, key);
-        
+
         // A1Z26
         cipher = new A1Z26(conf.getAlphabet());
         cipher.test(sample, key);
-        
+
         System.exit(0);
     }
 }
