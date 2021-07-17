@@ -49,7 +49,13 @@ public interface Argument {
     Argument nargs(String n);
 
     /**
+     * <p>
      * Sets the setType which the argument should be parsed as
+     * </p>
+     * <p>
+     * If type is {@code Type.BOOLEAN} it automatically calls
+     * {@code this.nargs(0)}
+     * </p>
      *
      * @param type setType to parse as
      * @return this
@@ -152,7 +158,7 @@ public interface Argument {
 
     /**
      * Getter for the shortest flag
-     * 
+     *
      * @return shortest flag
      */
     public String getShortFlag();

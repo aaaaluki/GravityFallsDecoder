@@ -23,6 +23,7 @@ public class Main {
         // help                                --help, -h
         boolean debugDefault = false;       // --debug, -d
         boolean verboseDefault = false;     // --verbose, v
+        boolean colorDefault = true;        // --no-color, -nc
         String languageDefault = "ENG";     // --language, -l
         String headerFile = "header.txt";
         
@@ -30,12 +31,16 @@ public class Main {
         String epilog = "Placeholder for epilog";
 
         IO.init();
+        IO.setColor(colorDefault);
+        IO.setDebug(debugDefault);
+        IO.setVerbose(verboseDefault);
 
         // This argument parser is HEAVILY inspired in: (Java) https://argparse4j.github.io/
         //                                              (Python) https://docs.python.org/3/library/argparse.html
         ArgumentParser ap = new ArgumentParserImpl("Gravity Falls").description(description).epilog(epilog);
-        ap.addArgument("--debug", "-d").nargs(0).setHelp("Sets debug mode").setDefault(debugDefault).setType(Type.BOOLEAN);
-        ap.addArgument("--verbose", "-v").nargs(0).setHelp("Sets verbose mode").setDefault(verboseDefault).setType(Type.BOOLEAN);
+        ap.addArgument("--debug", "-d").setHelp("Sets debug mode").setDefault(debugDefault).setType(Type.BOOLEAN);
+        ap.addArgument("--verbose", "-v").setHelp("Sets verbose mode").setDefault(verboseDefault).setType(Type.BOOLEAN);
+        ap.addArgument("--no-color", "-nc").setHelp("Disable color output").setDefault(colorDefault).setType(Type.BOOLEAN);
         ap.addArgument("--language", "-l").nargs(1).setHelp("Sets the language").setDefault(languageDefault).setType(Type.STRING);
 
         Namespace ns = null;
@@ -53,6 +58,7 @@ public class Main {
 
         IO.setDebug(ns.getBoolean("debug"));
         IO.setVerbose(ns.getBoolean("verbose"));
+        IO.setColor(ns.getBoolean("no-color"));
 
         IO.printHeader(headerFile);
 

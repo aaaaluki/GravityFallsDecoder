@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -19,7 +18,8 @@ import java.util.Scanner;
 public class IO {
 
     private static boolean verbose_,
-                           debug_;
+                           debug_,
+                           color_;
 
     private static int id;
     private static Map<Integer, Scanner> fileReaders;
@@ -38,12 +38,12 @@ public class IO {
     }
 
     /**
-     * Set the verbose parameter
+     * Sets the color parameter, if true prints will display color
      *
-     * @param verbose verbose
+     * @param color color
      */
-    public static void setVerbose(boolean verbose) {
-        verbose_ = verbose;
+    public static void setColor(boolean color) {
+        color_ = color;
     }
 
     /**
@@ -56,14 +56,26 @@ public class IO {
     }
 
     /**
+     * Set the verbose parameter
+     *
+     * @param verbose verbose
+     */
+    public static void setVerbose(boolean verbose) {
+        verbose_ = verbose;
+    }
+
+    /**
      * This is printed if debug mode is enabled
      *
      * @param obj object to print
      */
     public static void debug(Object obj) {
-        //if (debug) System.out.println(Color.YELLOW + String.format("[DEBUG] %s", obj) + Color.RESET);
         if (debug_) {
-            System.out.println(Color.YELLOW_BOLD_BRIGHT + "[DEBUG] " + Color.RESET + obj.toString());
+            if (color_) {
+                System.out.println(Color.YELLOW_BOLD_BRIGHT + "[DEBUG] " + Color.RESET + obj);
+            } else {
+                System.out.println("[DEBUG] " + obj);
+            }
         }
     }
 
@@ -73,7 +85,11 @@ public class IO {
      * @param obj object to print
      */
     public static void warn(Object obj) {
-        System.err.println(Color.RED_BOLD_BRIGHT + "[ERROR] " + Color.RESET + obj.toString());
+        if (color_) {
+            System.err.println(Color.RED_BOLD_BRIGHT + "[ERROR] " + Color.RESET + obj);
+        } else {
+            System.err.println("[ERROR] " + obj);
+        }
     }
 
     /**
@@ -83,7 +99,11 @@ public class IO {
      * @param obj object to print
      */
     public static void todo(Object obj) {
-        System.out.println(Color.CYAN_BOLD_BRIGHT + "[TODO] " + Color.RESET + obj.toString());
+        if (color_) {
+            System.out.println(Color.CYAN_BOLD_BRIGHT + "[TODO] " + Color.RESET + obj);
+        } else {
+            System.out.println("[TODO] " + obj);
+        }
     }
 
     /**
@@ -102,7 +122,11 @@ public class IO {
      * @param fg_color foreground color from {@link utils.Color}
      */
     public static void print(Object obj, String fg_color) {
-        print(fg_color + obj + Color.RESET);
+        if (color_) {
+            print(fg_color + obj + Color.RESET);
+        } else {
+            print(obj);
+        }
     }
 
     /**
@@ -113,7 +137,11 @@ public class IO {
      * @param bg_color background color from {@link utils.Color}
      */
     public static void print(Object obj, String fg_color, String bg_color) {
-        print(fg_color + bg_color + obj + Color.RESET);
+        if (color_) {
+            print(fg_color + bg_color + obj + Color.RESET);
+        } else {
+            print(obj);
+        }
     }
 
     /**
@@ -315,7 +343,7 @@ public class IO {
 
         String line = readLineFile(id);
         while (line != null) {
-            System.out.println(Color.GREEN_BOLD_BRIGHT + line + Color.RESET);
+            print(line + "\n", Color.GREEN_BOLD_BRIGHT);
             line = readLineFile(id);
         }
 

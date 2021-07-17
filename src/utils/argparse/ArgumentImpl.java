@@ -86,6 +86,10 @@ public final class ArgumentImpl implements Argument {
 
     @Override
     public Argument setType(Type type) {
+        if (type == null) throw new IllegalArgumentException("type cannot be null");
+        if (type == Type.BOOLEAN) {
+            this.nargs(0);
+        }
         type_ = type;
         return this;
     }
@@ -131,10 +135,10 @@ public final class ArgumentImpl implements Argument {
                 act = new ActionString();
                 break;
             default:
-                act = null;
-                IO.warn(String.format("Argument %s, doesn't have a Type!", name_));
-                return null;
-        }
+                // This will never be the case, since every argument is asigned
+                // Type.String at creation and this argument cannot be removed
+                throw new ArgumentException(String.format("Argument %s, doesn't have a Type!", name_));
+            }
 
         act.run(args, this, attr, choices_, value_);
 
