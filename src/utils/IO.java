@@ -21,20 +21,20 @@ public class IO {
                            debug_,
                            color_;
 
-    private static int id;
-    private static Map<Integer, Scanner> fileReaders;
-    private static Map<Integer, PrintWriter> printWriters;
-    private static Map<Integer, String> filenames;
+    private static int id_;
+    private static Map<Integer, Scanner> fileReaders_;
+    private static Map<Integer, PrintWriter> printWriters_;
+    private static Map<Integer, String> filenames_;
 
     /**
      * Because this class is fully static, it does not have a constructor, so
      * this method is used instead
      */
     public static void init() {
-        id = 0;
-        fileReaders = new HashMap<>();
-        printWriters = new HashMap<>();
-        filenames = new HashMap<>();
+        id_ = 0;
+        fileReaders_ = new HashMap<>();
+        printWriters_ = new HashMap<>();
+        filenames_ = new HashMap<>();
     }
 
     /**
@@ -119,11 +119,11 @@ public class IO {
      * prints obj on System.out and colors the output
      *
      * @param obj object to print
-     * @param fg_color foreground color from {@link utils.Color}
+     * @param fgColor foreground color from {@link utils.Color}
      */
-    public static void print(Object obj, String fg_color) {
+    public static void print(Object obj, String fgColor) {
         if (color_) {
-            print(fg_color + obj + Color.RESET);
+            print(fgColor + obj + Color.RESET);
         } else {
             print(obj);
         }
@@ -133,12 +133,12 @@ public class IO {
      * prints obj on System.out and colors the output
      *
      * @param obj object to print
-     * @param fg_color foreground color from {@link utils.Color}
-     * @param bg_color background color from {@link utils.Color}
+     * @param fgColor foreground color from {@link utils.Color}
+     * @param bgColor background color from {@link utils.Color}
      */
-    public static void print(Object obj, String fg_color, String bg_color) {
+    public static void print(Object obj, String fgColor, String bgColor) {
         if (color_) {
-            print(fg_color + bg_color + obj + Color.RESET);
+            print(fgColor + bgColor + obj + Color.RESET);
         } else {
             print(obj);
         }
@@ -159,11 +159,11 @@ public class IO {
      * prints obj on System.out and colors the output if verbose is enabled
      *
      * @param obj object to print
-     * @param fg_color foreground color from {@link utils.Color}
+     * @param fgColor foreground color from {@link utils.Color}
      */
-    public static void printVerbose(Object obj, String fg_color) {
+    public static void printVerbose(Object obj, String fgColor) {
         if (verbose_) {
-            print(obj, fg_color);
+            print(obj, fgColor);
         }
     }
 
@@ -171,12 +171,12 @@ public class IO {
      * prints obj on System.out and colors the output if verbose is enabled
      *
      * @param obj object to print
-     * @param fg_color foreground color from {@link utils.Color}
-     * @param bg_color background color from {@link utils.Color}
+     * @param fgColor foreground color from {@link utils.Color}
+     * @param bgColor background color from {@link utils.Color}
      */
-    public static void printVerbose(Object obj, String fg_color, String bg_color) {
+    public static void printVerbose(Object obj, String fgColor, String bgColor) {
         if (verbose_) {
-            print(obj, fg_color, bg_color);
+            print(obj, fgColor, bgColor);
         }
     }
 
@@ -195,11 +195,11 @@ public class IO {
         int tmp = -1;
         try {
             fileIS = new FileInputStream(path);
-            fileReaders.put(id, new Scanner(fileIS));
-            filenames.put(id, path);
+            fileReaders_.put(id_, new Scanner(fileIS));
+            filenames_.put(id_, path);
 
-            tmp = id;
-            id++;
+            tmp = id_;
+            id_++;
 
             debug(String.format("Opening Reading File: %s", path));
         } catch (FileNotFoundException ex) {
@@ -228,8 +228,8 @@ public class IO {
      */
     public static String readLineFile(int id) {
         try {
-            if (fileReaders.get(id).hasNextLine()) {
-                return fileReaders.get(id).nextLine();
+            if (fileReaders_.get(id).hasNextLine()) {
+                return fileReaders_.get(id).nextLine();
             }
         } catch (NoSuchElementException ex) {
         }
@@ -244,8 +244,8 @@ public class IO {
      */
     public static void closeReadFile(int id) {
         try {
-            fileReaders.remove(id).close();
-            debug(String.format("Closing Reading File: %s", filenames.remove(id)));
+            fileReaders_.remove(id).close();
+            debug(String.format("Closing Reading File: %s", filenames_.remove(id)));
         } catch (IllegalStateException ex) {
 
         }
@@ -266,11 +266,11 @@ public class IO {
         int tmp = -1;
         try {
             fileOS = new FileOutputStream(path, true);
-            printWriters.put(id, new PrintWriter(fileOS, true));
-            filenames.put(id, path);
+            printWriters_.put(id_, new PrintWriter(fileOS, true));
+            filenames_.put(id_, path);
 
-            tmp = id;
-            id++;
+            tmp = id_;
+            id_++;
 
             debug(String.format("Opening Writing File. %s", path));
 
@@ -299,8 +299,8 @@ public class IO {
      * @param line line to write
      */
     public static void writeLineFile(int id, String line) {
-        printWriters.get(id).println(line);
-        debug(String.format("Closing Writing File: %s", filenames.remove(id)));
+        printWriters_.get(id).println(line);
+        debug(String.format("Closing Writing File: %s", filenames_.remove(id)));
     }
 
     /**
@@ -310,7 +310,7 @@ public class IO {
      */
     public static void closeWriteFile(int id) {
         try {
-            printWriters.remove(id).close();
+            printWriters_.remove(id).close();
         } catch (IllegalStateException ex) {
         }
     }
@@ -324,7 +324,7 @@ public class IO {
      */
     public static void printAndWrite(int id, String line) {
         print(line);
-        printWriters.get(id).println(line);
+        printWriters_.get(id).println(line);
     }
 
     /**

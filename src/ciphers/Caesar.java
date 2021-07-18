@@ -13,14 +13,14 @@ import utils.TextHelper;
 public class Caesar extends Cipher {
 
     private static final String NAME = "CAESAR";
-    private Map<Integer, String> cipher;
+    private Map<Integer, String> cipher_;
 
     /**
      * Constructor for the Caesar cipher
      * 
      * All the possible ciphers are calculated here.
      * 
-     * @param alphabet alphabet from the language that is going to be used
+     * @param alphabet alphabet_ from the language that is going to be used
      */
     public Caesar(String alphabet) {
         super(alphabet);
@@ -28,9 +28,9 @@ public class Caesar extends Cipher {
         
         // Calculate all ciphers
         // This caesar cipher uses right rotation
-        cipher = new HashMap<>();
+        cipher_ = new HashMap<>();
         for (int key = 0; key < alphabet.length(); key++) {
-            cipher.put(key, alphabet.substring(key).concat(alphabet.substring(0, key)));
+            cipher_.put(key, alphabet.substring(key).concat(alphabet.substring(0, key)));
         }
     }
 
@@ -41,8 +41,8 @@ public class Caesar extends Cipher {
 
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
-            if (alphabet.indexOf(ch) != -1) {
-                sb.append(cipher.get(key).charAt(alphabet.indexOf(ch)));
+            if (alphabet_.indexOf(ch) != -1) {
+                sb.append(cipher_.get(key).charAt(alphabet_.indexOf(ch)));
             } else {
                 sb.append(ch);
             }
@@ -53,6 +53,6 @@ public class Caesar extends Cipher {
 
     @Override
     public String decrypt(String text, int key) {
-        return encrypt(text, alphabet.length() - key);
+        return encrypt(text, alphabet_.length() - key);
     }
 }

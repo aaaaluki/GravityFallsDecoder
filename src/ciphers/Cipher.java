@@ -19,17 +19,17 @@ public abstract class Cipher {
     protected static String NAME;
     
     /**
-     * alphabet of the language being used
+     * alphabet_ of the language being used
      */
-    protected String alphabet;
+    protected String alphabet_;
     
     /**
      * Constructor for a cipher
      * 
-     * @param alphabet alphabet from the language that is going to be used
+     * @param alphabet alphabet_ from the language that is going to be used
      */
     public Cipher(String alphabet) {
-        this.alphabet = alphabet;
+        this.alphabet_ = alphabet;
     }
 
     /**

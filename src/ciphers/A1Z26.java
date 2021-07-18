@@ -18,7 +18,7 @@ public class A1Z26 extends Cipher {
     /**
      * Constructor for the A1Z26 cipher
      * 
-     * @param alphabet alphabet from the language that is going to be used
+     * @param alphabet alphabet_ from the language that is going to be used
      */
     public A1Z26(String alphabet) {
         super(alphabet);
@@ -37,10 +37,10 @@ public class A1Z26 extends Cipher {
 
             for (int j = 0; j < word.length(); j++) {
                 char ch = word.charAt(j);
-                int idx = alphabet.indexOf(ch);
+                int idx = alphabet_.indexOf(ch);
 
                 if (idx != -1) {
-                    // If it's a character in the alphabet
+                    // If it's a character in the alphabet_
                     if (first) {
                         sb.append(idx + 1);
                         first = false;
@@ -49,7 +49,7 @@ public class A1Z26 extends Cipher {
                     }
 
                 } else {
-                    // If it's not a character in the alphabet
+                    // If it's not a character in the alphabet_
                     sb.append(ch);
                     first = true;
                 }
@@ -76,7 +76,7 @@ public class A1Z26 extends Cipher {
                 if (match.matches("-?\\d+")) {
                     // Is a number
                     int idx = Integer.valueOf(match);
-                    sb.append(alphabet.charAt(idx - 1));
+                    sb.append(alphabet_.charAt(idx - 1));
                 } else {
                     sb.append(match);
                 }
