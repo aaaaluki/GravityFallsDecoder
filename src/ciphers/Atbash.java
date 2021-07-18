@@ -1,5 +1,7 @@
 package ciphers;
 
+import utils.TextHelper;
+
 /**
  * Atbash cipher
  * https://en.wikipedia.org/wiki/Atbash
@@ -30,7 +32,7 @@ public class Atbash extends Cipher {
         // This caesar cipher uses right rotation
         StringBuilder sb = new StringBuilder();
 
-        text = normalize(text);
+        text = TextHelper.normalize(text);
 
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);

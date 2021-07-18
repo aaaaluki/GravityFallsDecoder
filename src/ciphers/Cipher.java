@@ -1,8 +1,8 @@
 package ciphers;
 
-import java.text.Normalizer;
 import utils.Color;
 import utils.IO;
+import utils.TextHelper;
 
 /**
  * Cipher abstract class
@@ -52,7 +52,7 @@ public abstract class Cipher {
      * @param key key to use for test
      */
     public void test(String sample, int key) {
-        sample = normalize(sample);
+        sample = TextHelper.normalize(sample);
         String encrypted = encrypt(sample, key);
         String decrypted = decrypt(encrypted, key);
 
@@ -81,18 +81,4 @@ public abstract class Cipher {
      * @return decrypted text
      */
     public abstract String decrypt(String text, int key);
-
-    /**
-     * Removes accents from text and converts it to upper case
-     * 
-     * @param text text to normalize
-     * @return normalized text
-     */
-    protected String normalize(String text) {
-        text = Normalizer.normalize(text, Normalizer.Form.NFD);
-        text = text.replaceAll("[^\\p{ASCII}]", "");
-        text = text.toUpperCase();
-
-        return text;
-    }
 }

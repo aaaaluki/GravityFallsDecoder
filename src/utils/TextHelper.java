@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.Normalizer;
 import java.util.regex.Pattern;
 
 /**
@@ -8,6 +9,20 @@ import java.util.regex.Pattern;
  * @author luki
  */
 public class TextHelper {
+
+    /**
+     * Removes accents from text and converts it to upper case
+     * 
+     * @param text text to normalize
+     * @return normalized text
+     */
+    public static String normalize(String text) {
+        text = Normalizer.normalize(text, Normalizer.Form.NFD);
+        text = text.replaceAll("[^\\p{ASCII}]", "");
+        text = text.toUpperCase();
+
+        return text;
+    }
 
     /**
      * Returns true if str can be converted to Integer, false otherwise

@@ -2,6 +2,7 @@ package ciphers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import utils.TextHelper;
 
 /**
  * A1Z26 cipher, also known as numerical substitution.
@@ -27,7 +28,7 @@ public class A1Z26 extends Cipher {
     @Override
     public String encrypt(String text, int key) {
         StringBuilder sb = new StringBuilder();
-        text = normalize(text);
+        text = TextHelper.normalize(text);
 
         String[] words = text.split(" ");
         for (int i = 0; i < words.length; i++) {
@@ -63,7 +64,6 @@ public class A1Z26 extends Cipher {
     @Override
     public String decrypt(String text, int key) {
         StringBuilder sb = new StringBuilder();
-        text = normalize(text);
         Pattern pattern = Pattern.compile("\\d+|[^" + CHAR_SEPARATOR + "]");
         
         String[] words = text.split(" ");

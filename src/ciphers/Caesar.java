@@ -2,6 +2,7 @@ package ciphers;
 
 import java.util.HashMap;
 import java.util.Map;
+import utils.TextHelper;
 
 /**
  * Caesar cipher
@@ -36,7 +37,7 @@ public class Caesar extends Cipher {
     @Override
     public String encrypt(String text, int key) {
         StringBuilder sb = new StringBuilder();
-        text = normalize(text);
+        text = TextHelper.normalize(text);
 
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
