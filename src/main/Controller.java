@@ -4,6 +4,7 @@ import ciphers.A1Z26;
 import ciphers.Atbash;
 import ciphers.Caesar;
 import ciphers.Cipher;
+import ciphers.Key;
 import utils.Config;
 import utils.IO;
 
@@ -30,7 +31,7 @@ public class Controller {
         // Testing ciphers
         // Caesar
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
-        int key = 13;
+        Key key = new Key(13);
 
         Cipher cipher = new Caesar(conf_.getAlphabet());
         cipher.test(sample, key);

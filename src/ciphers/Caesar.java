@@ -17,15 +17,15 @@ public class Caesar extends Cipher {
 
     /**
      * Constructor for the Caesar cipher
-     * 
+     *
      * All the possible ciphers are calculated here.
-     * 
+     *
      * @param alphabet alphabet_ from the language that is going to be used
      */
     public Caesar(String alphabet) {
         super(alphabet);
         super.NAME = NAME;
-        
+
         // Calculate all ciphers
         // This caesar cipher uses right rotation
         cipher_ = new HashMap<>();
@@ -35,14 +35,14 @@ public class Caesar extends Cipher {
     }
 
     @Override
-    public String encrypt(String text, int key) {
+    public String encrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
         text = TextHelper.normalize(text);
 
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
             if (alphabet_.indexOf(ch) != -1) {
-                sb.append(cipher_.get(key).charAt(alphabet_.indexOf(ch)));
+                sb.append(cipher_.get(key.getInteger()).charAt(alphabet_.indexOf(ch)));
             } else {
                 sb.append(ch);
             }
@@ -52,7 +52,8 @@ public class Caesar extends Cipher {
     }
 
     @Override
-    public String decrypt(String text, int key) {
-        return encrypt(text, alphabet_.length() - key);
+    public String decrypt(String text, Key key) {
+        Key decryptKey = new Key(alphabet_.length() - key.getInteger());
+        return encrypt(text, decryptKey);
     }
 }

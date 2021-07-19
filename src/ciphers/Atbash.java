@@ -5,7 +5,7 @@ import utils.TextHelper;
 /**
  * Atbash cipher
  * https://en.wikipedia.org/wiki/Atbash
- * 
+ *
  * @author luki
  */
 public class Atbash extends Cipher {
@@ -15,9 +15,9 @@ public class Atbash extends Cipher {
 
     /**
      * Constructor for the Atbash cipher
-     * 
+     *
      * The cipher is calculated here
-     * 
+     *
      * @param alphabet alphabet_ from the language that is going to be used
      */
     public Atbash(String alphabet) {
@@ -28,7 +28,7 @@ public class Atbash extends Cipher {
     }
 
     @Override
-    public String encrypt(String text, int key) {
+    public String encrypt(String text, Key key) {
         // This caesar cipher uses right rotation
         StringBuilder sb = new StringBuilder();
 
@@ -47,7 +47,7 @@ public class Atbash extends Cipher {
     }
 
     @Override
-    public String decrypt(String text, int key) {
+    public String decrypt(String text, Key key) {
         return encrypt(text, key);
     }
 }

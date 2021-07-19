@@ -51,7 +51,7 @@ public abstract class Cipher {
      * @param sample sample text to use for test
      * @param key key to use for test
      */
-    public void test(String sample, int key) {
+    public void test(String sample, Key key) {
         sample = TextHelper.normalize(sample);
         String encrypted = encrypt(sample, key);
         String decrypted = decrypt(encrypted, key);
@@ -71,7 +71,7 @@ public abstract class Cipher {
      * @param key key to use during encryption, can be {@code null} in some ciphers
      * @return encrypted text
      */
-    public abstract String encrypt(String text, int key);
+    public abstract String encrypt(String text, Key key);
 
     /**
      * Decrypts the given text with the given key
@@ -80,5 +80,5 @@ public abstract class Cipher {
      * @param key key to use during decryption, can be {@code null} in some ciphers
      * @return decrypted text
      */
-    public abstract String decrypt(String text, int key);
+    public abstract String decrypt(String text, Key key);
 }

@@ -26,7 +26,7 @@ public class A1Z26 extends Cipher {
     }
 
     @Override
-    public String encrypt(String text, int key) {
+    public String encrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
         text = TextHelper.normalize(text);
 
@@ -62,7 +62,7 @@ public class A1Z26 extends Cipher {
     }
 
     @Override
-    public String decrypt(String text, int key) {
+    public String decrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
         Pattern pattern = Pattern.compile("\\d+|[^" + CHAR_SEPARATOR + "]");
         
