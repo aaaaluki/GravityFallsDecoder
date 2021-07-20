@@ -1,4 +1,4 @@
-package utils.argparse;
+package argparse;
 
 /**
  * String handling helper class for the argument parser

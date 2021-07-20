@@ -1,13 +1,12 @@
-package utils.argparse;
+package argparse;
 
+import argparse.action.Action;
+import argparse.action.ActionBoolean;
+import argparse.action.ActionInteger;
+import argparse.action.ActionString;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import utils.IO;
-import utils.argparse.action.Action;
-import utils.argparse.action.ActionBoolean;
-import utils.argparse.action.ActionInteger;
-import utils.argparse.action.ActionString;
 
 /**
  * Implementation of the {@link Argument} interface

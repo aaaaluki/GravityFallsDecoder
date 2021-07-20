@@ -1,13 +1,13 @@
 package main;
 
+import argparse.Argument;
+import argparse.ArgumentException;
+import argparse.ArgumentParser;
+import argparse.ArgumentParserImpl;
+import argparse.Namespace;
 import utils.Config;
 import utils.ExitCodes;
 import utils.IO;
-import utils.argparse.Argument;
-import utils.argparse.ArgumentException;
-import utils.argparse.ArgumentParser;
-import utils.argparse.ArgumentParserImpl;
-import utils.argparse.Namespace;
 
 /**
  *

@@ -1,10 +1,10 @@
-package utils.argparse.action;
+package argparse.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import utils.argparse.Argument;
+import argparse.Argument;
 
 /**
  *
