@@ -1,11 +1,15 @@
 package ciphers;
 
+import analysis.Analyzer;
+import analysis.DecryptGuess;
+import java.util.ArrayList;
+import java.util.List;
 import utils.TextHelper;
 
 /**
  * Atbash cipher
- * https://en.wikipedia.org/wiki/Atbash
- *
+ * 
+ * @see <a href="https://en.wikipedia.org/wiki/Atbash">Atbash Wikipedia</a>
  * @author luki
  */
 public class Atbash extends Cipher {
@@ -49,5 +53,17 @@ public class Atbash extends Cipher {
     @Override
     public String decrypt(String text, Key key) {
         return encrypt(text, key);
+    }
+
+    @Override
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+        List<DecryptGuess> guesses = new ArrayList<>();
+        Key key = new Key();
+        String decryptedText = decrypt(encryptedText, key);
+        double error = analyzer.analyze(decryptedText);
+        
+        guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        
+        return guesses;
     }
 }

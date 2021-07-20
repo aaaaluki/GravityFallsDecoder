@@ -1,13 +1,17 @@
 package ciphers;
 
+import analysis.Analyzer;
+import analysis.DecryptGuess;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import utils.TextHelper;
 
 /**
  * A1Z26 cipher, also known as numerical substitution.
- * https://www.dcode.fr/letter-number-cipher
  * 
+ * @see <a href="https://en.wikipedia.org/wiki/Substitution_cipher">Substitution Cipher Wikipedia</a>
  * @author luki
  */
 public class A1Z26 extends Cipher {
@@ -86,5 +90,17 @@ public class A1Z26 extends Cipher {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+        List<DecryptGuess> guesses = new ArrayList<>();
+        Key key = new Key();
+        String decryptedText = decrypt(encryptedText, key);
+        double error = analyzer.analyze(decryptedText);
+        
+        guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        
+        return guesses;
     }
 }

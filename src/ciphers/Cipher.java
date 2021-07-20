@@ -1,5 +1,8 @@
 package ciphers;
 
+import analysis.Analyzer;
+import analysis.DecryptGuess;
+import java.util.List;
 import utils.Color;
 import utils.IO;
 import utils.TextHelper;
@@ -81,4 +84,14 @@ public abstract class Cipher {
      * @return decrypted text
      */
     public abstract String decrypt(String text, Key key);
+
+    /**
+     * Receives an encrypted text and tries to decrypt it without knowing the key,
+     * then returns a list of {@link DecryptGuess} ascending error, lower first.
+     * 
+     * @param encryptedText text to decrypt
+     * @param analyzer analyzer tool
+     * @return list of decrypt guesses
+     */
+    public abstract List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer);
 }

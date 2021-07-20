@@ -1,13 +1,17 @@
 package ciphers;
 
+import analysis.Analyzer;
+import analysis.DecryptGuess;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import utils.TextHelper;
 
 /**
  * Caesar cipher
- * https://en.wikipedia.org/wiki/Caesar_cipher
- *
+ * 
+ * @see <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar Wikipedia</a>
  * @author luki
  */
 public class Caesar extends Cipher {
@@ -55,5 +59,20 @@ public class Caesar extends Cipher {
     public String decrypt(String text, Key key) {
         Key decryptKey = new Key(alphabet_.length() - key.getInteger());
         return encrypt(text, decryptKey);
+    }
+
+    @Override
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+        List<DecryptGuess> guesses = new ArrayList<>();
+
+        for (int i = 1; i <= alphabet_.length(); i++) {
+            Key key = new Key(i);
+            String decryptedText = decrypt(encryptedText, key);
+            double error = analyzer.analyze(decryptedText);
+
+            guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        }
+        
+        return guesses;
     }
 }

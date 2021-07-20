@@ -7,6 +7,10 @@ package ciphers;
  */
 public class Key {
 
+    /**
+     * String to return when the Key is {@code null}
+     */
+    public static final String NONE = "None";
     private final Object value_;
 
     /**
@@ -46,7 +50,7 @@ public class Key {
     }
 
     /**
-     * Returns the value of the argument as a String or {@code "None"} if the
+     * Returns the value of the argument as a String or {@code NONE} if the
      * object is null
      *
      * @return String
@@ -55,7 +59,7 @@ public class Key {
         Object obj = value_;
 
         if (obj == null) {
-            return "None";
+            return NONE;
         }
 
         return obj.toString();
