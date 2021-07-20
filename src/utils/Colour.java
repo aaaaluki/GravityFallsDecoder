@@ -1,20 +1,20 @@
 package utils;
 
 /**
- * Interface containing ANSI escape sequences for coloring output on a terminal.
+ * Interface containing ANSI escape sequences for colouring output on a terminal.
  * 
  * Copied from: https://www.codegrepper.com/code-examples/java/%5C033%5B31m+JAVA
  * 
  * @author luki
  */
-public interface Color {
+public interface Colour {
     /**
-     * Reset: Put this at the end of the String to disable all coloring.
+     * Reset: Put this at the end of the String to disable all colouring.
      */
     public static final String RESET = "\033[0m";  // Text Reset
 
     /**
-     * Regular foreground colors
+     * Regular foreground colours
      */
     public static final String BLACK = "\033[0;30m";   // BLACK
     public static final String RED = "\033[0;31m";     // RED
@@ -26,7 +26,7 @@ public interface Color {
     public static final String WHITE = "\033[0;37m";   // WHITE
 
     /**
-     * Bold foreground colors
+     * Bold foreground colours
      */
     public static final String BLACK_BOLD = "\033[1;30m";  // BLACK
     public static final String RED_BOLD = "\033[1;31m";    // RED
@@ -38,7 +38,7 @@ public interface Color {
     public static final String WHITE_BOLD = "\033[1;37m";  // WHITE
 
     /**
-     * Underlined foreground colors
+     * Underlined foreground colours
      */
     public static final String BLACK_UNDERLINED = "\033[4;30m";  // BLACK
     public static final String RED_UNDERLINED = "\033[4;31m";    // RED
@@ -50,7 +50,7 @@ public interface Color {
     public static final String WHITE_UNDERLINED = "\033[4;37m";  // WHITE
 
     /**
-     * High intensity foreground colors
+     * High intensity foreground colours
      */
     public static final String BLACK_BRIGHT = "\033[0;90m";  // BLACK
     public static final String RED_BRIGHT = "\033[0;91m";    // RED
@@ -62,7 +62,7 @@ public interface Color {
     public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
 
     /**
-     * Bold high intensity foreground colors
+     * Bold high intensity foreground colours
      */
     public static final String BLACK_BOLD_BRIGHT = "\033[1;90m"; // BLACK
     public static final String RED_BOLD_BRIGHT = "\033[1;91m";   // RED
@@ -74,7 +74,7 @@ public interface Color {
     public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
 
     /**
-     * Regular background colors
+     * Regular background colours
      */
     public static final String BLACK_BACKGROUND = "\033[40m";  // BLACK
     public static final String RED_BACKGROUND = "\033[41m";    // RED

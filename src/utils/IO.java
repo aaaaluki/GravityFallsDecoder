@@ -38,9 +38,9 @@ public class IO {
     }
 
     /**
-     * Sets the color parameter, if true prints will display color
+     * Sets the colour parameter, if true prints will display colour
      *
-     * @param color color
+     * @param color colour
      */
     public static void setColor(boolean color) {
         color_ = color;
@@ -72,7 +72,7 @@ public class IO {
     public static void debug(Object obj) {
         if (debug_) {
             if (color_) {
-                System.out.println(Color.YELLOW_BOLD_BRIGHT + "[DEBUG] " + Color.RESET + obj);
+                System.out.println(Colour.YELLOW_BOLD_BRIGHT + "[DEBUG] " + Colour.RESET + obj);
             } else {
                 System.out.println("[DEBUG] " + obj);
             }
@@ -86,7 +86,7 @@ public class IO {
      */
     public static void warn(Object obj) {
         if (color_) {
-            System.err.println(Color.RED_BOLD_BRIGHT + "[ERROR] " + Color.RESET + obj);
+            System.err.println(Colour.RED_BOLD_BRIGHT + "[ERROR] " + Colour.RESET + obj);
         } else {
             System.err.println("[ERROR] " + obj);
         }
@@ -100,7 +100,7 @@ public class IO {
      */
     public static void todo(Object obj) {
         if (color_) {
-            System.out.println(Color.CYAN_BOLD_BRIGHT + "[TODO] " + Color.RESET + obj);
+            System.out.println(Colour.CYAN_BOLD_BRIGHT + "[TODO] " + Colour.RESET + obj);
         } else {
             System.out.println("[TODO] " + obj);
         }
@@ -116,29 +116,29 @@ public class IO {
     }
 
     /**
-     * prints obj on System.out and colors the output
+     * prints obj on System.out and colours the output
      *
      * @param obj object to print
-     * @param fgColor foreground color from {@link utils.Color}
+     * @param fgColor foreground colour from {@link utils.Color}
      */
     public static void print(Object obj, String fgColor) {
         if (color_) {
-            print(fgColor + obj + Color.RESET);
+            print(fgColor + obj + Colour.RESET);
         } else {
             print(obj);
         }
     }
 
     /**
-     * prints obj on System.out and colors the output
+     * prints obj on System.out and colours the output
      *
      * @param obj object to print
-     * @param fgColor foreground color from {@link utils.Color}
-     * @param bgColor background color from {@link utils.Color}
+     * @param fgColor foreground colour from {@link utils.Color}
+     * @param bgColor background colour from {@link utils.Color}
      */
     public static void print(Object obj, String fgColor, String bgColor) {
         if (color_) {
-            print(fgColor + bgColor + obj + Color.RESET);
+            print(fgColor + bgColor + obj + Colour.RESET);
         } else {
             print(obj);
         }
@@ -156,10 +156,10 @@ public class IO {
     }
 
     /**
-     * prints obj on System.out and colors the output if verbose is enabled
+     * prints obj on System.out and colours the output if verbose is enabled
      *
      * @param obj object to print
-     * @param fgColor foreground color from {@link utils.Color}
+     * @param fgColor foreground colour from {@link utils.Color}
      */
     public static void printVerbose(Object obj, String fgColor) {
         if (verbose_) {
@@ -168,11 +168,11 @@ public class IO {
     }
 
     /**
-     * prints obj on System.out and colors the output if verbose is enabled
+     * prints obj on System.out and colours the output if verbose is enabled
      *
      * @param obj object to print
-     * @param fgColor foreground color from {@link utils.Color}
-     * @param bgColor background color from {@link utils.Color}
+     * @param fgColor foreground colour from {@link utils.Color}
+     * @param bgColor background colour from {@link utils.Color}
      */
     public static void printVerbose(Object obj, String fgColor, String bgColor) {
         if (verbose_) {
@@ -343,7 +343,7 @@ public class IO {
 
         String line = readLineFile(id);
         while (line != null) {
-            print(line + "\n", Color.GREEN_BOLD_BRIGHT);
+            print(line + "\n", Colour.GREEN_BOLD_BRIGHT);
             line = readLineFile(id);
         }
 
