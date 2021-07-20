@@ -1,7 +1,8 @@
 package ciphers;
 
 /**
- * This class is a wrapper for an Object, this will be used as the encryption key
+ * This class is a wrapper for an Object, this will be used as the encryption
+ * key
  *
  * @author luki
  */

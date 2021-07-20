@@ -10,18 +10,19 @@ import utils.TextHelper;
 
 /**
  * A1Z26 cipher, also known as numerical substitution.
- * 
- * @see <a href="https://en.wikipedia.org/wiki/Substitution_cipher">Substitution Cipher Wikipedia</a>
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Substitution_cipher">Substitution
+ * Cipher Wikipedia</a>
  * @author luki
  */
 public class A1Z26 extends Cipher {
 
     private static final String NAME = "A1Z26";
     private static final String CHAR_SEPARATOR = "-";
-    
+
     /**
      * Constructor for the A1Z26 cipher
-     * 
+     *
      * @param alphabet alphabet_ from the language that is going to be used
      */
     public A1Z26(String alphabet) {
@@ -59,7 +60,9 @@ public class A1Z26 extends Cipher {
                 }
             }
 
-            if (i != words.length - 1) sb.append(" ");
+            if (i != words.length - 1) {
+                sb.append(" ");
+            }
         }
 
         return sb.toString();
@@ -69,7 +72,7 @@ public class A1Z26 extends Cipher {
     public String decrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
         Pattern pattern = Pattern.compile("\\d+|[^" + CHAR_SEPARATOR + "]");
-        
+
         String[] words = text.split(" ");
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
@@ -85,8 +88,10 @@ public class A1Z26 extends Cipher {
                     sb.append(match);
                 }
             }
-        
-            if (i != words.length - 1) sb.append(" ");
+
+            if (i != words.length - 1) {
+                sb.append(" ");
+            }
         }
 
         return sb.toString();
@@ -98,9 +103,9 @@ public class A1Z26 extends Cipher {
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
         double error = analyzer.analyze(decryptedText);
-        
+
         guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
-        
+
         return guesses;
     }
 }

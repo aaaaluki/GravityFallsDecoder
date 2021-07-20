@@ -5,25 +5,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class has all the configuration parameters.
- * To load the parameters the loadConfig() method is used.
- * 
+ * This class has all the configuration parameters. To load the parameters the
+ * loadConfig() method is used. 
+ *
  * @author luki
  */
 public class Config {
+
     /**
      * Folder were the configuration files are stored
      */
     public static String CONFIG_FOLDER = "config";
-    
+
     private String language_;
     private String alphabet_;
     private Map<String, Double> frequenciesMono_;
 
     /**
-     *Constructor for config
-     * 
-     * @param language this will select which config file to load.
+     * Constructor for config
+     *
+     * @param language this will select which configuration file to load.
      */
     public Config(String language) {
         this.language_ = language;
@@ -62,7 +63,8 @@ public class Config {
      * Loads the alphabet and frequencies form the lang.config file. If the
      * configuration file is not valid returns.
      *
-     * @return Returns an {@link utils.ExitCodes}, returns OK if no problems where found
+     * @return Returns an {@link utils.ExitCodes}, returns OK if no problems
+     * where found
      */
     public int loadConfig() {
         File configFile = new File(String.format("%s/%s.config", CONFIG_FOLDER, language_));

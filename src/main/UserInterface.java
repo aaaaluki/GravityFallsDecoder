@@ -14,12 +14,13 @@ import utils.argparse.Namespace;
  * @author luki
  */
 public class UserInterface {
+
     // help                                                      --help, -h
     private static final boolean DEBUG_DEFAULT = false;       // --debug, -d
     private static final boolean VERBOSE_DEFAULT = false;     // --verbose, v
     private static final boolean COLOR_DEFAULT = true;        // --no-color, -nc
     private static final String LANGUAGE_DEFAULT = "ENG";     // --language, -l
-    
+
     private static final String HEADER_FILE = "header.txt";
     private static final String DESCRIPTION = "Placeholder for description";
     private static final String EPILOG = "Placeholder for epilog";
@@ -35,7 +36,7 @@ public class UserInterface {
 
     /**
      * Main method
-     * 
+     *
      * @param args command line arguments
      */
     public static void main(String[] args) {
@@ -50,12 +51,12 @@ public class UserInterface {
 
     /**
      * <p>
-     * This method does the inital configuration and then runs the controller
+     * This method does the initial configuration and then runs the controller
      * </p>
      * <p>
-     * In this method the argument parser is created and then tries to parse
-     * the arguments. Then sets all the flags and loads the configuration.
-     * Finally creates a new {@link Controller} and runs it.
+     * In this method the argument parser is created and then tries to parse the
+     * arguments. Then sets all the flags and loads the configuration. Finally
+     * creates a new {@link Controller} and runs it.
      * </p>
      *
      * @param args command line arguments

@@ -8,23 +8,25 @@ import utils.TextHelper;
 /**
  * This class uses Frequency Analysis to help breaking some simple substitution
  * ciphers
- * 
- * @see <a href="https://en.wikipedia.org/wiki/Frequency_analysis">Frequency Analysis Wikipedia</a>
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Frequency_analysis">Frequency
+ * Analysis Wikipedia</a>
  * @author luki
  */
 public class FrequencyAnalysis implements Analyzer {
+
     /**
      * Name of the Analyzer
      */
     private static final String NAME = "Frequency Analysis";
-    
+
     private final String alphabet_;
     private final Map<String, Double> freqsMono_;
 
     /**
      * Constructor for a Frequency Analysis object, here the alphabet and the
      * letter frequencies are saved in the attributes.
-     * 
+     *
      * @param conf Config object
      */
     public FrequencyAnalysis(Config conf) {
@@ -35,8 +37,9 @@ public class FrequencyAnalysis implements Analyzer {
     /**
      * Performs a letter frequency analysis on the given String and returns the
      * "error", a way to measure how much of the language is the given text.
-     * This error calculation is done in the {@link #calculateError(Map, int)} method.
-     * 
+     * This error calculation is done in the {@link #calculateError(Map, int)}
+     * method.
+     *
      * @param text text to analyze
      * @return the error
      */
@@ -70,7 +73,7 @@ public class FrequencyAnalysis implements Analyzer {
     /**
      * Returns the euclidean distance squared between the analyzed frequencies
      * and the theoretical frequencies
-     * 
+     *
      * @param analyzedFreqs analyzed frequencies
      * @param N total number of characters counted
      * @return euclidean distance (error)
@@ -90,7 +93,7 @@ public class FrequencyAnalysis implements Analyzer {
                 value = 0.0;
             }
 
-            error += Math.pow(freqsMono_.get(key) - 100*value/N, 2);
+            error += Math.pow(freqsMono_.get(key) - 100 * value / N, 2);
         }
 
         return error;

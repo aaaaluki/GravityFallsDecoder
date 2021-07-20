@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 
 /**
  * Helper class for String related stuff
- * 
+ *
  * @author luki
  */
 public class TextHelper {
 
     /**
      * Removes accents from text and converts it to upper case
-     * 
+     *
      * @param text text to normalize
      * @return normalized text
      */
@@ -105,7 +105,7 @@ public class TextHelper {
      */
     public static String padLeft(String str, int n) {
         // Code from: https://stackoverflow.com/a/391978/13313449
-        
+
         return String.format("%" + n + "s", str);
     }
 }

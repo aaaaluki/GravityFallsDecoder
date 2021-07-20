@@ -1,13 +1,15 @@
 package utils;
 
 /**
- * Interface containing ANSI escape sequences for colouring output on a terminal.
- * 
+ * Interface containing ANSI escape sequences for colouring output on a
+ * terminal.
+ *
  * Copied from: https://www.codegrepper.com/code-examples/java/%5C033%5B31m+JAVA
- * 
+ *
  * @author luki
  */
 public interface Colour {
+
     /**
      * Reset: Put this at the end of the String to disable all colouring.
      */

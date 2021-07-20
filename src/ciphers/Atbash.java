@@ -8,7 +8,7 @@ import utils.TextHelper;
 
 /**
  * Atbash cipher
- * 
+ *
  * @see <a href="https://en.wikipedia.org/wiki/Atbash">Atbash Wikipedia</a>
  * @author luki
  */
@@ -61,9 +61,9 @@ public class Atbash extends Cipher {
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
         double error = analyzer.analyze(decryptedText);
-        
+
         guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
-        
+
         return guesses;
     }
 }

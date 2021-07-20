@@ -16,7 +16,7 @@ import utils.Config;
  * pass the encrypted text to the {@link #decrypt(String)} method. This method
  * will return a list of sorted {@link DecryptGuess}, the first ones being the
  * most probable original text.
- * 
+ *
  * @author luki
  */
 public class Decrypter {
@@ -27,31 +27,31 @@ public class Decrypter {
     /**
      * Decrypter constructor, initializes the analysisTools attribute putting
      * all the implemented ciphers and their respective analysis tool.
-     * 
+     *
      * @param conf Config object
      */
     public Decrypter(Config conf) {
         config_ = conf;
 
         Analyzer fa = new FrequencyAnalysis(conf);
-        
+
         analysisTools_ = new HashMap<>();
         analysisTools_.put(new Caesar(config_.getAlphabet()), fa);
         analysisTools_.put(new Atbash(config_.getAlphabet()), fa);
         analysisTools_.put(new A1Z26(config_.getAlphabet()), fa);
     }
-    
+
     /**
      * Receives an encrypted text and tries to decrypt it using the implemented
      * ciphers, then returns a list of {@link DecryptGuess} ascending error,
      * lower first.
-     * 
+     *
      * @param encryptedText text to decrypt
      * @return list of {@link DecryptGuess} in ascending order
      */
     public List<DecryptGuess> decrypt(String encryptedText) {
         List<DecryptGuess> decryptGuesses = new ArrayList<>();
-        
+
         for (Cipher cipher : analysisTools_.keySet()) {
             decryptGuesses.addAll(cipher.decryptWithoutKey(encryptedText, analysisTools_.get(cipher)));
         }

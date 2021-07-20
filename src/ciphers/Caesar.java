@@ -10,8 +10,9 @@ import utils.TextHelper;
 
 /**
  * Caesar cipher
- * 
- * @see <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar Wikipedia</a>
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar
+ * Wikipedia</a>
  * @author luki
  */
 public class Caesar extends Cipher {
@@ -72,7 +73,7 @@ public class Caesar extends Cipher {
 
             guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
         }
-        
+
         return guesses;
     }
 }
