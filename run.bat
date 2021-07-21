@@ -1,2 +1,2 @@
-java -jar dist\GravityFalls.jar --no-color %*
+java -jar dist\GravityFalls.jar --no-colour %*
 PAUSE

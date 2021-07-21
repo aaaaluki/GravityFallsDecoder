@@ -19,7 +19,7 @@ public class IO {
 
     private static boolean verbose_,
                            debug_,
-                           color_;
+                           noColour_;
 
     private static int id_;
     private static Map<Integer, Scanner> fileReaders_;
@@ -40,10 +40,10 @@ public class IO {
     /**
      * Sets the colour parameter, if true prints will display colour
      *
-     * @param color colour
+     * @param noColour colour
      */
-    public static void setColor(boolean color) {
-        color_ = color;
+    public static void setColour(boolean noColour) {
+        noColour_ = noColour;
     }
 
     /**
@@ -71,10 +71,10 @@ public class IO {
      */
     public static void debug(Object obj) {
         if (debug_) {
-            if (color_) {
-                System.out.println(Colour.YELLOW_BOLD_BRIGHT + "[DEBUG] " + Colour.RESET + obj);
-            } else {
+            if (noColour_) {
                 System.out.println("[DEBUG] " + obj);
+            } else {
+                System.out.println(Colour.YELLOW_BOLD_BRIGHT + "[DEBUG] " + Colour.RESET + obj);
             }
         }
     }
@@ -85,10 +85,10 @@ public class IO {
      * @param obj object to print
      */
     public static void warn(Object obj) {
-        if (color_) {
-            System.err.println(Colour.RED_BOLD_BRIGHT + "[ERROR] " + Colour.RESET + obj);
-        } else {
+        if (noColour_) {
             System.err.println("[ERROR] " + obj);
+        } else {
+            System.err.println(Colour.RED_BOLD_BRIGHT + "[ERROR] " + Colour.RESET + obj);
         }
     }
 
@@ -99,10 +99,10 @@ public class IO {
      * @param obj object to print
      */
     public static void todo(Object obj) {
-        if (color_) {
-            System.out.println(Colour.CYAN_BOLD_BRIGHT + "[TODO] " + Colour.RESET + obj);
-        } else {
+        if (noColour_) {
             System.out.println("[TODO] " + obj);
+        } else {
+            System.out.println(Colour.CYAN_BOLD_BRIGHT + "[TODO] " + Colour.RESET + obj);
         }
     }
 
@@ -119,13 +119,13 @@ public class IO {
      * prints obj on System.out and colours the output
      *
      * @param obj object to print
-     * @param fgColor foreground colour from {@link utils.Color}
+     * @param fgColour foreground colour from {@link utils.Colour}
      */
-    public static void print(Object obj, String fgColor) {
-        if (color_) {
-            print(fgColor + obj + Colour.RESET);
-        } else {
+    public static void print(Object obj, String fgColour) {
+        if (noColour_) {
             print(obj);
+        } else {
+            print(fgColour + obj + Colour.RESET);
         }
     }
 
@@ -133,14 +133,14 @@ public class IO {
      * prints obj on System.out and colours the output
      *
      * @param obj object to print
-     * @param fgColor foreground colour from {@link utils.Color}
-     * @param bgColor background colour from {@link utils.Color}
+     * @param fgColour foreground colour from {@link utils.Colour}
+     * @param bgColour background colour from {@link utils.Colour}
      */
-    public static void print(Object obj, String fgColor, String bgColor) {
-        if (color_) {
-            print(fgColor + bgColor + obj + Colour.RESET);
-        } else {
+    public static void print(Object obj, String fgColour, String bgColour) {
+        if (noColour_) {
             print(obj);
+        } else {
+            print(fgColour + bgColour + obj + Colour.RESET);
         }
     }
 
@@ -159,11 +159,11 @@ public class IO {
      * prints obj on System.out and colours the output if verbose is enabled
      *
      * @param obj object to print
-     * @param fgColor foreground colour from {@link utils.Color}
+     * @param fgColour foreground colour from {@link utils.Colour}
      */
-    public static void printVerbose(Object obj, String fgColor) {
+    public static void printVerbose(Object obj, String fgColour) {
         if (verbose_) {
-            print(obj, fgColor);
+            print(obj, fgColour);
         }
     }
 
@@ -171,12 +171,12 @@ public class IO {
      * prints obj on System.out and colours the output if verbose is enabled
      *
      * @param obj object to print
-     * @param fgColor foreground colour from {@link utils.Color}
-     * @param bgColor background colour from {@link utils.Color}
+     * @param fgColour foreground colour from {@link utils.Colour}
+     * @param bgColour background colour from {@link utils.Colour}
      */
-    public static void printVerbose(Object obj, String fgColor, String bgColor) {
+    public static void printVerbose(Object obj, String fgColour, String bgColour) {
         if (verbose_) {
-            print(obj, fgColor, bgColor);
+            print(obj, fgColour, bgColour);
         }
     }
 
