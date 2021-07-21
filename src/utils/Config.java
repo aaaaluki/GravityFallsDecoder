@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * This class has all the configuration parameters. To load the parameters the
- * loadConfig() method is used. 
+ * loadConfig() method is used.
  *
  * @author luki
  */
@@ -17,17 +17,20 @@ public class Config {
      */
     public static String CONFIG_FOLDER = "config";
 
-    private String language_;
+    private final Namespace ns_;
+    private final String language_;
     private String alphabet_;
     private Map<String, Double> frequenciesMono_;
 
     /**
      * Constructor for config
      *
-     * @param language this will select which configuration file to load.
+     * @param ns {@link Namespace} object containing all the configuration, the
+     * one that {@link argparse.ArgumentParser} returns when parsing
      */
-    public Config(String language) {
-        this.language_ = language;
+    public Config(Namespace ns) {
+        ns_ = ns;
+        language_ = ns.getString("language");
         alphabet_ = null;
         frequenciesMono_ = null;
     }
@@ -57,6 +60,17 @@ public class Config {
      */
     public Map<String, Double> getMonoFrequencies() {
         return frequenciesMono_;
+    }
+
+    /**
+     * Calls the get method from {@link Namespace}
+     *
+     * @param <T> Type to cast to
+     * @param dest name of the argument
+     * @return T or null
+     */
+    public <T> T get(String dest) {
+        return ns_.get(dest);
     }
 
     /**

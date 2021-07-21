@@ -4,7 +4,7 @@ import argparse.Argument.Type;
 import argparse.ArgumentException;
 import argparse.ArgumentParser;
 import argparse.ArgumentParserImpl;
-import argparse.Namespace;
+import utils.Namespace;
 import utils.Config;
 import utils.ExitCodes;
 import utils.IO;
@@ -98,7 +98,7 @@ public class UserInterface {
         IO.printHeader(HEADER_FILE);
 
         // Load Configuration
-        Config conf = new Config(ns.getString("language"));
+        Config conf = new Config(ns);
         int returnCode = conf.loadConfig();
         IO.debug(String.format("Load Configuration exit(%d)", returnCode));
         if (returnCode != ExitCodes.OK) {
