@@ -154,17 +154,22 @@ public class ArgumentParserImpl implements ArgumentParser {
 
         // Print flags
         String[] flags = new String[arguments_.size()];
-        int max = 0;
+        int maxLengthFlag = 0;
         for (int i = 0; i < arguments_.size(); i++) {
             flags[i] = arguments_.get(i).getFlags().toString().replace("[", "").replace("]", "");
-            if (flags[i].length() > max) {
-                max = flags[i].length();
+            if (flags[i].length() > maxLengthFlag) {
+                maxLengthFlag = flags[i].length();
             }
         }
 
         IO.print("Optional arguments:\n");
         for (int i = 0; i < arguments_.size(); i++) {
-            IO.print(String.format("    %s\t%s\n", TextHelper.padRight(flags[i], max), arguments_.get(i).getHelp()));
+            Argument arg = arguments_.get(i);
+            if (arg.getDefault() == null) {
+                IO.print(String.format("    %s\t%s\n", TextHelper.padRight(flags[i], maxLengthFlag), arg.getHelp()));
+            } else {
+                IO.print(String.format("    %s\t%s (default: %s)\n", TextHelper.padRight(flags[i], maxLengthFlag), arg.getHelp(), arg.getDefault()));
+            }
         }
         IO.print("\n");
 
@@ -183,10 +188,13 @@ public class ArgumentParserImpl implements ArgumentParser {
         if (usage_.equals("")) {
             StringBuilder sb = new StringBuilder(programName_ + " ");
             for (Argument arg : arguments_) {
-                switch (arg.getMinNargs()) {
-                    case 0 -> sb.append(String.format("[%s] ", arg.getShortFlag()));
-                    case 1 -> sb.append(String.format("[%s %s] ", arg.getShortFlag(), ArgumentTextHelper.removePrefix(arg.getMainFlag())));
-                    default -> sb.append(String.format("[%s %s...] ", arg.getShortFlag(), ArgumentTextHelper.removePrefix(arg.getMainFlag())));
+                switch (arg.getMaxNargs()) {
+                    case 0 ->
+                        sb.append(String.format("[%s] ", arg.getShortFlag()));
+                    case 1 ->
+                        sb.append(String.format("[%s %s] ", arg.getShortFlag(), ArgumentTextHelper.removePrefix(arg.getMainFlag())));
+                    default ->
+                        sb.append(String.format("[%s %s ...] ", arg.getShortFlag(), ArgumentTextHelper.removePrefix(arg.getMainFlag())));
                 }
             }
 
