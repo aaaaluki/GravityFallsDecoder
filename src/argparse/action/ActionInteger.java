@@ -24,7 +24,11 @@ public class ActionInteger implements Action {
                 throw new ArgumentException(String.format("Argument \"%s\" needs it's values to be Integers, and got: \"%s\"", arg.getMainFlag(), str));
             }
 
-            argsList.add(Integer.valueOf(str));
+            try {
+                argsList.add(Integer.valueOf(str));
+            } catch (NumberFormatException e) {
+                throw new ArgumentException("Number introduced to large, max value is: " + Integer.MAX_VALUE);
+            }
         }
 
         int max = arg.getMaxNargs();
