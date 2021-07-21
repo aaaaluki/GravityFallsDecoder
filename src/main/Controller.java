@@ -36,7 +36,14 @@ public class Controller {
      * decryption result on a new file.
      */
     public void start() {
-        // I should learn to do proper test instead of doing these :)
+        test();
+    }
+    
+    /**
+     * Method to test some functionalities done so far, i should probably learn
+     * to do proper tests in Java :)
+     */
+    private void test() {
         // Testing ciphers
         // Caesar
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
@@ -64,10 +71,9 @@ public class Controller {
             IO.print("Original: ", Colour.BLUE_BOLD_BRIGHT);
             IO.print(text + "\n");
             List<DecryptGuess> guesses = dec.decrypt(text);
-
-            //int N = guesses.size();
-            int N = 5;
-            for (int i = 0; i < N; i++) {
+            
+            int guessesToShow = Math.min((int) conf_.get("guesses"), guesses.size());
+            for (int i = 0; i < guessesToShow; i++) {
                 IO.print("\t" + guesses.get(i).toString() + "\n");
             }
 
@@ -75,6 +81,6 @@ public class Controller {
         }
 
         // TODO ...
-        IO.todo("Everything!");
+        IO.todo("Everything!");        
     }
 }
