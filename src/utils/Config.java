@@ -2,6 +2,7 @@ package utils;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,6 +72,17 @@ public class Config {
      */
     public <T> T get(String dest) {
         return ns_.get(dest);
+    }
+
+    /**
+     * Calls the getList method from {@link Namespace}
+     *
+     * @param <E> Type of the list
+     * @param dest name of the argument
+     * @return {@code List<E>}
+     */
+    public <E> List<E> getList(String dest) {
+        return get(dest);
     }
 
     /**
