@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import utils.IO;
 import utils.TextHelper;
 
 /**
@@ -82,8 +83,17 @@ public class A1Z26 extends Cipher {
                 String match = matcher.group();
                 if (match.matches("-?\\d+")) {
                     // Is a number
-                    int idx = Integer.valueOf(match);
-                    sb.append(alphabet_.charAt(idx - 1));
+                    try {
+                        int idx = Integer.valueOf(match);
+                        if (idx > alphabet_.length()) {
+                            sb.append(match);
+                        } else {
+                            sb.append(alphabet_.charAt(idx - 1));
+                        }
+
+                    } catch (NumberFormatException e) {
+                        IO.warn(String.format("Error while parsing %s", match));
+                    }
                 } else {
                     sb.append(match);
                 }
