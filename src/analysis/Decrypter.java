@@ -1,9 +1,6 @@
 package analysis;
 
-import ciphers.A1Z26;
-import ciphers.Atbash;
-import ciphers.Caesar;
-import ciphers.Cipher;
+import ciphers.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,9 +33,10 @@ public class Decrypter {
         Analyzer fa = new FrequencyAnalysis(conf);
 
         analysisTools_ = new HashMap<>();
-        analysisTools_.put(new Caesar(config_.getAlphabet()), fa);
-        analysisTools_.put(new Atbash(config_.getAlphabet()), fa);
         analysisTools_.put(new A1Z26(config_.getAlphabet()), fa);
+        analysisTools_.put(new Atbash(config_.getAlphabet()), fa);
+        analysisTools_.put(new Binary(config_.getAlphabet()), fa);
+        analysisTools_.put(new Caesar(config_.getAlphabet()), fa);
     }
 
     /**
