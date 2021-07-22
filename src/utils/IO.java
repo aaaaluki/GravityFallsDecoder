@@ -260,7 +260,7 @@ public class IO {
      * @return id of the file
      */
     public static int openWriteFile(String filename) {
-        String path = System.getProperty("user.dir") + File.separator + filename;
+        String path = filename;
         FileOutputStream fileOS = null;
 
         int tmp = -1;
@@ -300,7 +300,6 @@ public class IO {
      */
     public static void writeLineFile(int id, String line) {
         printWriters_.get(id).println(line);
-        debug(String.format("Closing Writing File: %s", filenames_.remove(id)));
     }
 
     /**
@@ -316,6 +315,31 @@ public class IO {
     }
 
     // Other file handling mehtods
+    /**
+     * If file exists it deletes it, it not returns without doing anything
+     * 
+     * @param file file to remove
+     */
+    public static void removeFile(File file) {
+        if (file.exists()) {
+            file.delete();
+            debug(String.format("Deleting File: %s", file.getAbsolutePath()));
+        }
+    }
+    
+    /**
+     * If file exists it deletes it, it not returns without doing anything
+     * 
+     * @param filename filename of file to remove
+     */
+    public static void removeFile(String filename) {
+        File file = new File(filename);
+        if (file.exists()) {
+            file.delete();
+            debug(String.format("Deleting File: %s", file.getAbsolutePath()));
+        }
+    }
+    
     /**
      * Prints line to the console and to a text file with the given id
      *
