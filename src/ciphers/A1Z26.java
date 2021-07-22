@@ -92,7 +92,8 @@ public class A1Z26 extends Cipher {
                         }
 
                     } catch (NumberFormatException e) {
-                        IO.warn(String.format("Error while parsing %s", match));
+                        IO.debug(String.format("Error while parsing %s", match));
+                        sb.append(match);
                     }
                 } else {
                     sb.append(match);
