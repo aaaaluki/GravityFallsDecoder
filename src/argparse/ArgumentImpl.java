@@ -20,6 +20,7 @@ public final class ArgumentImpl implements Argument {
     private int minNargs_;
     private List<String> flags_;
     private boolean consumed_;
+    private boolean required_;
     private String[] choices_;
     private Object value_;
     private Object default_;
@@ -46,6 +47,7 @@ public final class ArgumentImpl implements Argument {
         name_ = ArgumentTextHelper.removePrefix(flags[0]);
         flags_ = Arrays.asList(flags);
         consumed_ = false;
+        required_ = false;
         type_ = Type.STRING;
     }
 
@@ -117,10 +119,15 @@ public final class ArgumentImpl implements Argument {
         help_ = ArgumentTextHelper.nonNull(help);
         return this;
     }
+    
+    @Override
+    public Argument required() {
+        required_ = true;
+        return this;
+    }
 
     @Override
     public Argument action(String[] args, Map<String, Object> attr) throws ArgumentException {
-        consumed_ = true;
         Action act;
 
         switch (type_) {
@@ -140,7 +147,8 @@ public final class ArgumentImpl implements Argument {
             }
 
         act.run(args, this, attr, choices_, value_);
-
+        consumed_ = true;
+        
         return this;
     }
 
@@ -168,6 +176,11 @@ public final class ArgumentImpl implements Argument {
     @Override
     public String getHelp() {
         return help_;
+    }
+    
+    @Override
+    public boolean getRequired() {
+        return required_;
     }
 
     @Override

@@ -94,6 +94,13 @@ public interface Argument {
      * @return this
      */
     Argument setHelp(String help);
+    
+    /**
+     * Sets the argument as required, the program won't execute if this argument
+     * is not given
+     * @return this
+     */
+    Argument required();
 
     /**
      * This is executed when the argument is encountered in the command line
@@ -141,6 +148,13 @@ public interface Argument {
      * @return help value
      */
     String getHelp();
+    
+    /**
+     * Getter for required value
+     * 
+     * @return required value
+     */
+    boolean getRequired();
 
     /**
      * Getter for the flags

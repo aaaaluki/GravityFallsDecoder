@@ -3,8 +3,10 @@ package argparse;
 import utils.Namespace;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import utils.IO;
 import utils.TextHelper;
 
@@ -17,6 +19,7 @@ public class ArgumentParserImpl implements ArgumentParser {
 
     private final String programName_;
     private List<Argument> arguments_;
+    private Set<Argument> requiredArguments_;
     private Map<Integer, Argument> argIndices_;
     private String usage_;
     private String description_;
@@ -30,6 +33,7 @@ public class ArgumentParserImpl implements ArgumentParser {
     public ArgumentParserImpl(String programName) {
         programName_ = programName;
         arguments_ = new ArrayList<>();
+        requiredArguments_ = new HashSet<>();
         argIndices_ = new HashMap<>();
         usage_ = "";
         description_ = "";
@@ -58,6 +62,10 @@ public class ArgumentParserImpl implements ArgumentParser {
         // First set default values
         for (Argument arg : arguments_) {
             attr.put(arg.getDest(), arg.getDefault());
+            
+            if (arg.getRequired()) {
+                requiredArguments_.add(arg);
+            }
         }
 
         // Then check given arguments
@@ -100,7 +108,13 @@ public class ArgumentParserImpl implements ArgumentParser {
                     throw new ArgumentException(String.format("Argument \"%s\" can have a maximum of %d values", args[idx], max));
                 }
             }
+        }
 
+        // Check that all the required arguments were given, if not throw
+        for (Argument arg : requiredArguments_) {
+            if (arg.getConsumed() == false) {
+                throw new ArgumentException(String.format("Argument %s is required", arg.getMainFlag()));
+            }
         }
     }
 
