@@ -105,7 +105,22 @@ public class TextHelper {
      */
     public static String padLeft(String str, int n) {
         // Code from: https://stackoverflow.com/a/391978/13313449
-
         return String.format("%" + n + "s", str);
+    }
+
+    /**
+     * Returns the filename without the extension
+     * 
+     * @param filename filename to remove extension
+     * @return filename without extension
+     */
+    public static String getNameWithoutExtension(String filename) {
+        // Code from: https://stackoverflow.com/a/29083921/13313449
+        int pos = filename.lastIndexOf(".");
+        if (pos > 0 && pos < (filename.length() - 1)) { // If '.' is not the first or last character.
+            filename = filename.substring(0, pos);
+        }
+        
+        return filename;
     }
 }
