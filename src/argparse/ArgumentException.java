@@ -7,13 +7,6 @@ package argparse;
  */
 public class ArgumentException extends Exception {
     /**
-     * Empty constructor
-     */
-    public ArgumentException() {
-        super();
-    }
-    
-    /**
      * Constructor with a message
      * @param msg exception message
      */
