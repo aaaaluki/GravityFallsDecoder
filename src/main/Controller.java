@@ -7,11 +7,13 @@ import ciphers.Atbash;
 import ciphers.Caesar;
 import ciphers.Cipher;
 import ciphers.Key;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import utils.Colour;
 import utils.Config;
 import utils.IO;
+import utils.TextHelper;
 
 /**
  * The Controller class runs the deciphering part of the project
@@ -36,9 +38,67 @@ public class Controller {
      * decryption result on a new file.
      */
     public void start() {
-        test();
+        List<String> filenames = conf_.<String>getList("files");
+        for (String filename : filenames) {
+            if (filename.endsWith(conf_.get("extension"))) {
+                // If it's a deciphered file, skip
+                IO.print("Skipping file: ", Colour.PURPLE_BOLD);
+                IO.print(String.format("%s is already decoded\n", filename));
+                continue;
+            }
+
+            int maxWidth = 92;
+            maxWidth -= 2;
+            
+            //The output of below should appear like this:
+            //    +--------------------------------- ... -+
+            //    | Deciphering: filename                 |
+            //    +--------------------------------- ... -+
+            IO.print("+" + "-".repeat(maxWidth) + "+\n");
+            IO.print("| ");
+            IO.print("Deciphering: ", Colour.PURPLE_BOLD);
+            IO.print(TextHelper.padRight(filename, maxWidth - 15) + " |\n");
+            IO.print("+" + "-".repeat(maxWidth) + "+\n");
+            
+            decipherFile(filename);
+        }
     }
-    
+
+    /**
+     * 
+     * @param filename 
+     */
+    public void decipherFile(String filename) {
+        int readId = IO.openReadFile(filename);
+        File writeFile = new File(TextHelper.getNameWithoutExtension(filename) + conf_.get("extension"));
+        IO.removeFile(writeFile);
+        int writeId = IO.openWriteFile(writeFile);
+
+        Decrypter dec = new Decrypter(conf_);
+        String line = IO.readLineFile(readId).trim().strip();
+        int lineNum = 1;
+        while (line != null) {
+            IO.printVerbose(String.format("[%3d] Original: ", lineNum), Colour.BLUE_BOLD_BRIGHT);
+            IO.printVerbose(line + "\n");
+            IO.writeLineFile(writeId, String.format("[%3d] Original: %s", lineNum, line));
+            
+            List<DecryptGuess> guesses = dec.decrypt(line);
+
+            int guessesToShow = Math.min((int) conf_.get("guesses"), guesses.size());
+            for (int i = 0; i < guessesToShow; i++) {
+                IO.printVerbose("\t" + guesses.get(i).toString() + "\n");
+                IO.writeLineFile(writeId, "\t" + guesses.get(i).toString());
+            }
+
+            IO.writeLineFile(writeId, "");
+            line = IO.readLineFile(readId);
+            lineNum++;
+        }
+
+        IO.closeReadFile(readId);
+        IO.closeWriteFile(writeId);
+    }
+
     /**
      * Method to test some functionalities done so far, i should probably learn
      * to do proper tests in Java :)
@@ -71,7 +131,7 @@ public class Controller {
             IO.print("Original: ", Colour.BLUE_BOLD_BRIGHT);
             IO.print(text + "\n");
             List<DecryptGuess> guesses = dec.decrypt(text);
-            
+
             int guessesToShow = Math.min((int) conf_.get("guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {
                 IO.print("\t" + guesses.get(i).toString() + "\n");
@@ -81,6 +141,6 @@ public class Controller {
         }
 
         // TODO ...
-        IO.todo("Everything!");        
+        IO.todo("Everything!");
     }
 }

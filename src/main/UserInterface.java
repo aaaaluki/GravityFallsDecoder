@@ -45,7 +45,7 @@ public class UserInterface {
         ap_.addArgument("--no-colour", "-nc").setHelp("Disable colour output").setDefault(NO_COLOUR_DEFAULT).setType(Type.BOOLEAN);
         ap_.addArgument("--language", "-l").nargs(1).setHelp("Sets the language").setDefault(LANGUAGE_DEFAULT).setType(Type.STRING);
 
-        ap_.addArgument("--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING);
+        ap_.addArgument("--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
         ap_.addArgument("--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
         ap_.addArgument("--extension", "-e").nargs(1).setHelp("Sets the extension for the decoded files").setDefault(EXTENSION_DEFAULT).setType(Type.STRING);
     }
