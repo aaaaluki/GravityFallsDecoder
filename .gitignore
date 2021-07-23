@@ -5,4 +5,5 @@ build/
 dist/
 
 cipher/*_decoded.txt
+cipher/test*
 config/*.bak
