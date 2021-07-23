@@ -26,9 +26,13 @@ public class Atbash extends Cipher {
      */
     public Atbash(String alphabet) {
         super(alphabet);
-        super.NAME = NAME;
         StringBuilder rev = new StringBuilder(alphabet);
         cipher_ = rev.reverse().toString();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -56,13 +60,21 @@ public class Atbash extends Cipher {
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
         double error = analyzer.analyze(decryptedText);
 
-        guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        if (decryptedText.equals(encryptedText)) {
+            return guesses;
+        }
+
+        if (decryptGuess == null) {
+            guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        } else {
+            guesses.add(decryptGuess.clone().addStep(NAME, key, error, decryptedText));
+        }
 
         return guesses;
     }

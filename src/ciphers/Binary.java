@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Binary encoding cipher, read the 
- * 
+ * Binary encoding cipher, read the
+ *
  * @author luki
  */
 public class Binary extends Cipher {
@@ -16,7 +16,6 @@ public class Binary extends Cipher {
 
     public Binary(String alphabet) {
         super(alphabet);
-        super.NAME = NAME;
     }
 
     @Override
@@ -37,6 +36,11 @@ public class Binary extends Cipher {
     }
 
     @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
     public String decrypt(String text, Key key) {
         if (!text.matches("[01 ]+")) {
             // It's not a binary string, return the same text
@@ -53,21 +57,29 @@ public class Binary extends Cipher {
         for (int i = 0; i < text.length(); i += 8) {
             String ch = text.substring(i, i + 8);
             int val = Integer.valueOf(ch, 2);
-            
+
             sb.append((char) val);
         }
-        
+
         return sb.toString();
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
         double error = analyzer.analyze(decryptedText);
 
-        guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        if (decryptedText.equals(encryptedText)) {
+            return guesses;
+        }
+
+        if (decryptGuess == null) {
+            guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        } else {
+            guesses.add(decryptGuess.clone().addStep(NAME, key, error, decryptedText));
+        }
 
         return guesses;
     }

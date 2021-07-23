@@ -28,7 +28,11 @@ public class A1Z26 extends Cipher {
      */
     public A1Z26(String alphabet) {
         super(alphabet);
-        super.NAME = NAME;
+    }
+    
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -109,13 +113,21 @@ public class A1Z26 extends Cipher {
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
         double error = analyzer.analyze(decryptedText);
+        
+        if (decryptedText.equals(encryptedText)) {
+            return guesses;
+        }
 
-        guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        if (decryptGuess == null) {
+            guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+        } else {
+            guesses.add(decryptGuess.clone().addStep(NAME, key, error, decryptedText));
+        }
 
         return guesses;
     }

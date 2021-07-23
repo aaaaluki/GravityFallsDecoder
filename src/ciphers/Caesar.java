@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import utils.IO;
 import utils.TextHelper;
 
 /**
@@ -29,7 +30,6 @@ public class Caesar extends Cipher {
      */
     public Caesar(String alphabet) {
         super(alphabet);
-        super.NAME = NAME;
 
         // Calculate all ciphers
         // This caesar cipher uses right rotation
@@ -37,6 +37,11 @@ public class Caesar extends Cipher {
         for (int key = 0; key < alphabet.length(); key++) {
             cipher_.put(key, alphabet.substring(key).concat(alphabet.substring(0, key)));
         }
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -63,7 +68,7 @@ public class Caesar extends Cipher {
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
 
         for (int i = 1; i <= alphabet_.length(); i++) {
@@ -71,7 +76,16 @@ public class Caesar extends Cipher {
             String decryptedText = decrypt(encryptedText, key);
             double error = analyzer.analyze(decryptedText);
 
-            guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+            if (decryptedText.equals(encryptedText)) {
+                return guesses;
+            }
+
+            if (decryptGuess == null) {
+                guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
+            } else {
+                //IO.print(String.format("i = %2d;\t%s\n", i, decryptGuess));
+                guesses.add(decryptGuess.clone().addStep(NAME, key, error, decryptedText));
+            }
         }
 
         return guesses;

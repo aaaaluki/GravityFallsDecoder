@@ -17,11 +17,6 @@ import utils.TextHelper;
 public abstract class Cipher {
 
     /**
-     * Name of the cipher
-     */
-    protected static String NAME;
-
-    /**
      * alphabet_ of the language being used
      */
     protected String alphabet_;
@@ -40,9 +35,7 @@ public abstract class Cipher {
      *
      * @return NAME
      */
-    public String getName() {
-        return NAME;
-    }
+    public abstract String getName();
 
     /**
      * Method used for testing ciphers
@@ -94,7 +87,8 @@ public abstract class Cipher {
      *
      * @param encryptedText text to decrypt
      * @param analyzer analyzer tool
+     * @param decryptGuess previous step on decoding, can be null if it's the first time
      * @return list of decrypt guesses
      */
-    public abstract List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer);
+    public abstract List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess);
 }
