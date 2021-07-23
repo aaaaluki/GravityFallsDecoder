@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author luki
  */
-public class DecryptGuess implements Comparable<DecryptGuess> {
+public class DecryptGuess implements Cloneable, Comparable<DecryptGuess> {
 
     private List<String> cipherNames_;
     private List<Key> keys_;
@@ -43,6 +43,21 @@ public class DecryptGuess implements Comparable<DecryptGuess> {
     }
 
     /**
+     * Private constructor used for cloning this object
+     *
+     * @param cipherNames cipher names
+     * @param keys keys
+     * @param error error
+     * @param decryptedText decrypted text
+     */
+    private DecryptGuess(List<String> cipherNames, List<Key> keys, Double error, String decryptedText) {
+        cipherNames_ = cipherNames;
+        keys_ = keys;
+        error_ = error;
+        decryptedText_ = decryptedText;
+    }
+
+    /**
      * Adds a new step to the decryption process, in case the text is encrypted
      * multiple times with various ciphers
      *
@@ -61,9 +76,65 @@ public class DecryptGuess implements Comparable<DecryptGuess> {
         return this;
     }
 
+    /**
+     * Getter for cipherNames_
+     *
+     * @return cipherNames_
+     */
+    public List<String> getCipherNames() {
+        return cipherNames_;
+    }
+
+    /**
+     * Getter for error_
+     *
+     * @return error_
+     */
+    public Double getError() {
+        return error_;
+    }
+
+    /**
+     * Getter for decryptedText_
+     *
+     * @return decryptedText_
+     */
+    public String getDecryptedText() {
+        return decryptedText_;
+    }
+
+    @Override
+    public DecryptGuess clone() {
+        List<String> newNames = new ArrayList<>();
+        for (String name : cipherNames_) {
+            newNames.add(name);
+        }
+
+        List<Key> newKeys = new ArrayList<>();
+        for (Key key : keys_) {
+            newKeys.add(new Key(key.get()));
+        }
+
+        return new DecryptGuess(newNames, newKeys, error_, decryptedText_);
+    }
+
     @Override
     public int compareTo(DecryptGuess t) {
         return error_.compareTo(t.error_);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DecryptGuess)) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        DecryptGuess other = (DecryptGuess) obj;
+        return error_.equals(other.error_) && decryptedText_.equals(other.decryptedText_);
     }
 
     @Override
