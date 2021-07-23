@@ -48,13 +48,63 @@ public class Decrypter {
      * @return list of {@link DecryptGuess} in ascending order
      */
     public List<DecryptGuess> decrypt(String encryptedText) {
-        List<DecryptGuess> decryptGuesses = new ArrayList<>();
+        List<DecryptGuess> finalGuesses = new ArrayList<>();
 
         for (Cipher cipher : analysisTools_.keySet()) {
-            decryptGuesses.addAll(cipher.decryptWithoutKey(encryptedText, analysisTools_.get(cipher)));
+            finalGuesses.addAll(cipher.decryptWithoutKey(encryptedText, analysisTools_.get(cipher), null));
         }
 
-        Collections.sort(decryptGuesses);
-        return decryptGuesses;
+        int maxDepth = Math.min(analysisTools_.size(), Integer.MAX_VALUE) - 1;
+        for (int i = 0; i < maxDepth; i++) {
+            List<DecryptGuess> clone = cloneList(finalGuesses);
+            List<DecryptGuess> toRemove = new ArrayList<>();
+
+            for (Cipher cipher : analysisTools_.keySet()) {
+                List<DecryptGuess> guessesToAdd = new ArrayList<>();
+
+                for (int j = 0; j < clone.size(); j++) {
+                    DecryptGuess dg = clone.get(j);
+                    if (dg.getError().equals(Double.POSITIVE_INFINITY)) {
+                        toRemove.add(finalGuesses.get(j));
+                    }
+
+                    if (dg.getCipherNames().contains(cipher.getName())) {
+                        continue;
+                    }
+
+                    guessesToAdd.addAll(cipher.decryptWithoutKey(dg.getDecryptedText(), analysisTools_.get(cipher), dg.clone()));
+                }
+
+                finalGuesses.addAll(guessesToAdd);
+            }
+
+            finalGuesses.removeAll(toRemove);
+        }
+
+        // Remove duplicates from finalGuesses
+        List<DecryptGuess> actualFinalGuesses = new ArrayList<>();
+        for (DecryptGuess dg : finalGuesses) {
+            if (!actualFinalGuesses.contains(dg)) {
+                actualFinalGuesses.add(dg);
+            }
+        }
+
+        Collections.sort(actualFinalGuesses);
+        return actualFinalGuesses;
+    }
+
+    /**
+     * Clones a list of {@link DecryptGuess}
+     *
+     * @param list list to clone
+     * @return clone of list
+     */
+    private List<DecryptGuess> cloneList(List<DecryptGuess> list) {
+        List<DecryptGuess> clone = new ArrayList<>();
+        for (DecryptGuess dg : list) {
+            clone.add(dg.clone());
+        }
+
+        return clone;
     }
 }
