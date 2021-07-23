@@ -272,7 +272,7 @@ public class IO {
             tmp = id_;
             id_++;
 
-            debug(String.format("Opening Writing File. %s", path));
+            debug(String.format("Opening Writing File: %s", path));
 
         } catch (FileNotFoundException e) {
             warn(String.format("File (%s) not found!", path));
@@ -317,7 +317,7 @@ public class IO {
     // Other file handling mehtods
     /**
      * If file exists it deletes it, it not returns without doing anything
-     * 
+     *
      * @param file file to remove
      */
     public static void removeFile(File file) {
@@ -326,10 +326,10 @@ public class IO {
             debug(String.format("Deleting File: %s", file.getAbsolutePath()));
         }
     }
-    
+
     /**
      * If file exists it deletes it, it not returns without doing anything
-     * 
+     *
      * @param filename filename of file to remove
      */
     public static void removeFile(String filename) {
@@ -339,7 +339,7 @@ public class IO {
             debug(String.format("Deleting File: %s", file.getAbsolutePath()));
         }
     }
-    
+
     /**
      * Prints line to the console and to a text file with the given id
      *
