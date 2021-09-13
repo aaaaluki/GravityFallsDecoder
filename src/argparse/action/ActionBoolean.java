@@ -1,7 +1,7 @@
 package argparse.action;
 
-import java.util.Map;
 import argparse.Argument;
+import java.util.Map;
 
 /**
  * Implementation of the {@link Action} interface for parsing as {@code boolean}

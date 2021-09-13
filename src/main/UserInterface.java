@@ -4,10 +4,10 @@ import argparse.Argument.Type;
 import argparse.ArgumentException;
 import argparse.ArgumentParser;
 import argparse.ArgumentParserImpl;
-import utils.Namespace;
 import utils.Config;
 import utils.ExitCodes;
 import utils.IO;
+import utils.Namespace;
 
 /**
  *

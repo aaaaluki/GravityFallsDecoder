@@ -1,8 +1,8 @@
 package argparse.action;
 
-import java.util.Map;
 import argparse.Argument;
 import argparse.ArgumentException;
+import java.util.Map;
 
 /**
  * This object is called when an argument is found on the command line, the

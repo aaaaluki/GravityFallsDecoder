@@ -1,11 +1,11 @@
 package argparse.action;
 
+import argparse.Argument;
+import argparse.ArgumentException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import utils.TextHelper;
-import argparse.Argument;
-import argparse.ArgumentException;
 
 /**
  * Implementation of the {@link Action} interface for parsing as {@code Integer}

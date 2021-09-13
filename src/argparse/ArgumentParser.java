@@ -1,7 +1,7 @@
 package argparse;
 
-import utils.Namespace;
 import java.util.Map;
+import utils.Namespace;
 
 /**
  * <p>

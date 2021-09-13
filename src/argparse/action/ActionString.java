@@ -1,10 +1,10 @@
 package argparse.action;
 
+import argparse.Argument;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import argparse.Argument;
 
 /**
  *
