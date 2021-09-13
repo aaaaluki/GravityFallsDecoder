@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import utils.IO;
 import utils.TextHelper;
 
 /**
@@ -71,7 +70,8 @@ public class Caesar extends Cipher {
     public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
 
-        for (int i = 1; i <= alphabet_.length(); i++) {
+        // Keys 0 and 26 (in english) can be skipped because we would obtain the same text
+        for (int i = 1; i < alphabet_.length(); i++) {
             Key key = new Key(i);
             String decryptedText = decrypt(encryptedText, key);
             double error = analyzer.analyze(decryptedText);
@@ -83,7 +83,6 @@ public class Caesar extends Cipher {
             if (decryptGuess == null) {
                 guesses.add(new DecryptGuess(NAME, key, error, decryptedText));
             } else {
-                //IO.print(String.format("i = %2d;\t%s\n", i, decryptGuess));
                 guesses.add(decryptGuess.clone().addStep(NAME, key, error, decryptedText));
             }
         }

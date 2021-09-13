@@ -37,9 +37,7 @@ public class Atbash extends Cipher {
 
     @Override
     public String encrypt(String text, Key key) {
-        // This caesar cipher uses right rotation
         StringBuilder sb = new StringBuilder();
-
         text = TextHelper.normalize(text);
 
         for (int i = 0; i < text.length(); i++) {

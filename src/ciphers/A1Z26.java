@@ -89,7 +89,7 @@ public class A1Z26 extends Cipher {
                     // Is a number
                     try {
                         int idx = Integer.valueOf(match);
-                        if (idx > alphabet_.length()) {
+                        if (idx <= 0 || idx > alphabet_.length()) {
                             sb.append(match);
                         } else {
                             sb.append(alphabet_.charAt(idx - 1));
