@@ -23,8 +23,7 @@ public class UserInterface {
              
     private static final Integer GUESSES_DEFAULT = 5;               // --guesses, -g
     private static final String FILES_DEFAULT = null;               // --files, -f
-    private static final String EXTENSION_DEFAULT = "_decoded.txt"; // --extension, -e
-
+    
     private static final String HEADER_FILE = "header.txt";
     private static final String DESCRIPTION = "Placeholder for description";
     private static final String EPILOG = "Placeholder for epilog";
@@ -47,7 +46,6 @@ public class UserInterface {
 
         ap_.addArgument("--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
         ap_.addArgument("--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
-        ap_.addArgument("--extension", "-e").nargs(1).setHelp("Sets the extension for the decoded files").setDefault(EXTENSION_DEFAULT).setType(Type.STRING);
     }
 
     /**

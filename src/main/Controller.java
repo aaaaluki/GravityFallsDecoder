@@ -40,7 +40,7 @@ public class Controller {
     public void start() {
         List<String> filenames = conf_.<String>getList("files");
         for (String filename : filenames) {
-            if (filename.endsWith(conf_.get("extension"))) {
+            if (filename.endsWith(Config.DECODED_EXTENSION)) {
                 // If it's a deciphered file, skip
                 IO.print("Skipping file: ", Colour.PURPLE_BOLD);
                 IO.print(String.format("%s is already decoded\n", filename));
@@ -70,7 +70,7 @@ public class Controller {
      */
     public void decipherFile(String filename) {
         int readId = IO.openReadFile(filename);
-        File writeFile = new File(TextHelper.getNameWithoutExtension(filename) + conf_.get("extension"));
+        File writeFile = new File(TextHelper.getNameWithoutExtension(filename) + Config.DECODED_EXTENSION);
         IO.removeFile(writeFile);
         int writeId = IO.openWriteFile(writeFile);
 

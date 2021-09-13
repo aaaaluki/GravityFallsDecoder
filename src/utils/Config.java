@@ -16,7 +16,12 @@ public class Config {
     /**
      * Folder were the configuration files are stored
      */
-    public static String CONFIG_FOLDER = "config";
+    public static final String CONFIG_FOLDER = "config";
+    
+    /**
+     * Extension for the decoded files
+     */
+    public static final String DECODED_EXTENSION = "_decoded.txt";
 
     private final Namespace ns_;
     private final String language_;
