@@ -21,6 +21,8 @@ public class IO {
                            debug_,
                            noColour_;
 
+    private static Scanner userInput_;
+    
     private static int id_;
     private static Map<Integer, Scanner> fileReaders_;
     private static Map<Integer, PrintWriter> printWriters_;
@@ -31,6 +33,8 @@ public class IO {
      * this method is used instead
      */
     public static void init() {
+        userInput_ = new Scanner(System.in);
+        
         id_ = 0;
         fileReaders_ = new HashMap<>();
         printWriters_ = new HashMap<>();
@@ -178,6 +182,15 @@ public class IO {
         if (verbose_) {
             print(obj, fgColour, bgColour);
         }
+    }
+    
+    /**
+     * Get's returns the line the user has written
+     * 
+     * @return user input
+     */
+    public static String readLine() {
+        return userInput_.nextLine();
     }
 
     // INPUT file handling  ##############################################################
