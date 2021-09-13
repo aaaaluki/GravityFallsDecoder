@@ -18,6 +18,10 @@ import java.util.List;
  */
 public class DecryptGuess implements Cloneable, Comparable<DecryptGuess> {
 
+    // I should probably change this to be calculated dynamically (depending on
+    // the ciphers and key lengths)
+    private static final int MAX_CIPHER_NAMES_WIDTH = 27;
+    
     private List<String> cipherNames_;
     private List<Key> keys_;
     private Double error_;
@@ -150,7 +154,9 @@ public class DecryptGuess implements Cloneable, Comparable<DecryptGuess> {
             }
         }
 
-        sb.append(String.format(" \tError: %8.2f;    %s", error_, decryptedText_));
+        sb.append(" ".repeat(Math.max(0, MAX_CIPHER_NAMES_WIDTH - sb.length())));
+
+        sb.append(String.format("\tError: %8.2f;    %s", error_, decryptedText_));
 
         return sb.toString();
     }
