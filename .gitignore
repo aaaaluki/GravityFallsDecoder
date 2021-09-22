@@ -4,6 +4,9 @@ nbproject/*
 build/
 dist/
 
+alice.txt
+
 cipher/*_decoded.txt
 cipher/test*
 config/*.bak
+test/*
