@@ -23,6 +23,7 @@ import utils.TextHelper;
 public class Controller {
 
     private final Config conf_;
+    private final Decrypter decrypter_;
 
     /**
      * Controller constructor
@@ -31,6 +32,7 @@ public class Controller {
      */
     public Controller(Config conf) {
         conf_ = conf;
+        decrypter_ = new Decrypter(conf);
     }
 
     /**
@@ -47,8 +49,7 @@ public class Controller {
                 continue;
             }
 
-            int maxWidth = 92;
-            maxWidth -= 2;
+            int maxWidth = 92 - 2;  // -1 for each | at each side
             
             //The output of below should appear like this:
             //    +--------------------------------- ... -+
@@ -63,7 +64,7 @@ public class Controller {
             decipherFile(filename);
         }
     }
-
+    
     /**
      * 
      * @param filename 
@@ -74,7 +75,6 @@ public class Controller {
         IO.removeFile(writeFile);
         int writeId = IO.openWriteFile(writeFile);
 
-        Decrypter dec = new Decrypter(conf_);
         String line = IO.readLineFile(readId).trim().strip();
         int lineNum = 1;
         while (line != null) {
@@ -82,7 +82,7 @@ public class Controller {
             IO.printVerbose(line + "\n");
             IO.writeLineFile(writeId, String.format("[%3d] Original: %s", lineNum, line));
             
-            List<DecryptGuess> guesses = dec.decrypt(line);
+            List<DecryptGuess> guesses = decrypter_.decrypt(line);
 
             int guessesToShow = Math.min((int) conf_.get("guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {
