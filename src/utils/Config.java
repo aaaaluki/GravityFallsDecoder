@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class has all the configuration parameters. To load the parameters the
@@ -88,6 +89,15 @@ public class Config {
      */
     public <E> List<E> getList(String dest) {
         return get(dest);
+    }
+    
+    /**
+     * Getter for {@link Namespace} keys
+     * 
+     * @return a Set of keys from the configuration Namespace
+     */
+    public Set<String> getKeys() {
+        return ns_.getKeys();
     }
 
     /**

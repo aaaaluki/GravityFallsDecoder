@@ -2,6 +2,7 @@ package utils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class is a wrapper for a map.
@@ -79,5 +80,9 @@ public class Namespace {
      */
     public <E> List<E> getList(String dest) {
         return get(dest);
+    }
+    
+    public Set<String> getKeys() {
+        return attrs_.keySet();
     }
 }
