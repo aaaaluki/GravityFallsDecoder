@@ -10,6 +10,7 @@ import ciphers.Key;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import menu.MenuController;
 import utils.Colour;
 import utils.Config;
 import utils.IO;
@@ -24,6 +25,7 @@ public class Controller {
 
     private final Config conf_;
     private final Decrypter decrypter_;
+    private MenuController menuCont_;
 
     /**
      * Controller constructor
@@ -40,6 +42,11 @@ public class Controller {
      * decryption result on a new file.
      */
     public void start() {
+        if (conf_.get("interactive")) {
+            startInteractive();
+            return;
+        }
+        
         List<String> filenames = conf_.<String>getList("files");
         for (String filename : filenames) {
             if (filename.endsWith(Config.DECODED_EXTENSION)) {
@@ -49,6 +56,8 @@ public class Controller {
                 continue;
             }
 
+            // I've chosen 92 because it's the width of my console when it
+            // occupies half the screen
             int maxWidth = 92 - 2;  // -1 for each | at each side
             
             //The output of below should appear like this:
@@ -66,8 +75,24 @@ public class Controller {
     }
     
     /**
+     * Starts interactive mode (Menus)
      * 
-     * @param filename 
+     */
+    private void startInteractive() {
+        menuCont_ = new MenuController(conf_);
+        boolean run = true;
+        
+        while (run) {
+            run = menuCont_.loop();
+        }
+        
+    }
+    
+    /**
+     * Deciphers the given file line by line, it does not take into account
+     * that all the file could be encrypted with the same cipher
+     * 
+     * @param filename file to decipher
      */
     public void decipherFile(String filename) {
         int readId = IO.openReadFile(filename);
