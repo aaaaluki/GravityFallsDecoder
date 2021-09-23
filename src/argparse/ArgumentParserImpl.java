@@ -61,6 +61,10 @@ public class ArgumentParserImpl implements ArgumentParser {
     public void parseArgs(String[] args, Map<String, Object> attr) throws ArgumentException {
         // First set default values
         for (Argument arg : arguments_) {
+            if (arg.getDest().equals("help")) {
+                // Don't add the help argument to the Namespace
+                continue;
+            }
             attr.put(arg.getDest(), arg.getDefault());
             
             if (arg.getRequired()) {
