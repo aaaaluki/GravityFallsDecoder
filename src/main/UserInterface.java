@@ -24,6 +24,8 @@ public class UserInterface {
     private static final Integer GUESSES_DEFAULT = 5;               // --guesses, -g
     private static final String FILES_DEFAULT = null;               // --files, -f
     
+    private static final boolean INTERACTIVE_DEFAULT = false;       // --interactive, -i
+    
     private static final String HEADER_FILE = "header.txt";
     private static final String DESCRIPTION = "Placeholder for description";
     private static final String EPILOG = "Placeholder for epilog";
@@ -46,6 +48,8 @@ public class UserInterface {
 
         ap_.addArgument("--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
         ap_.addArgument("--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
+        
+        ap_.addArgument("--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN);
     }
 
     /**
@@ -102,7 +106,7 @@ public class UserInterface {
         if (returnCode != ExitCodes.OK) {
             System.exit(1);
         }
-
+        
         controller_ = new Controller(conf);
         controller_.start();
 
