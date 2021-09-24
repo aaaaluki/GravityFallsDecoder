@@ -25,6 +25,16 @@ public class Namespace {
     }
 
     /**
+     * Puts
+     * 
+     * @param dest
+     * @param value 
+     */
+    public void put(String dest, Object value) {
+        attrs_.put(dest, value);
+    }
+    
+    /**
      * Returns the value of the argument and it casts it to T
      * 
      * @param <T> Type to cast to
