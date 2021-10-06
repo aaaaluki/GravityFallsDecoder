@@ -25,9 +25,6 @@ public class Config {
     public static final String DECODED_EXTENSION = "_decoded.txt";
 
     private final Namespace ns_;
-    private final String language_;
-    private String alphabet_;
-    private Map<String, Double> frequenciesMono_;
 
     /**
      * Constructor for config
@@ -37,36 +34,6 @@ public class Config {
      */
     public Config(Namespace ns) {
         ns_ = ns;
-        language_ = ns.getString("language");
-        alphabet_ = null;
-        frequenciesMono_ = null;
-    }
-
-    /**
-     * Language getter
-     *
-     * @return language_
-     */
-    public String getLanguage() {
-        return language_;
-    }
-
-    /**
-     * Alphabet getter
-     *
-     * @return alphabet_
-     */
-    public String getAlphabet() {
-        return alphabet_;
-    }
-
-    /**
-     * Monogram frequencies getter
-     *
-     * @return frequencies
-     */
-    public Map<String, Double> getMonoFrequencies() {
-        return frequenciesMono_;
     }
 
     /**
@@ -101,14 +68,14 @@ public class Config {
     }
 
     /**
-     * Loads the alphabet and frequencies form the lang.config file. If the
+     * Loads the alphabet and frequencies form the [lang].config file. If the
      * configuration file is not valid returns.
      *
      * @return Returns an {@link utils.ExitCodes}, returns OK if no problems
      * where found
      */
     public int loadConfig() {
-        File configFile = new File(String.format("%s/%s.config", CONFIG_FOLDER, language_));
+        File configFile = new File(String.format("%s/%s.config", CONFIG_FOLDER, ns_.getString("language")));
         int id = IO.openReadFile(configFile);
 
         IO.debug("Config File: " + configFile.getAbsolutePath());
@@ -138,7 +105,7 @@ public class Config {
 
             switch (args[0]) {
                 case "language":
-                    if (!language_.equals(args[1])) {
+                    if (!ns_.getString("language").equals(args[1])) {
                         IO.warn(String.format("Filename does not match languague in file %s", configFile.getName()));
                         IO.closeReadFile(id);
                         return ExitCodes.ERROR_READING_FILE;
@@ -146,11 +113,11 @@ public class Config {
                     break;
 
                 case "alphabet":
-                    alphabet_ = args[1];
+                    ns_.put("alphabet",args[1]);
                     break;
 
                 case "frequencies_mono":
-                    frequenciesMono_ = new HashMap<>();
+                    Map<String, Double> frequenciesMono = new HashMap<>();
 
                     int argCount = 1;
                     for (String kvPair : args[1].split(";")) {
@@ -162,7 +129,7 @@ public class Config {
                         }
 
                         if (TextHelper.checkDouble(kv[1])) {
-                            frequenciesMono_.put(kv[0], Double.valueOf(kv[1]));
+                            frequenciesMono.put(kv[0], Double.valueOf(kv[1]));
                         } else {
                             IO.warn(String.format("(%s:%d) <Key=Value> pair %s=%s Value is not a number!", configFile.getName(), lineCount, kv[0], kv[1]));
                             IO.closeReadFile(id);
@@ -171,6 +138,8 @@ public class Config {
 
                         argCount++;
                     }
+                    
+                    ns_.put("frequencies-mono", frequenciesMono);
                     break;
 
                 default:
@@ -183,12 +152,12 @@ public class Config {
             lineCount++;
         }
 
-        // Check args
-        if (alphabet_ == null || frequenciesMono_ == null) {
-            if (alphabet_ == null) {
+        // Check that the alphabet and frequencies are given, if not return error
+        if (ns_.getString("alphabet") == null || ns_.getString("frequencies-mono") == null) {
+            if (ns_.getString("alphabet") == null) {
                 IO.warn(String.format("alphabet not defined on the config file: %s", configFile.getName()));
             }
-            if (frequenciesMono_ == null) {
+            if (ns_.getString("frequencies-mono") == null) {
                 IO.warn(String.format("frequencies_mono not defined on the config file: %s", configFile.getName()));
             }
             IO.closeReadFile(id);

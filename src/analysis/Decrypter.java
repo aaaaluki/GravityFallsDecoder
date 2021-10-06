@@ -33,10 +33,10 @@ public class Decrypter {
         Analyzer fa = new FrequencyAnalysis(conf);
 
         analysisTools_ = new HashMap<>();
-        analysisTools_.put(new A1Z26(config_.getAlphabet()), fa);
-        analysisTools_.put(new Atbash(config_.getAlphabet()), fa);
-        analysisTools_.put(new Binary(config_.getAlphabet()), fa);
-        analysisTools_.put(new Caesar(config_.getAlphabet()), fa);
+        analysisTools_.put(new A1Z26(config_.get("alphabet")), fa);
+        analysisTools_.put(new Atbash(config_.get("alphabet")), fa);
+        analysisTools_.put(new Binary(config_.get("alphabet")), fa);
+        analysisTools_.put(new Caesar(config_.get("alphabet")), fa);
     }
 
     /**

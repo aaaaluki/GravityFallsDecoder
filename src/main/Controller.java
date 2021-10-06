@@ -134,15 +134,15 @@ public class Controller {
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
         Key key = new Key(13);
 
-        Cipher cipher = new Caesar(conf_.getAlphabet());
+        Cipher cipher = new Caesar(conf_.get("alphabet"));
         cipher.test(sample, key);
 
         // Atbash
-        cipher = new Atbash(conf_.getAlphabet());
+        cipher = new Atbash(conf_.get("alphabet"));
         cipher.test(sample, key);
 
         // A1Z26
-        cipher = new A1Z26(conf_.getAlphabet());
+        cipher = new A1Z26(conf_.get("alphabet"));
         cipher.test(sample, key);
 
         // Decyper test
