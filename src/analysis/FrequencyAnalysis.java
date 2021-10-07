@@ -30,8 +30,8 @@ public class FrequencyAnalysis implements Analyzer {
      * @param conf Config object
      */
     public FrequencyAnalysis(Config conf) {
-        alphabet_ = conf.get("alphabet");
-        freqsMono_ = conf.get("frequencies-mono");
+        alphabet_ = conf.get("lang.alphabet");
+        freqsMono_ = conf.get("lang.frequencies-mono");
     }
 
     /**

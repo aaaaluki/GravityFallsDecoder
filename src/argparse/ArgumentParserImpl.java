@@ -40,12 +40,12 @@ public class ArgumentParserImpl implements ArgumentParser {
         epilog_ = "";
 
         // Add help argument
-        this.addArgument("--help", "-h").nargs(0).setHelp("Shows help and exits");
+        this.addArgument("help", "--help", "-h").nargs(0).setHelp("Shows help and exits");
     }
 
     @Override
-    public Argument addArgument(String... flags) {
-        Argument arg = new ArgumentImpl(flags);
+    public Argument addArgument(String prefix, String... flags) {
+        Argument arg = new ArgumentImpl(prefix, flags);
         arguments_.add(arg);
         return arg;
     }

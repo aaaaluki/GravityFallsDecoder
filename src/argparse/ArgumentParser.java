@@ -20,14 +20,14 @@ public interface ArgumentParser {
     public final static String HELP_EXCEPTION = "HELP";
 
     /**
-     * Creates a new Argument and adds it to this parser and returns it.
+     * Creates a new Argument and adds it to this parser and returns it. The
+     * first flag on the list will be the argument name
      *
-     * The first flag on the list will be the argument name
-     *
+     * @param pregfix prefix to add to the argument dest
      * @param flags List of flags for the new argument
      * @return Argument object
      */
-    Argument addArgument(String... flags);
+    Argument addArgument(String pregfix, String... flags);
 
     /**
      * Parses arguments from the command line and returns them as

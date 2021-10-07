@@ -39,12 +39,12 @@ public final class ArgumentImpl implements Argument {
      *
      * @param flags array of flags given at creation
      */
-    public ArgumentImpl(String... flags) {
+    public ArgumentImpl(String prefix, String... flags) {
         if (flags.length == 0) {
             throw new IllegalArgumentException("flags is not specified");
         }
 
-        name_ = ArgumentTextHelper.removePrefix(flags[0]);
+        name_ = prefix + "." + ArgumentTextHelper.removePrefix(flags[0]);
         flags_ = Arrays.asList(flags);
         consumed_ = false;
         required_ = false;

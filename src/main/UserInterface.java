@@ -41,15 +41,15 @@ public class UserInterface {
         // This argument parser is HEAVILY inspired in: (Java) https://argparse4j.github.io/
         //                                              (Python) https://docs.python.org/3/library/argparse.html
         ap_ = new ArgumentParserImpl("Gravity Falls").description(DESCRIPTION).epilog(EPILOG);
-        ap_.addArgument("--debug", "-d").setHelp("Sets debug mode").setDefault(DEBUG_DEFAULT).setType(Type.BOOLEAN);
-        ap_.addArgument("--verbose", "-v").setHelp("Sets verbose mode").setDefault(VERBOSE_DEFAULT).setType(Type.BOOLEAN);
-        ap_.addArgument("--no-colour", "-nc").setHelp("Disable colour output").setDefault(NO_COLOUR_DEFAULT).setType(Type.BOOLEAN);
-        ap_.addArgument("--language", "-l").nargs(1).setHelp("Sets the language").setDefault(LANGUAGE_DEFAULT).setType(Type.STRING);
-
-        ap_.addArgument("--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
-        ap_.addArgument("--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
+        ap_.addArgument("io", "--debug", "-d").setHelp("Sets debug mode").setDefault(DEBUG_DEFAULT).setType(Type.BOOLEAN);
+        ap_.addArgument("io", "--verbose", "-v").setHelp("Sets verbose mode").setDefault(VERBOSE_DEFAULT).setType(Type.BOOLEAN);
+        ap_.addArgument("io", "--no-colour", "-nc").setHelp("Disable colour output").setDefault(NO_COLOUR_DEFAULT).setType(Type.BOOLEAN);
+        ap_.addArgument("lang", "--language", "-l").nargs(1).setHelp("Sets the language").setDefault(LANGUAGE_DEFAULT).setType(Type.STRING);
         
-        ap_.addArgument("--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN);
+        ap_.addArgument("decrypt", "--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
+        ap_.addArgument("decrypt", "--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
+        
+        ap_.addArgument("menu", "--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN);
     }
 
     /**
@@ -93,9 +93,9 @@ public class UserInterface {
             System.exit(1);
         }
 
-        IO.setDebug(ns.getBoolean("debug"));
-        IO.setVerbose(ns.getBoolean("verbose"));
-        IO.setColour(ns.getBoolean("no-colour"));
+        IO.setDebug(ns.getBoolean("io.debug"));
+        IO.setVerbose(ns.getBoolean("io.verbose"));
+        IO.setColour(ns.getBoolean("io.no-colour"));
 
         IO.printHeader(HEADER_FILE);
 

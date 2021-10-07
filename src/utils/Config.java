@@ -57,7 +57,7 @@ public class Config {
     public <E> List<E> getList(String dest) {
         return get(dest);
     }
-    
+
     /**
      * Getter for {@link Namespace} keys
      * 
@@ -75,7 +75,7 @@ public class Config {
      * where found
      */
     public int loadConfig() {
-        File configFile = new File(String.format("%s/%s.config", CONFIG_FOLDER, ns_.getString("language")));
+        File configFile = new File(String.format("%s/%s.config", CONFIG_FOLDER, ns_.getString("lang.language")));
         int id = IO.openReadFile(configFile);
 
         IO.debug("Config File: " + configFile.getAbsolutePath());
@@ -105,7 +105,7 @@ public class Config {
 
             switch (args[0]) {
                 case "language":
-                    if (!ns_.getString("language").equals(args[1])) {
+                    if (!ns_.getString("lang.language").equals(args[1])) {
                         IO.warn(String.format("Filename does not match languague in file %s", configFile.getName()));
                         IO.closeReadFile(id);
                         return ExitCodes.ERROR_READING_FILE;
@@ -113,7 +113,7 @@ public class Config {
                     break;
 
                 case "alphabet":
-                    ns_.put("alphabet",args[1]);
+                    ns_.put("lang.alphabet",args[1]);
                     break;
 
                 case "frequencies_mono":
@@ -139,7 +139,7 @@ public class Config {
                         argCount++;
                     }
                     
-                    ns_.put("frequencies-mono", frequenciesMono);
+                    ns_.put("lang.frequencies-mono", frequenciesMono);
                     break;
 
                 default:
@@ -153,11 +153,11 @@ public class Config {
         }
 
         // Check that the alphabet and frequencies are given, if not return error
-        if (ns_.getString("alphabet") == null || ns_.getString("frequencies-mono") == null) {
-            if (ns_.getString("alphabet") == null) {
+        if (ns_.getString("lang.alphabet") == null || ns_.getString("lang.frequencies-mono") == null) {
+            if (ns_.getString("lang.alphabet") == null) {
                 IO.warn(String.format("alphabet not defined on the config file: %s", configFile.getName()));
             }
-            if (ns_.getString("frequencies-mono") == null) {
+            if (ns_.getString("lang.frequencies-mono") == null) {
                 IO.warn(String.format("frequencies_mono not defined on the config file: %s", configFile.getName()));
             }
             IO.closeReadFile(id);

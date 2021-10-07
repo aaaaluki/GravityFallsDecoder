@@ -42,12 +42,12 @@ public class Controller {
      * decryption result on a new file.
      */
     public void start() {
-        if (conf_.get("interactive")) {
+        if (conf_.get("menu.interactive")) {
             startInteractive();
             return;
         }
         
-        List<String> filenames = conf_.<String>getList("files");
+        List<String> filenames = conf_.<String>getList("decrypt.files");
         for (String filename : filenames) {
             if (filename.endsWith(Config.DECODED_EXTENSION)) {
                 // If it's a deciphered file, skip
@@ -109,7 +109,7 @@ public class Controller {
             
             List<DecryptGuess> guesses = decrypter_.decrypt(line);
 
-            int guessesToShow = Math.min((int) conf_.get("guesses"), guesses.size());
+            int guessesToShow = Math.min((int) conf_.get("decrypt.guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {
                 IO.printVerbose("\t" + guesses.get(i).toString() + "\n");
                 IO.writeLineFile(writeId, "\t" + guesses.get(i).toString());
@@ -134,15 +134,15 @@ public class Controller {
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
         Key key = new Key(13);
 
-        Cipher cipher = new Caesar(conf_.get("alphabet"));
+        Cipher cipher = new Caesar(conf_.get("lang.alphabet"));
         cipher.test(sample, key);
 
         // Atbash
-        cipher = new Atbash(conf_.get("alphabet"));
+        cipher = new Atbash(conf_.get("lang.alphabet"));
         cipher.test(sample, key);
 
         // A1Z26
-        cipher = new A1Z26(conf_.get("alphabet"));
+        cipher = new A1Z26(conf_.get("lang.alphabet"));
         cipher.test(sample, key);
 
         // Decyper test
@@ -157,7 +157,7 @@ public class Controller {
             IO.print(text + "\n");
             List<DecryptGuess> guesses = dec.decrypt(text);
 
-            int guessesToShow = Math.min((int) conf_.get("guesses"), guesses.size());
+            int guessesToShow = Math.min((int) conf_.get("decrypt.guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {
                 IO.print("\t" + guesses.get(i).toString() + "\n");
             }
