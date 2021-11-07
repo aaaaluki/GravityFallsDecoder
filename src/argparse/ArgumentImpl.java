@@ -7,6 +7,7 @@ import argparse.action.ActionString;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of the {@link Argument} interface
@@ -21,6 +22,7 @@ public final class ArgumentImpl implements Argument {
     private List<String> flags_;
     private boolean consumed_;
     private boolean required_;
+    private Set<String> disables_;
     private String[] choices_;
     private Object value_;
     private Object default_;
@@ -54,7 +56,7 @@ public final class ArgumentImpl implements Argument {
     @Override
     public Argument nargs(int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("nargs cannot be positive");
+            throw new IllegalArgumentException("nargs cannot be negative");
         }
 
         maxNargs_ = n;
@@ -125,7 +127,18 @@ public final class ArgumentImpl implements Argument {
         required_ = true;
         return this;
     }
+    
+    @Override
+    public Argument disables(String... dests) {
+        if (dests.length == 0) {
+            throw new IllegalArgumentException("dests is not specified");
+        }
 
+        disables_ = Set.of(dests);
+        
+        return this;
+    }
+    
     @Override
     public Argument action(String[] args, Map<String, Object> attr) throws ArgumentException {
         Action act;
@@ -181,6 +194,11 @@ public final class ArgumentImpl implements Argument {
     @Override
     public boolean getRequired() {
         return required_;
+    }
+    
+    @Override
+    public Set<String> getDisables() {
+        return disables_;
     }
 
     @Override

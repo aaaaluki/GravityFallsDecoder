@@ -2,6 +2,7 @@ package argparse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This interface is a way to specify how the arguments should be parsed by
@@ -103,6 +104,14 @@ public interface Argument {
     Argument required();
 
     /**
+     * Disables the required flag from the given dests
+     * 
+     * @param dests arguments to disable the required flag
+     * @return this
+     */
+    Argument disables(String... dests);
+    
+    /**
      * This is executed when the argument is encountered in the command line
      *
      * @param args remaining arguments to parse
@@ -156,6 +165,13 @@ public interface Argument {
      */
     boolean getRequired();
 
+    /**
+     * Getter for disables value
+     * 
+     * @return disables value
+     */
+    Set<String> getDisables();
+    
     /**
      * Getter for the flags
      *

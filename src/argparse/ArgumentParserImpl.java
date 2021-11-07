@@ -105,6 +105,21 @@ public class ArgumentParserImpl implements ArgumentParser {
                 System.arraycopy(args, idx + 1, buf, 0, len);
 
                 arg.action(buf, attr);
+                
+                // If this argument disables others set that arguments as consumed
+                Set<String> disables = arg.getDisables();
+                if (disables != null && disables.size() > 0) {
+                    for (Argument maybeDisable : arguments_) {
+                        // TIL the dot "." is a special character when using,
+                        // regex. This caused some problems
+                        String[] dests = maybeDisable.getDest().split("\\.");
+                        String dest = dests[dests.length - 1];
+                        
+                        if (disables.contains(dest)) {
+                            maybeDisable.consumed();
+                        }
+                    }
+                }
             } else {
                 if (len < min) {
                     throw new ArgumentException(String.format("Argument \"%s\" needs a minimum of %d values", args[idx], min));
