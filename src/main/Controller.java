@@ -30,7 +30,6 @@ public class Controller {
 
     private final Set<Cipher> ciphers_;
     private final Config conf_;
-    private final Decrypter decrypter_;
     
     private MenuController menuCont_;
 
@@ -50,7 +49,7 @@ public class Controller {
         ciphers_.add(new Binary(conf_.get("lang.alphabet"), fa));
         ciphers_.add(new Caesar(conf_.get("lang.alphabet"), fa));
         
-        decrypter_ = new Decrypter(conf, ciphers_);        
+        Decrypter.init(conf, ciphers_);        
     }
 
     /**
@@ -123,7 +122,7 @@ public class Controller {
             IO.printVerbose(line + "\n");
             IO.writeLineFile(writeId, String.format("[%3d] Original: %s", lineNum, line));
             
-            List<DecryptGuess> guesses = decrypter_.decrypt(line);
+            List<DecryptGuess> guesses = Decrypter.decrypt(line);
 
             int guessesToShow = Math.min((int) conf_.get("decrypt.guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {
@@ -167,7 +166,7 @@ public class Controller {
         cipher.test(sample, key);
 
         // Decyper test
-        Decrypter dec = new Decrypter(conf_, ciphers_);
+        Decrypter.init(conf_, ciphers_);
         List<String> encryptedText = new ArrayList<>();
         encryptedText.add("NYVPR'F NQIRAGHERF VA JBAQREYNAQ");
         encryptedText.add("ZORXV'H ZWEVMGFIVH RM DLMWVIOZMW");
@@ -176,7 +175,7 @@ public class Controller {
         for (String text : encryptedText) {
             IO.print("Original: ", Colour.BLUE_BOLD_BRIGHT);
             IO.print(text + "\n");
-            List<DecryptGuess> guesses = dec.decrypt(text);
+            List<DecryptGuess> guesses = Decrypter.decrypt(text);
 
             int guessesToShow = Math.min((int) conf_.get("decrypt.guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {

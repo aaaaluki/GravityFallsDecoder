@@ -17,7 +17,7 @@ import utils.Config;
  */
 public class Decrypter {
 
-    private final Set<Cipher> ciphers_;
+    private static Set<Cipher> ciphers_;
 
     /**
      * Decrypter constructor, initializes the analysisTools attribute putting
@@ -26,7 +26,7 @@ public class Decrypter {
      * @param conf Config object
      * @param ciphers Set of available/implemented ciphers
      */
-    public Decrypter(Config conf, Set<Cipher> ciphers) {
+    public static void init(Config conf, Set<Cipher> ciphers) {
         ciphers_ = ciphers;
     }
 
@@ -38,7 +38,7 @@ public class Decrypter {
      * @param encryptedText text to decrypt
      * @return list of {@link DecryptGuess} in ascending order
      */
-    public List<DecryptGuess> decrypt(String encryptedText) {
+    public static List<DecryptGuess> decrypt(String encryptedText) {
         List<DecryptGuess> finalGuesses = new ArrayList<>();
 
         // First round of deciphering
@@ -91,7 +91,7 @@ public class Decrypter {
      * @param list list to clone
      * @return clone of list
      */
-    private List<DecryptGuess> cloneList(List<DecryptGuess> list) {
+    private static List<DecryptGuess> cloneList(List<DecryptGuess> list) {
         List<DecryptGuess> clone = new ArrayList<>();
         for (DecryptGuess dg : list) {
             clone.add(dg.clone());
