@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import main.Controller;
 import utils.Config;
 import utils.IO;
 
@@ -64,11 +65,11 @@ public class MenuController {
         // Main menu creation
         Menu mainMenu = new Menu("Main").setInfo("Welcome to the Gravity Falls Decoder!");
         
-        Menu decryptMenu = new Menu("Decrypt").setInfo("This is the info for the decrypt menu");
+        Menu decryptMenu = new Menu("Decrypt");
         MenuOption decryptOp = new MenuOption(decryptMenu, "Decrypt");
         mainMenu.addOption(decryptOp);
                 
-        Menu encryptMenu = new Menu("Encrypt").setInfo("This is the info for the encrypt menu");
+        Menu encryptMenu = new Menu("Encrypt");
         MenuOption encryptOp = new MenuOption(encryptMenu, "Encrypt");
         mainMenu.addOption(encryptOp);
         
@@ -115,7 +116,14 @@ public class MenuController {
         decryptMenu.addOption(decryptText);
         
         // Encrypt Menu ********************************************************
-        // TODO
+        encryptMenu.setInfo("Encryption menu, encrypt text or files here!");
+        MenuOption encryptText = new MenuOption(encryptMenu, "Encrypt the entered text") {
+            @Override
+            public void action() {
+                IO.todo("Encrypt text!");
+            }
+        };
+        encryptMenu.addOption(encryptText);
         
         // Config Menu *********************************************************
         configMenu.setInfo("Configuration menu, change or view the actual config!");
