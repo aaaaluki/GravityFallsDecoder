@@ -111,86 +111,63 @@ public class IO {
     }
 
     /**
-     * prints obj on System.out
+     * Prints the given objects to System.out. If two arguments are given it is
+     * supposed that the second one is the text colour. If three are given the
+     * third one is the background colour.
      *
-     * @param obj object to print
+     * @param objs object to print
      */
-    public static void print(Object obj) {
-        System.out.print(obj);
-    }
-
-    /**
-     * prints obj on System.out and colours the output
-     *
-     * @param obj object to print
-     * @param fgColour foreground colour from {@link utils.Colour}
-     */
-    public static void print(Object obj, String fgColour) {
-        if (noColour_) {
-            print(obj);
+    public static void print(Object... objs) {
+        if (noColour_ || objs.length == 1) {
+            System.out.print(objs[0]);
         } else {
-            print(fgColour + obj + Colour.RESET);
+            switch(objs.length) {
+                case 2:
+                    System.out.print(objs[1].toString() + objs[0].toString() + Colour.RESET);
+                    break;
+                case 3:
+                    System.out.print(objs[1].toString() + objs[2].toString() + objs[0].toString() + Colour.RESET);
+                    break;
+                default:
+                    for (int i = 0; i < objs.length; i++) {
+                        System.out.print(objs[i]);
+                    }
+            }
         }
     }
 
     /**
-     * prints obj on System.out and colours the output
+     * prints the objects on System.out if verbose is enabled
      *
-     * @param obj object to print
-     * @param fgColour foreground colour from {@link utils.Colour}
-     * @param bgColour background colour from {@link utils.Colour}
+     * @param objs objects to print
      */
-    public static void print(Object obj, String fgColour, String bgColour) {
-        if (noColour_) {
-            print(obj);
-        } else {
-            print(fgColour + bgColour + obj + Colour.RESET);
-        }
-    }
-
-    /**
-     * prints obj on System.out if verbose is enabled
-     *
-     * @param obj object to print
-     */
-    public static void printVerbose(Object obj) {
+    public static void printVerbose(Object... objs) {
         if (verbose_) {
-            print(obj);
-        }
-    }
-
-    /**
-     * prints obj on System.out and colours the output if verbose is enabled
-     *
-     * @param obj object to print
-     * @param fgColour foreground colour from {@link utils.Colour}
-     */
-    public static void printVerbose(Object obj, String fgColour) {
-        if (verbose_) {
-            print(obj, fgColour);
-        }
-    }
-
-    /**
-     * prints obj on System.out and colours the output if verbose is enabled
-     *
-     * @param obj object to print
-     * @param fgColour foreground colour from {@link utils.Colour}
-     * @param bgColour background colour from {@link utils.Colour}
-     */
-    public static void printVerbose(Object obj, String fgColour, String bgColour) {
-        if (verbose_) {
-            print(obj, fgColour, bgColour);
+            print(objs);
         }
     }
     
     /**
-     * Get's returns the line the user has written
+     * Returns the line the user has written
      * 
      * @return user input
      */
     public static String readLine() {
         return userInput_.nextLine();
+    }
+    
+    /**
+     * Clears the last N lines
+     * 
+     * @param N Lines to clear
+     */
+    public static void clearLines(int N) {
+        // Taken from: https://stackoverflow.com/a/22083329/13313449
+        
+        for (int i = 1; i <= N; i++) {
+            System.out.print("\033[1A"); // Move up
+            System.out.print("\033[2K"); // Erase line content
+        }
     }
 
     // INPUT file handling  ##############################################################
