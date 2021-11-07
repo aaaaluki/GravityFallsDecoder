@@ -165,9 +165,19 @@ public class IO {
         // Taken from: https://stackoverflow.com/a/22083329/13313449
         
         for (int i = 1; i <= N; i++) {
+            // \033 equals 0x1B, the escape char
             System.out.print("\033[1A"); // Move up
             System.out.print("\033[2K"); // Erase line content
         }
+    }
+    
+    /**
+     * Clears the terminal/console screen
+     */
+    public static void clearScreen() {
+        // I don't know the difference between console and terminal btw
+        // \033 equals 0x1B, the escape char
+        System.out.print("\033[H\033[2J\033[3J");
     }
 
     // INPUT file handling  ##############################################################
