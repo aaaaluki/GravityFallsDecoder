@@ -27,6 +27,7 @@ public class UserInterface {
     private static final boolean INTERACTIVE_DEFAULT = false;       // --interactive, -i
     
     private static final String HEADER_FILE = "header.txt";
+    
     private static final String DESCRIPTION = "Placeholder for description";
     private static final String EPILOG = "Placeholder for epilog";
 
@@ -49,7 +50,7 @@ public class UserInterface {
         ap_.addArgument("decrypt", "--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
         ap_.addArgument("decrypt", "--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
         
-        ap_.addArgument("menu", "--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN);
+        ap_.addArgument("menu", "--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN).disables("files");
     }
 
     /**
