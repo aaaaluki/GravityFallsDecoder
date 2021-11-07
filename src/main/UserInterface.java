@@ -50,7 +50,9 @@ public class UserInterface {
         ap_.addArgument("decrypt", "--files", "-f").nargs("+").setHelp("Files to deciper").setDefault(FILES_DEFAULT).setType(Type.STRING).required();
         ap_.addArgument("decrypt", "--guesses",  "-g").nargs(1).setHelp("Sets the number of decipher guesses to show/save").setDefault(GUESSES_DEFAULT).setType(Type.INTEGER);
         
-        ap_.addArgument("menu", "--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN).disables("files");
+        // Interactive mode disables all the other arguments, because if needed
+        // the program will ask for the required arguments if they are not given
+        ap_.addArgument("menu", "--interactive", "-i").setHelp("Sets interactive mode").setDefault(INTERACTIVE_DEFAULT).setType(Type.BOOLEAN).disablesAll();
     }
 
     /**
