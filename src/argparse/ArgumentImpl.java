@@ -23,6 +23,7 @@ public final class ArgumentImpl implements Argument {
     private boolean consumed_;
     private boolean required_;
     private Set<String> disables_;
+    private boolean disablesAll_;
     private String[] choices_;
     private Object value_;
     private Object default_;
@@ -140,6 +141,13 @@ public final class ArgumentImpl implements Argument {
     }
     
     @Override
+    public Argument disablesAll() {
+        disablesAll_ = true;
+        
+        return this;
+    }
+    
+    @Override
     public Argument action(String[] args, Map<String, Object> attr) throws ArgumentException {
         Action act;
 
@@ -199,6 +207,11 @@ public final class ArgumentImpl implements Argument {
     @Override
     public Set<String> getDisables() {
         return disables_;
+    }
+
+    @Override
+    public boolean getDisablesAll() {
+        return disablesAll_;
     }
 
     @Override

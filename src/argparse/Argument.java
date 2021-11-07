@@ -112,6 +112,18 @@ public interface Argument {
     Argument disables(String... dests);
     
     /**
+     * Disables all the required arguments
+     * 
+     * One argument to disable them all,
+     * One argument to find them,
+     * One argument to bring them all,
+     * and in the darkness bind them
+     * 
+     * @return this
+     */
+    Argument disablesAll();
+    
+    /**
      * This is executed when the argument is encountered in the command line
      *
      * @param args remaining arguments to parse
@@ -171,6 +183,13 @@ public interface Argument {
      * @return disables value
      */
     Set<String> getDisables();
+    
+    /**
+     * Getter for disablesAll value
+     * 
+     * @return disablesAll value
+     */
+    boolean getDisablesAll();
     
     /**
      * Getter for the flags

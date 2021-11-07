@@ -108,7 +108,11 @@ public class ArgumentParserImpl implements ArgumentParser {
                 
                 // If this argument disables others set that arguments as consumed
                 Set<String> disables = arg.getDisables();
-                if (disables != null && disables.size() > 0) {
+                if (arg.getDisablesAll()) {
+                    for (Argument toDisable : arguments_) {
+                            toDisable.consumed();
+                    }
+                } else if (disables != null && disables.size() > 0) {
                     for (Argument maybeDisable : arguments_) {
                         // TIL the dot "." is a special character when using,
                         // regex. This caused some problems
