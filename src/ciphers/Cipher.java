@@ -1,6 +1,5 @@
 package ciphers;
 
-import analysis.Analyzer;
 import analysis.DecryptGuess;
 import java.util.List;
 import utils.Colour;
@@ -36,7 +35,7 @@ public abstract class Cipher {
      * @return NAME
      */
     public abstract String getName();
-
+    
     /**
      * Method used for testing ciphers
      *
@@ -86,9 +85,8 @@ public abstract class Cipher {
      * first.
      *
      * @param encryptedText text to decrypt
-     * @param analyzer analyzer tool
      * @param decryptGuess previous step on decoding, can be null if it's the first time
      * @return list of decrypt guesses
      */
-    public abstract List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess);
+    public abstract List<DecryptGuess> decryptWithoutKey(String encryptedText, DecryptGuess decryptGuess);
 }

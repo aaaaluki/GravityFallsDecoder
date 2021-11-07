@@ -18,7 +18,8 @@ import utils.TextHelper;
 public class Caesar extends Cipher {
 
     private static final String NAME = "CAESAR";
-    private Map<Integer, String> cipher_;
+    private final Map<Integer, String> cipher_;
+    private Analyzer analyzer_;
 
     /**
      * Constructor for the Caesar cipher
@@ -26,8 +27,9 @@ public class Caesar extends Cipher {
      * All the possible ciphers are calculated here.
      *
      * @param alphabet alphabet_ from the language that is going to be used
+     * @param analyzer Analysis tool for this cipher
      */
-    public Caesar(String alphabet) {
+    public Caesar(String alphabet, Analyzer analyzer) {
         super(alphabet);
 
         // Calculate all ciphers
@@ -36,6 +38,8 @@ public class Caesar extends Cipher {
         for (int key = 0; key < alphabet.length(); key++) {
             cipher_.put(key, alphabet.substring(key).concat(alphabet.substring(0, key)));
         }
+        
+        analyzer_ = analyzer;
     }
 
     @Override
@@ -67,14 +71,14 @@ public class Caesar extends Cipher {
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
 
         // Keys 0 and 26 (in english) can be skipped because we would obtain the same text
         for (int i = 1; i < alphabet_.length(); i++) {
             Key key = new Key(i);
             String decryptedText = decrypt(encryptedText, key);
-            double error = analyzer.analyze(decryptedText);
+            double error = analyzer_.analyze(decryptedText);
 
             if (decryptedText.equals(encryptedText)) {
                 return guesses;

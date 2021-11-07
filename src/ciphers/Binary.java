@@ -13,9 +13,19 @@ import java.util.List;
 public class Binary extends Cipher {
 
     private static final String NAME = "BINARY";
+    private Analyzer analyzer_;
 
-    public Binary(String alphabet) {
+
+    /**
+     * Constructor for the binary cipher(encoder)
+     * 
+     * @param alphabet alphabet_ from the language that is going to be used
+     * @param analyzer Analysis tool for this cipher
+     */
+    public Binary(String alphabet, Analyzer analyzer) {
         super(alphabet);
+        
+        analyzer_ = analyzer;
     }
 
     @Override
@@ -65,11 +75,11 @@ public class Binary extends Cipher {
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
-        double error = analyzer.analyze(decryptedText);
+        double error = analyzer_.analyze(decryptedText);
 
         if (decryptedText.equals(encryptedText)) {
             return guesses;

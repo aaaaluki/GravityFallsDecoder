@@ -3,9 +3,8 @@ package analysis;
 import ciphers.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import utils.Config;
 
 /**
@@ -18,30 +17,22 @@ import utils.Config;
  */
 public class Decrypter {
 
-    private final Config config_;
-    private final Map<Cipher, Analyzer> analysisTools_;
+    private final Set<Cipher> ciphers_;
 
     /**
      * Decrypter constructor, initializes the analysisTools attribute putting
      * all the implemented ciphers and their respective analysis tool.
      *
      * @param conf Config object
+     * @param ciphers Set of available/implemented ciphers
      */
-    public Decrypter(Config conf) {
-        config_ = conf;
-
-        Analyzer fa = new FrequencyAnalysis(conf);
-
-        analysisTools_ = new HashMap<>();
-        analysisTools_.put(new A1Z26(config_.get("lang.alphabet")), fa);
-        analysisTools_.put(new Atbash(config_.get("lang.alphabet")), fa);
-        analysisTools_.put(new Binary(config_.get("lang.alphabet")), fa);
-        analysisTools_.put(new Caesar(config_.get("lang.alphabet")), fa);
+    public Decrypter(Config conf, Set<Cipher> ciphers) {
+        ciphers_ = ciphers;
     }
 
     /**
      * Receives an encrypted text and tries to decrypt it using the implemented
-     * ciphers, then returns a list of {@link DecryptGuess} ascending error,
+     * ciphers, then returns a list of {@link DecryptGuess} in ascending error,
      * lower first.
      *
      * @param encryptedText text to decrypt
@@ -50,16 +41,17 @@ public class Decrypter {
     public List<DecryptGuess> decrypt(String encryptedText) {
         List<DecryptGuess> finalGuesses = new ArrayList<>();
 
-        for (Cipher cipher : analysisTools_.keySet()) {
-            finalGuesses.addAll(cipher.decryptWithoutKey(encryptedText, analysisTools_.get(cipher), null));
+        // First round of deciphering
+        for (Cipher cipher : ciphers_) {
+            finalGuesses.addAll(cipher.decryptWithoutKey(encryptedText, null));
         }
 
-        int maxDepth = Math.min(analysisTools_.size(), Integer.MAX_VALUE) - 1;
+        int maxDepth = Math.min(ciphers_.size(), Integer.MAX_VALUE) - 1;
         for (int i = 0; i < maxDepth; i++) {
             List<DecryptGuess> clone = cloneList(finalGuesses);
             List<DecryptGuess> toRemove = new ArrayList<>();
 
-            for (Cipher cipher : analysisTools_.keySet()) {
+            for (Cipher cipher : ciphers_) {
                 List<DecryptGuess> guessesToAdd = new ArrayList<>();
 
                 for (int j = 0; j < clone.size(); j++) {
@@ -72,7 +64,7 @@ public class Decrypter {
                         continue;
                     }
 
-                    guessesToAdd.addAll(cipher.decryptWithoutKey(dg.getDecryptedText(), analysisTools_.get(cipher), dg.clone()));
+                    guessesToAdd.addAll(cipher.decryptWithoutKey(dg.getDecryptedText(), dg.clone()));
                 }
 
                 finalGuesses.addAll(guessesToAdd);

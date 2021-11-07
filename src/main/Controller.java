@@ -1,15 +1,20 @@
 package main;
 
+import analysis.Analyzer;
 import analysis.DecryptGuess;
 import analysis.Decrypter;
+import analysis.FrequencyAnalysis;
 import ciphers.A1Z26;
 import ciphers.Atbash;
+import ciphers.Binary;
 import ciphers.Caesar;
 import ciphers.Cipher;
 import ciphers.Key;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import menu.MenuController;
 import utils.Colour;
 import utils.Config;
@@ -23,8 +28,10 @@ import utils.TextHelper;
  */
 public class Controller {
 
+    private final Set<Cipher> ciphers_;
     private final Config conf_;
     private final Decrypter decrypter_;
+    
     private MenuController menuCont_;
 
     /**
@@ -34,7 +41,16 @@ public class Controller {
      */
     public Controller(Config conf) {
         conf_ = conf;
-        decrypter_ = new Decrypter(conf);
+        
+        ciphers_ = new HashSet<>();
+        Analyzer fa = new FrequencyAnalysis(conf_);
+        
+        ciphers_.add(new A1Z26(conf_.get("lang.alphabet"), fa));
+        ciphers_.add(new Atbash(conf_.get("lang.alphabet"), fa));
+        ciphers_.add(new Binary(conf_.get("lang.alphabet"), fa));
+        ciphers_.add(new Caesar(conf_.get("lang.alphabet"), fa));
+        
+        decrypter_ = new Decrypter(conf, ciphers_);        
     }
 
     /**
@@ -124,6 +140,10 @@ public class Controller {
         IO.closeWriteFile(writeId);
     }
 
+    public Set<Cipher> getCiphers() {
+        return ciphers_;
+    }
+    
     /**
      * Method to test some functionalities done so far, i should probably learn
      * to do proper tests in Java :)
@@ -133,20 +153,21 @@ public class Controller {
         // Caesar
         String sample = "ALICE'S ADVENTURES IN WONDERLAND";
         Key key = new Key(13);
+        Analyzer fa = new FrequencyAnalysis(conf_);
 
-        Cipher cipher = new Caesar(conf_.get("lang.alphabet"));
+        Cipher cipher = new Caesar(conf_.get("lang.alphabet"), fa);
         cipher.test(sample, key);
 
         // Atbash
-        cipher = new Atbash(conf_.get("lang.alphabet"));
+        cipher = new Atbash(conf_.get("lang.alphabet"), fa);
         cipher.test(sample, key);
 
         // A1Z26
-        cipher = new A1Z26(conf_.get("lang.alphabet"));
+        cipher = new A1Z26(conf_.get("lang.alphabet"), fa);
         cipher.test(sample, key);
 
         // Decyper test
-        Decrypter dec = new Decrypter(conf_);
+        Decrypter dec = new Decrypter(conf_, ciphers_);
         List<String> encryptedText = new ArrayList<>();
         encryptedText.add("NYVPR'F NQIRAGHERF VA JBAQREYNAQ");
         encryptedText.add("ZORXV'H ZWEVMGFIVH RM DLMWVIOZMW");

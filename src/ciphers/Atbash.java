@@ -16,6 +16,7 @@ public class Atbash extends Cipher {
 
     private static final String NAME = "ATBASH";
     private String cipher_;
+    private Analyzer analyzer_;
 
     /**
      * Constructor for the Atbash cipher
@@ -23,11 +24,14 @@ public class Atbash extends Cipher {
      * The cipher is calculated here
      *
      * @param alphabet alphabet_ from the language that is going to be used
+     * @param analyzer Analysis tool for this cipher
      */
-    public Atbash(String alphabet) {
+    public Atbash(String alphabet, Analyzer analyzer) {
         super(alphabet);
         StringBuilder rev = new StringBuilder(alphabet);
         cipher_ = rev.reverse().toString();
+        
+        analyzer_ = analyzer;
     }
 
     @Override
@@ -58,11 +62,11 @@ public class Atbash extends Cipher {
     }
 
     @Override
-    public List<DecryptGuess> decryptWithoutKey(String encryptedText, Analyzer analyzer, DecryptGuess decryptGuess) {
+    public List<DecryptGuess> decryptWithoutKey(String encryptedText, DecryptGuess decryptGuess) {
         List<DecryptGuess> guesses = new ArrayList<>();
         Key key = new Key();
         String decryptedText = decrypt(encryptedText, key);
-        double error = analyzer.analyze(decryptedText);
+        double error = analyzer_.analyze(decryptedText);
 
         if (decryptedText.equals(encryptedText)) {
             return guesses;
