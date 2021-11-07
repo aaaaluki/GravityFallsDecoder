@@ -1,5 +1,7 @@
 package menu;
 
+import analysis.DecryptGuess;
+import analysis.Decrypter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -75,7 +77,42 @@ public class MenuController {
         mainMenu.addOption(configOp);
                 
         // Decrypt Menu ********************************************************
-        // TODO
+        decryptMenu.setInfo("Decryption menu, decrypt text or files here!");
+        MenuOption decryptText = new MenuOption(decryptMenu, "Decrypt the entered text") {
+            @Override
+            public void action() {
+                IO.print("Enter text to decrypt: ");
+                String toDecrypt = IO.readLine();
+                
+                List<DecryptGuess> guesses = Decrypter.decrypt(toDecrypt);
+                int toShow = Math.min(conf_.get("decrypt.guesses"), guesses.size());
+                
+                String userIn;
+                boolean exit = false;
+                int loop = 0;
+                do {
+                    for (int i = 0; i < toShow; i++) {
+                        if (loop*toShow + i == guesses.size()) {
+                            // If there are no more guesses to show return
+                            IO.print("No more guesses remaining!\n");
+                            return;
+                        }
+                        
+                        IO.print(guesses.get(loop*toShow + i).toString() + "\n");
+                    }
+                    IO.print("Show more? [Y/n]: ");
+                    userIn = IO.readLine();
+                    
+                    if (userIn.equals("") || userIn.toUpperCase().equals("Y")) {
+                        IO.clearLines(1);
+                        loop++;
+                    } else {
+                        exit = true;
+                    }
+                } while (!exit);
+            }
+        };
+        decryptMenu.addOption(decryptText);
         
         // Encrypt Menu ********************************************************
         // TODO
