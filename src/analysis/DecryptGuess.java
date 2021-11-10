@@ -20,7 +20,7 @@ public class DecryptGuess implements Cloneable, Comparable<DecryptGuess> {
 
     // I should probably change this to be calculated dynamically (depending on
     // the ciphers and key lengths)
-    private static final int MAX_CIPHER_NAMES_WIDTH = 27;
+    private static final int MAX_CIPHER_NAMES_WIDTH = 35;
     
     private List<String> cipherNames_;
     private List<Key> keys_;
