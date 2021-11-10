@@ -29,25 +29,46 @@ public class Binary extends Cipher {
     }
 
     @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public Class getKeyClass() {
+        return null;
+    }
+    
+    @Override
+    public String validateKey(Key key) {
+        if (key == null) {
+            return ERR_NULL_KEY;
+        }
+        
+        return null;
+    }
+    
+    @Override
     public String encrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
-            if (alphabet_.indexOf(ch) == -1) {
+            if (ch == ' ') {
                 sb.append(ch);
                 continue;
             }
 
-            sb.append(Integer.toBinaryString(ch));
+            String str = Integer.toBinaryString(ch);
+            if (str.length() < 8) {
+                str = "000000000".substring(0, 8 - str.length()).concat(str);
+            } else {
+                str = str.substring(str.length() - 8);
+            }
+            
+            sb.append(str);
         }
 
         return sb.toString();
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     @Override
@@ -57,18 +78,21 @@ public class Binary extends Cipher {
             return text;
         }
 
-        text = text.replace(" ", "");
-        if (text.length() % 8 != 0) {
-            // If the number of 0 and 1 is not divisable by 8 return the same text
-            return text;
-        }
-
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < text.length(); i += 8) {
-            String ch = text.substring(i, i + 8);
-            int val = Integer.valueOf(ch, 2);
+        for (String word : text.split(" ")) {
+            if (word.length() % 8 != 0) {
+                // If the number of 0 and 1 is not divisable by 8 return the same text
+                return text;
+            }
 
-            sb.append((char) val);
+            for (int i = 0; i < word.length(); i += 8) {
+                String ch = word.substring(i, i + 8);
+                int val = Integer.valueOf(ch, 2);
+
+                sb.append((char) val);
+            }
+            
+            sb.append(" ");
         }
 
         return sb.toString();

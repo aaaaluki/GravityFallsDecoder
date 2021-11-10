@@ -40,6 +40,20 @@ public class A1Z26 extends Cipher {
     }
 
     @Override
+    public Class getKeyClass() {
+        return null;
+    }
+    
+    @Override
+    public String validateKey(Key key) {
+        if (key == null) {
+            return ERR_NULL_KEY;
+        }
+        
+        return null;
+    }
+    
+    @Override
     public String encrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
         text = TextHelper.normalize(text);

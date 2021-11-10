@@ -48,6 +48,29 @@ public class Caesar extends Cipher {
     }
 
     @Override
+    public Class getKeyClass() {
+        return Integer.class;
+    }
+
+    @Override
+    public String validateKey(Key key) {
+        if (key == null) {
+            return ERR_NULL_KEY;
+        }
+        
+        if (!(key.get() instanceof Integer)) {
+            return "The key must be an Integer!";
+        }
+        
+        Integer val = key.getInteger();
+        if (val < 0 || val >= alphabet_.length()) {
+            return String.format("The key must be an integer between 0 and %d", alphabet_.length() - 1);
+        }
+        
+        return null;
+    }
+    
+    @Override
     public String encrypt(String text, Key key) {
         StringBuilder sb = new StringBuilder();
         text = TextHelper.normalize(text);

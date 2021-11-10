@@ -15,6 +15,7 @@ import utils.TextHelper;
  */
 public abstract class Cipher {
 
+    protected static final String ERR_NULL_KEY = "The key cannot be null";
     /**
      * alphabet_ of the language being used
      */
@@ -29,13 +30,6 @@ public abstract class Cipher {
         this.alphabet_ = alphabet;
     }
 
-    /**
-     * Getter for NAME
-     *
-     * @return NAME
-     */
-    public abstract String getName();
-    
     /**
      * Method used for testing ciphers
      *
@@ -58,7 +52,31 @@ public abstract class Cipher {
         IO.print(String.format("Decrypted: %s\n", decrypted));
         IO.print(String.format("Match: %B\n\n", sample.equals(decrypted)));
     }
-
+    
+    /**
+     * Getter for NAME
+     *
+     * @return NAME
+     */
+    public abstract String getName();
+    
+    /**
+     * Returns the class of the key used for the cipher, or {@code null} if the
+     * cipher doesn't need a key
+     * 
+     * @return The class or {@code null}
+     */
+    public abstract Class getKeyClass();
+    
+    /**
+     * Returns {@code null} if the key is valid for encryption ad decryption,
+     * and returns an error message if the key is not valid.
+     * 
+     * @param key key to validate
+     * @return null if valid, otherwise error message
+     */
+    public abstract String validateKey(Key key);
+    
     /**
      * Encrypts the given text with the given key
      *
