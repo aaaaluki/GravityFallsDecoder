@@ -2,24 +2,30 @@ package menu;
 
 import analysis.DecryptGuess;
 import analysis.Decrypter;
+import ciphers.Cipher;
+import ciphers.Key;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import main.Controller;
+import utils.Colour;
 import utils.Config;
 import utils.IO;
+import utils.TextHelper;
 
 /**
  *
  * @author luki
  */
 public class MenuController {
+    private final Controller controller_;
     private final Config conf_;
     private Menu menu_;
     private List<Menu> prevMenus_;
     
-    public MenuController(Config conf) {
+    public MenuController(Config conf, Controller controller) {
+        controller_ = controller;
         conf_ = conf;
         menu_ = createMenusSystem();
         prevMenus_ = new LinkedList<>();
@@ -79,10 +85,10 @@ public class MenuController {
                 
         // Decrypt Menu ********************************************************
         decryptMenu.setInfo("Decryption menu, decrypt text or files here!");
-        MenuOption decryptText = new MenuOption(decryptMenu, "Decrypt the entered text") {
+        MenuOption decryptText = new MenuOption(decryptMenu, "Decrypt the entered text (Automatic)") {
             @Override
             public void action() {
-                IO.print("Enter text to decrypt: ");
+                IO.print("Enter text to decrypt: ", Menu.MAIN_COLOUR);
                 String toDecrypt = IO.readLine();
                 
                 List<DecryptGuess> guesses = Decrypter.decrypt(toDecrypt);
@@ -120,11 +126,37 @@ public class MenuController {
         MenuOption encryptText = new MenuOption(encryptMenu, "Encrypt the entered text") {
             @Override
             public void action() {
-                IO.todo("Encrypt text!");
+                IO.print("Enter text to cipher: ", Menu.MAIN_COLOUR);
+                String userIn = IO.readLine();
+
+                boolean exit = false;
+                Cipher cipher;
+                Key key;
+                while (!exit) {
+                    cipher = askCipher();
+                    key = askKey(cipher);
+                    
+                    String ciphedText = cipher.encrypt(userIn, key);
+                    
+                    IO.print("Ciphed text:\n", Menu.MAIN_COLOUR);
+                    IO.print(String.format("%s\n", ciphedText));
+
+                    // Ask the user if it wants to continue ciphing the text
+                    IO.print("Continue ciphing? [y/N]: ");
+                    userIn = IO.readLine();
+                    
+                    if (userIn.toUpperCase().equals("Y")) {
+                        userIn = ciphedText;
+                        IO.clearLines(1);
+                    } else {
+                        exit = true;
+                    }
+
+                }
             }
         };
         encryptMenu.addOption(encryptText);
-        
+
         // Config Menu *********************************************************
         configMenu.setInfo("Configuration menu, change or view the actual config!");
         MenuOption configDisplayAll = new MenuOption(configMenu, "Display all configuration values") {
@@ -160,7 +192,79 @@ public class MenuController {
             public void action() {IO.todo("Change config");}
         };
         configMenu.addOption(configChange);
-        
+
         return mainMenu;
     }
+    
+    /**
+     * Asks the user to choose one of the available ciphers and returns it
+     * 
+     * @return cipher chosen by user
+     */
+    private Cipher askCipher() {
+        List<Cipher> ciphers = new ArrayList<>();
+        int i = 1;
+        for (Cipher ciph : controller_.getCiphers()) {
+            IO.print(String.format("%s%2d)%s %s\n", Menu.MAIN_COLOUR, i, Colour.RESET, ciph.getName()));
+            ciphers.add(ciph);
+            
+            i++;
+        }
+        
+        boolean validInput = false;
+        int idx = -1;
+        while (!validInput) {
+            IO.print("Select cipher: ", Menu.MAIN_COLOUR);
+            String userIn = IO.readLine();
+            
+            if (TextHelper.checkInteger(userIn)) {
+                idx = Integer.valueOf(userIn);
+
+                if (idx > 0 && idx < i) {
+                    validInput = true;
+                }
+            }
+        }
+        
+        return ciphers.get(idx - 1);
+    }
+
+    /**
+     * Asks the user for a ciphering key, if needed
+     * 
+     * @param cipher cipher where the key will be used
+     * @return 
+     */
+    private Key askKey(Cipher cipher) {
+        if (cipher.getKeyClass() == null) {
+            return new Key();
+        }
+        
+        Key key = null;
+        String userIn;
+        boolean validKey = false;
+
+        while (!validKey) {
+            IO.print("Enter key: ", Menu.MAIN_COLOUR);
+            userIn = IO.readLine();
+            
+            if (cipher.getKeyClass() == Integer.class) {
+                if (TextHelper.checkInteger(userIn)) {
+                    key = new Key(Integer.valueOf(userIn));
+                } else {
+                    IO.warn("The key must be an Integer!");
+                    continue;
+                }
+                
+                String errKey = cipher.validateKey(key);
+                if (errKey == null) {
+                    validKey = true;
+                } else {
+                    IO.warn(errKey);
+                }
+            }
+        }
+        return key;
+    }
+
 }

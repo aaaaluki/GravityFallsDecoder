@@ -11,7 +11,7 @@ import utils.TextHelper;
  * @author luki
  */
 public class Menu {
-    private static final String MAIN_COLOUR = Colour.GREEN_BOLD_BRIGHT;
+    public static final String MAIN_COLOUR = Colour.GREEN_BOLD_BRIGHT;
     private static final String[] CLEAR_COMMANDS = {"C", "CLC", "CLEAR"};
     private static final String[] QUIT_COMMANDS  = {"Q", "QUIT", "EXIT", "R", "RETURN"};
 

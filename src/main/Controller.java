@@ -64,6 +64,9 @@ public class Controller {
         
         List<String> filenames = conf_.<String>getList("decrypt.files");
         for (String filename : filenames) {
+            // TODO: Change the way we handle the decoded extension, leave the
+            // existing extension and insert DECODED_EXTENSION before the last
+            // file extension. Create a REGEX for matching?¿
             if (filename.endsWith(Config.DECODED_EXTENSION)) {
                 // If it's a deciphered file, skip
                 IO.print("Skipping file: ", Colour.PURPLE_BOLD);
@@ -94,7 +97,7 @@ public class Controller {
      * 
      */
     private void startInteractive() {
-        menuCont_ = new MenuController(conf_);
+        menuCont_ = new MenuController(conf_, this);
         boolean run = true;
         
         while (run) {
