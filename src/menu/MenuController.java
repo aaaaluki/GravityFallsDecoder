@@ -83,9 +83,13 @@ public class MenuController {
         MenuOption configOp = new MenuOption(configMenu, "Config");
         mainMenu.addOption(configOp);
                 
+        Menu helpMenu = new Menu("Help");
+        MenuOption helpOp = new MenuOption(helpMenu, "Help");
+        mainMenu.addOption(helpOp);
+                
         // Decrypt Menu ********************************************************
         decryptMenu.setInfo("Decryption menu, decrypt text or files here!");
-        MenuOption decryptText = new MenuOption(decryptMenu, "Decrypt the entered text (Automatic)") {
+        MenuOption decryptTextAuto = new MenuOption(decryptMenu, "Decrypt the entered text (Automatic)") {
             @Override
             public void action() {
                 IO.print("Enter text to decrypt: ", Menu.MAIN_COLOUR);
@@ -101,11 +105,11 @@ public class MenuController {
                     for (int i = 0; i < toShow; i++) {
                         if (loop*toShow + i == guesses.size()) {
                             // If there are no more guesses to show return
-                            IO.print("No more guesses remaining!\n");
+                            IO.println("No more guesses remaining!");
                             return;
                         }
                         
-                        IO.print(guesses.get(loop*toShow + i).toString() + "\n");
+                        IO.println(guesses.get(loop*toShow + i).toString());
                     }
                     IO.print("Show more? [Y/n]: ");
                     userIn = IO.readLine();
@@ -117,6 +121,45 @@ public class MenuController {
                         exit = true;
                     }
                 } while (!exit);
+            }
+        };
+        decryptMenu.addOption(decryptTextAuto);
+        
+        MenuOption decryptText = new MenuOption(decryptMenu, "Decrypt the entered text") {
+            @Override
+            public void action() {
+                IO.print("Enter text to decrypt: ", Menu.MAIN_COLOUR);
+                String toDecrypt = IO.readLine();
+                
+                String userIn;
+                boolean exit = false;
+                Cipher cipher;
+                Key key;
+                while (!exit) {
+                    cipher = askCipher();
+                    if (cipher == null) {
+                        return;
+                    }
+
+                    key = askKey(cipher);
+                    
+                    String decrypted = cipher.decrypt(toDecrypt, key);
+                    
+                    IO.println("Decrypted text:", Menu.MAIN_COLOUR);
+                    IO.println(decrypted);
+                    
+                    // Ask the user if it wants to continue to decrypt the text
+                    IO.print("Continue decrypting? [Y/n]: ");
+                    userIn = IO.readLine();
+                    
+                    if (userIn.equals("") || userIn.toUpperCase().equals("Y")) {
+                        toDecrypt = decrypted;
+                        IO.clearLines(1);
+                    } else {
+                        exit = true;
+                    }
+
+                }
             }
         };
         decryptMenu.addOption(decryptText);
@@ -134,18 +177,22 @@ public class MenuController {
                 Key key;
                 while (!exit) {
                     cipher = askCipher();
+                    if (cipher == null) {
+                        return;
+                    }
+                    
                     key = askKey(cipher);
                     
                     String ciphedText = cipher.encrypt(userIn, key);
                     
-                    IO.print("Ciphed text:\n", Menu.MAIN_COLOUR);
-                    IO.print(String.format("%s\n", ciphedText));
+                    IO.println("Ciphed text:", Menu.MAIN_COLOUR);
+                    IO.println(String.format("%s", ciphedText));
 
                     // Ask the user if it wants to continue ciphing the text
-                    IO.print("Continue ciphing? [y/N]: ");
+                    IO.print("Continue ciphing? [Y/n]: ");
                     userIn = IO.readLine();
                     
-                    if (userIn.toUpperCase().equals("Y")) {
+                    if (userIn.equals("") || userIn.toUpperCase().equals("Y")) {
                         userIn = ciphedText;
                         IO.clearLines(1);
                     } else {
@@ -166,7 +213,7 @@ public class MenuController {
                 Collections.sort(keysList);
                 
                 for (String key : keysList) {
-                    IO.print(String.format("%s -> %s\n", key, conf_.get(key)));
+                    IO.println(String.format("%s -> %s", key, conf_.get(key)));
                 }
             }
         };
@@ -181,7 +228,7 @@ public class MenuController {
                 if(!conf_.getKeys().contains(key)) {
                     IO.warn(String.format("The key \"%s\" does not exist!", key));
                 } else {
-                    IO.print(String.format("%s -> %s\n", key, conf_.get(key)));
+                    IO.println(String.format("%s -> %s", key, conf_.get(key)));
                 }
             }
         };
@@ -192,6 +239,9 @@ public class MenuController {
             public void action() {IO.todo("Change config");}
         };
         configMenu.addOption(configChange);
+
+        // Help Menu ***********************************************************
+        helpMenu.setInfo("Help menu, get info from ciphers, and how to use them");
 
         return mainMenu;
     }
@@ -205,7 +255,7 @@ public class MenuController {
         List<Cipher> ciphers = new ArrayList<>();
         int i = 1;
         for (Cipher ciph : controller_.getCiphers()) {
-            IO.print(String.format("%s%2d)%s %s\n", Menu.MAIN_COLOUR, i, Colour.RESET, ciph.getName()));
+            IO.println(String.format("%s%2d)%s %s", Menu.MAIN_COLOUR, i, Colour.RESET, ciph.getName()));
             ciphers.add(ciph);
             
             i++;
@@ -223,6 +273,8 @@ public class MenuController {
                 if (idx > 0 && idx < i) {
                     validInput = true;
                 }
+            } else if (userIn.toUpperCase().equals("Q")) {
+                return null;
             }
         }
         
