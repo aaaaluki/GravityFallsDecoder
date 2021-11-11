@@ -135,6 +135,23 @@ public class IO {
             }
         }
     }
+    
+    /**
+     * Prints the given objects on a new line to System.out. If two arguments
+     * are given it is supposed that the second one is the text colour. If three
+     * are given the third one is the background colour.
+     * 
+     * @param objs objects to print
+     */
+    public static void println(Object... objs) {
+        if (objs.length == 0) {
+            print("\n");
+            return;
+        }
+
+        objs[0] = objs[0] + "\n";
+        print(objs);
+    }
 
     /**
      * prints the objects on System.out if verbose is enabled
@@ -367,7 +384,7 @@ public class IO {
 
         String line = readLineFile(id);
         while (line != null) {
-            print(line + "\n", Colour.GREEN_BOLD_BRIGHT);
+            println(line, Colour.GREEN_BOLD_BRIGHT);
             line = readLineFile(id);
         }
 

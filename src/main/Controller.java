@@ -70,7 +70,7 @@ public class Controller {
             if (filename.endsWith(Config.DECODED_EXTENSION)) {
                 // If it's a deciphered file, skip
                 IO.print("Skipping file: ", Colour.PURPLE_BOLD);
-                IO.print(String.format("%s is already decoded\n", filename));
+                IO.println(String.format("%s is already decoded", filename));
                 continue;
             }
 
@@ -82,11 +82,11 @@ public class Controller {
             //    +--------------------------------- ... -+
             //    | Deciphering: filename                 |
             //    +--------------------------------- ... -+
-            IO.print("+" + "-".repeat(maxWidth) + "+\n");
+            IO.println("+" + "-".repeat(maxWidth) + "+");
             IO.print("| ");
             IO.print("Deciphering: ", Colour.PURPLE_BOLD);
-            IO.print(TextHelper.padRight(filename, maxWidth - 15) + " |\n");
-            IO.print("+" + "-".repeat(maxWidth) + "+\n");
+            IO.println(TextHelper.padRight(filename, maxWidth - 15) + " |");
+            IO.println("+" + "-".repeat(maxWidth) + "+");
             
             decipherFile(filename);
         }
@@ -177,18 +177,15 @@ public class Controller {
 
         for (String text : encryptedText) {
             IO.print("Original: ", Colour.BLUE_BOLD_BRIGHT);
-            IO.print(text + "\n");
+            IO.println(text);
             List<DecryptGuess> guesses = Decrypter.decrypt(text);
 
             int guessesToShow = Math.min((int) conf_.get("decrypt.guesses"), guesses.size());
             for (int i = 0; i < guessesToShow; i++) {
-                IO.print("\t" + guesses.get(i).toString() + "\n");
+                IO.println("\t" + guesses.get(i).toString());
             }
 
-            IO.print("\n");
+            IO.println();
         }
-
-        // TODO ...
-        IO.todo("Everything!");
     }
 }

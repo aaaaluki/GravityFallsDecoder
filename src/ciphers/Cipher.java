@@ -46,11 +46,11 @@ public abstract class Cipher {
         String decrypted = decrypt(encrypted, key);
 
         IO.print("Cipher: ");
-        IO.print(String.format("[%s]\n", getName()), Colour.PURPLE_BOLD);
-        IO.print(String.format("Original:  %s\n", sample));
-        IO.print(String.format("Encrypted: %s\n", encrypted));
-        IO.print(String.format("Decrypted: %s\n", decrypted));
-        IO.print(String.format("Match: %B\n\n", sample.equals(decrypted)));
+        IO.println(String.format("[%s]", getName()), Colour.PURPLE_BOLD);
+        IO.println(String.format("Original:  %s", sample));
+        IO.println(String.format("Encrypted: %s", encrypted));
+        IO.println(String.format("Decrypted: %s", decrypted));
+        IO.println(String.format("Match: %B", sample.equals(decrypted)));
     }
     
     /**

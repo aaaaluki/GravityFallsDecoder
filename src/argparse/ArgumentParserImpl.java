@@ -184,11 +184,11 @@ public class ArgumentParserImpl implements ArgumentParser {
     public void printHelp() {
         // Print usage
         printUsage();
-        IO.print("\n");
+        IO.println();
 
         // Print description
         printDescription();
-        IO.print("\n");
+        IO.println();
 
         // Print flags
         String[] flags = new String[arguments_.size()];
@@ -200,16 +200,16 @@ public class ArgumentParserImpl implements ArgumentParser {
             }
         }
 
-        IO.print("Optional arguments:\n");
+        IO.println("Optional arguments:");
         for (int i = 0; i < arguments_.size(); i++) {
             Argument arg = arguments_.get(i);
             if (arg.getDefault() == null) {
-                IO.print(String.format("    %s\t%s\n", TextHelper.padRight(flags[i], maxLengthFlag), arg.getHelp()));
+                IO.println(String.format("    %s\t%s", TextHelper.padRight(flags[i], maxLengthFlag), arg.getHelp()));
             } else {
-                IO.print(String.format("    %s\t%s (default: %s)\n", TextHelper.padRight(flags[i], maxLengthFlag), arg.getHelp(), arg.getDefault()));
+                IO.println(String.format("    %s\t%s (default: %s)", TextHelper.padRight(flags[i], maxLengthFlag), arg.getHelp(), arg.getDefault()));
             }
         }
-        IO.print("\n");
+        IO.println();
 
         // Print epilog
         printEpilog();
@@ -239,7 +239,7 @@ public class ArgumentParserImpl implements ArgumentParser {
             usage_ = sb.toString();
         }
 
-        IO.print(String.format("usage: %s\n", usage_));
+        IO.println(String.format("usage: %s", usage_));
     }
 
     @Override
@@ -250,7 +250,7 @@ public class ArgumentParserImpl implements ArgumentParser {
 
     @Override
     public void printDescription() {
-        IO.print(description_ + "\n");
+        IO.println(description_);
     }
 
     @Override
@@ -261,6 +261,6 @@ public class ArgumentParserImpl implements ArgumentParser {
 
     @Override
     public void printEpilog() {
-        IO.print(epilog_ + "\n");
+        IO.println(epilog_);
     }
 }

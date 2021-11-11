@@ -71,18 +71,18 @@ public class Menu {
      * Displays the options to the user
      */
     public void showOptions() {
-        IO.print(info_ + "\n", Colour.BLUE_BOLD);
+        IO.println(info_, Colour.BLUE_BOLD);
         
         int count = 1;
         for (MenuOption op : options_) {
             // Let's supose there won't be more than 99 options in a menu :)
             IO.print(String.format("\t%2d) ", count), MAIN_COLOUR);
-            IO.print(op.toString() + "\n");
+            IO.println(op.toString());
             count++;
         }
 
         IO.print(String.format("\t %s)", QUIT_COMMANDS[0]), MAIN_COLOUR);
-        IO.print(" Quit/Return\n");
+        IO.println(" Quit/Return");
     }
     
     /**

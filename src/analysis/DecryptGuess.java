@@ -156,7 +156,7 @@ public class DecryptGuess implements Cloneable, Comparable<DecryptGuess> {
 
         sb.append(" ".repeat(Math.max(0, MAX_CIPHER_NAMES_WIDTH - sb.length())));
 
-        sb.append(String.format("\tError: %8.2f;    %s", error_, decryptedText_));
+        sb.append(String.format("\tError: %5.0f;    %s", error_, decryptedText_));
 
         return sb.toString();
     }
