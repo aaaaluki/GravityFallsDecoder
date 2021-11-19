@@ -5,7 +5,6 @@ import argparse.ArgumentException;
 import argparse.ArgumentParser;
 import argparse.ArgumentParserImpl;
 import utils.Config;
-import utils.ExitCodes;
 import utils.IO;
 import utils.Namespace;
 
@@ -99,16 +98,16 @@ public class UserInterface {
         IO.setDebug(ns.getBoolean("io.debug"));
         IO.setVerbose(ns.getBoolean("io.verbose"));
         IO.setColour(ns.getBoolean("io.no-colour"));
-
-        IO.printHeader(HEADER_FILE);
-
+        
         // Load Configuration
         Config conf = new Config(ns);
         int returnCode = conf.loadConfig();
         IO.debug(String.format("Load Configuration exit(%d)", returnCode));
-        if (returnCode != ExitCodes.OK) {
+        if (returnCode != 0) {
             System.exit(1);
         }
+
+        IO.printHeader(conf.getConfigPath() + HEADER_FILE);
         
         controller_ = new Controller(conf);
         controller_.start();

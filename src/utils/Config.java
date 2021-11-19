@@ -13,11 +13,11 @@ import java.util.Set;
  * @author luki
  */
 public class Config {
-
+    
     /**
      * Folder were the configuration files are stored
      */
-    public static final String CONFIG_FOLDER = "config";
+    public static final String CONFIG_FOLDER = "gfd";
     
     /**
      * Extension for the decoded files
@@ -68,21 +68,33 @@ public class Config {
     }
 
     /**
+     * Returns the absolute path of the configuration folder
+     * 
+     * @return configuration folder absolute path
+     */
+    public String getConfigPath() {
+        return System.getProperty("user.home") + File.separator + ".config" +
+                File.separator + CONFIG_FOLDER + File.separator;
+    }
+    
+    /**
      * Loads the alphabet and frequencies form the [lang].config file. If the
      * configuration file is not valid returns.
      *
-     * @return Returns an {@link utils.ExitCodes}, returns OK if no problems
-     * where found
+     * @return Returns -1 if an error occurred, 0 otherwise
      */
     public int loadConfig() {
-        File configFile = new File(String.format("%s/%s.config", CONFIG_FOLDER, ns_.getString("lang.language")));
+        String configFolder = getConfigPath();
+        IO.debug("Config Folder: " + configFolder);
+        
+        File configFile = new File(String.format("%s%s.config", configFolder, ns_.getString("lang.language")));
         int id = IO.openReadFile(configFile);
 
         IO.debug("Config File: " + configFile.getAbsolutePath());
 
         if (id == -1) {
             // No need to close file here because it cannot be opened
-            return ExitCodes.FILE_NOT_FOUND;
+            return -1;
         }
 
         String line = IO.readLineFile(id);
@@ -100,23 +112,21 @@ public class Config {
             if (args.length != 2) {
                 IO.warn(String.format("(%s:%d) Does not have a <Key: Value> pair!", configFile.getName(), lineCount));
                 IO.closeReadFile(id);
-                return ExitCodes.ERROR_READING_FILE;
+                return -1;
             }
 
             switch (args[0]) {
-                case "language":
+                case "language" -> {
                     if (!ns_.getString("lang.language").equals(args[1])) {
                         IO.warn(String.format("Filename does not match languague in file %s", configFile.getName()));
                         IO.closeReadFile(id);
-                        return ExitCodes.ERROR_READING_FILE;
+                        return -1;
                     }
-                    break;
+                }
 
-                case "alphabet":
-                    ns_.put("lang.alphabet",args[1]);
-                    break;
+                case "alphabet" -> ns_.put("lang.alphabet",args[1]);
 
-                case "frequencies_mono":
+                case "frequencies_mono" -> {
                     Map<String, Double> frequenciesMono = new HashMap<>();
 
                     int argCount = 1;
@@ -125,7 +135,7 @@ public class Config {
                         if (kv.length != 2) {
                             IO.warn(String.format("(%s:%d) <Key=Value> pair %d can not be split!", configFile.getName(), lineCount, argCount));
                             IO.closeReadFile(id);
-                            return ExitCodes.ERROR_READING_FILE;
+                            return -1;
                         }
 
                         if (TextHelper.checkDouble(kv[1])) {
@@ -133,19 +143,20 @@ public class Config {
                         } else {
                             IO.warn(String.format("(%s:%d) <Key=Value> pair %s=%s Value is not a number!", configFile.getName(), lineCount, kv[0], kv[1]));
                             IO.closeReadFile(id);
-                            return ExitCodes.ERROR_READING_FILE;
+                            return -1;
                         }
 
                         argCount++;
                     }
                     
                     ns_.put("lang.frequencies-mono", frequenciesMono);
-                    break;
+                }
 
-                default:
+                default -> {
                     IO.warn(String.format("(%s:%d) Key %s is not a valid one!", configFile.getName(), lineCount, args[0]));
                     IO.closeReadFile(id);
-                    return ExitCodes.ERROR_READING_FILE;
+                    return -1;
+                }
             }
 
             line = IO.readLineFile(id);
@@ -162,11 +173,11 @@ public class Config {
             }
             IO.closeReadFile(id);
 
-            return ExitCodes.ERROR_READING_FILE;
+            return -1;
         }
 
         IO.closeReadFile(id);
 
-        return ExitCodes.OK;
+        return 0;
     }
 }

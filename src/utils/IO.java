@@ -372,16 +372,16 @@ public class IO {
      * Prints the header file
      *
      * @param headerFile filename of the header file
-     * @return {@link utils.ExitCodes}
      */
-    public static int printHeader(String headerFile) {
+    public static void printHeader(String headerFile) {
         File file = new File(headerFile);
-        int id = openReadFile(file);
-        if (id == ExitCodes.FILE_NOT_FOUND) {
-            return ExitCodes.FILE_NOT_FOUND;
-        }
         debug("Header File: " + file.getAbsolutePath());
 
+        int id = openReadFile(file);
+        if (id == -1) {
+            return;
+        }
+        
         String line = readLineFile(id);
         while (line != null) {
             println(line, Colour.GREEN_BOLD_BRIGHT);
@@ -389,7 +389,5 @@ public class IO {
         }
 
         closeReadFile(id);
-
-        return ExitCodes.OK;
     }
 }
